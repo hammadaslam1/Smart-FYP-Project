@@ -4,15 +4,18 @@ import Home from "../screens/Home";
 import Appbar from "../components/navbars/Appbar";
 import Footer from "../components/navbars/Footer";
 import { NavigationCSS } from "../styles/NavigationCSS";
+import Login from "../screens/Login";
 const Navigations = () => {
     return (
         <div style={NavigationCSS.screen}>
             <BrowserRouter>
-            <Appbar />
+            <Login/>
+            {/* <Appbar /> */}
             <Routes>
-                <Route exact path={HOME} element={<Home />} />
+                {/* <Route exact path={HOME} element={<Home />} /> */}
+                
             </Routes>
-            <Footer />
+            {/* <Footer /> */}
         </BrowserRouter>
         </div>
     );
