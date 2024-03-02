@@ -1,76 +1,116 @@
          /* #211951 */
-   	    /* #836FFF */
-	    /* #15F5BA */
-	    /* #F0F3FF */
-        /*Blue: #1565C0*/
-        /*Purple: #848BD0*/
-.loginBox{
-    padding:10px 50px;
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url('../components/assets/backgrounds/purplewavebackground.svg');
-    background-repeat: no-repeat;
-    background-size:cover;
-    background-position:bottom;
-    
-}
-.loginCard{
-    background-color: #F0F3FF !important;
-    border-radius: 30px !important;
-    padding:50px;
-    display: flex;
-    flex-direction: column;  
-}
-.loginFields{
-    margin: 5px 0px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-}
-.loginLeftHeading{
-    font-size: 2.7rem !important;
-    font-weight: 600 !important;
-}
-.loginLeftBox{
-    flex:2;
-    /* max-width:700px; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    backdrop-filter: blur(20px);
-    border-radius: 30px;
-    padding: 30px;
-}
-.loginRightBox{
-    flex: 1;
-}
-.loginButton{
-    margin-top: 10px !important;
-}
-.loginRightHeading{
-    margin-bottom:30px !important;
-    font-family: 'Archivo Black', sans-serif !important;
-}
-.loginLeftPara{
-    font-weight: 500;
-    font-size: 1.1rem !important;
-}
-.ueLogo{
-    height:300px;
-    width: 300px;
-    background:url(../components/assets/logos/uelogo.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-top: -50px;
-}
-.loginNotRegister{
-    margin-top: 10px !important;
-}
-.loginRegisterLink{
-    text-decoration: none;
-    color:#1565C0;
-}
+         /* #836FFF */
+         /* #15F5BA */
+         /* #F0F3FF */
+         /*Blue: #1565C0*/
+         /*Purple: #848BD0*/
+         .loginBox {
+             /* padding:10px 50px; */
+             min-height: 100vh;
+             background-image: url('../components/assets/backgrounds/purplewavebackground.svg');
+             background-repeat: no-repeat;
+             background-size: cover;
+             background-position: bottom;
+
+         }
+
+         .mainBox {
+             /* padding:10px; */
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: space-between;
+             align-items: center;
+             min-height: 100vh;
+             backdrop-filter: blur(10px);
+             width: 100%;
+
+         }
+
+         .loginCard {
+             background-color: #F0F3FF !important;
+             /* border-radius: 30px !important; */
+
+             padding: 50px;
+             display: flex;
+             flex-direction: column;
+         }
+
+         .loginFields {
+             margin: 5px 0px !important;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
+
+         .loginLeftHeading {
+             font-family: 'Archivo Black', sans-serif !important;
+         }
+
+         .loginLeftBox {
+             flex: 3;
+             /* max-width:700px; */
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             padding: 30px;
+         }
+
+         .loginRightBox {
+             flex: 2;
+             padding: 60px;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             background-color: transparent;
+
+         }
+
+         .innerCard {
+             width: clamp(300px, 100%, 600px);
+             display: flex;
+             flex-direction: column;
+             border-radius: 30px !important;
+             overflow: hidden;
+             /* align-self: center; */
+         }
+
+         .loginButton {
+             margin-top: 10px !important;
+             text-transform: capitalize !important;
+             background-color: #08422D !important;
+             width: 100px;
+             align-self: center;
+         }
+         .loginButton:hover{
+            background-color: #D8A900 !important;
+         }
+
+         .loginRightHeading {
+             margin-bottom: 30px !important;
+             font-family: 'Archivo Black', sans-serif !important;
+         }
+
+         .loginLeftPara {
+             font-weight: 500;
+             font-size: clamp(1rem, 1.2rem, 1.5rem) !important;
+         }
+
+         .ueLogo {
+             width: clamp(230px, 280px, 400px);
+             height: clamp(230px, 280px, 400px);
+             background: url(../components/assets/logos/uelogo.png);
+             background-position: center;
+             background-repeat: no-repeat;
+             background-size: cover;
+             margin-top: -50px;
+         }
+
+         .loginNotRegister {
+             margin-top: 10px !important;
+         }
+
+         .loginRegisterLink {
+             text-decoration: none;
+             color: #1565C0;
+         }

@@ -19,11 +19,13 @@ const PasswordField = (props) => {
       variant="outlined"
       fullWidth
       required
+      color='success'
+      placeholder='Password'
       {...props}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={handleTogglePassword} edge="end">
+            <IconButton onClick={handleTogglePassword} sx={{color: '#08422D'}} edge="end">
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>

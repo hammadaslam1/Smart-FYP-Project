@@ -8,8 +8,9 @@ const EmailField = (props) => {
       label="Email"
       variant="outlined"
       fullWidth
-      required
+      color='success'
       {...props}
+      required
     />
   );
 };

@@ -5,6 +5,5 @@ export const NavigationCSS = {
         flexDirection: "column",
         justifyContent: "space-between",
         textAlign: "center",
-        fontFamily: "Dosis",
     },
 };
