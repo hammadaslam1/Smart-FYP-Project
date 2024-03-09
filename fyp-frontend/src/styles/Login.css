@@ -82,6 +82,9 @@
              width: 100px;
              align-self: center;
          }
+         .loginButton[disabled] {
+            background-color: gray !important;
+         }
          .loginButton:hover{
             background-color: #D8A900 !important;
          }
