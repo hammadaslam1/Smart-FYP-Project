@@ -3,8 +3,10 @@ import EmailField from "../fields/EmailField";
 import PasswordField from "../fields/PasswordField";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-
+import axios from 'axios';
 const LoginForm = () => {
+    const url = "http://localhost/fyp-backend/login.php";
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,12 +19,27 @@ const LoginForm = () => {
         setPasswordValidate(password.length >= 5);
     };
 
-    const handleLogin = useCallback(() => {
-        setLoginValidate(emailValidate && passwordValidate);
-    }, [emailValidate, passwordValidate]);
+    const handleLogin = () => {
+        
+        let fData = new FormData();
+        fData.append("email", email);
+        fData.append("password", password);
+        axios
+        .post(url, fData)
+        .then((response) => {
+            console.log(response)
+          if(response.data){
+            alert('loginSuccessful');
+          }
+          else{
+            alert('loginFailed');
+          };
+        })
+        .catch((e) => alert(e.message));
+    
+    }
 
     useEffect(() => {
-        handleLogin();
     }, [emailValidate, passwordValidate, handleLogin]);
 
     const handleEmail = (e) => {
@@ -53,7 +70,6 @@ const LoginForm = () => {
                     className="loginButton"
                     variant="contained"
                     onClick={handleLogin}
-                    disabled={!loginValidate}
                 >
                     Login
                 </Button>
