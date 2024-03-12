@@ -4,7 +4,7 @@ import PasswordField from "../fields/PasswordField";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import axios from 'axios';
-const LoginForm = () => {
+const LoginForm = (props) => {
     const url = "http://localhost/fyp-backend/login.php";
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,7 +75,7 @@ const LoginForm = () => {
                 </Button>
                 <Typography className="loginNotRegister">
                     Not already registered?{" "}
-                    <Link className="loginRegisterLink">Register</Link>{" "}
+                    <Link className="loginRegisterLink" to="#" onClick={props.toggleProp} >Register</Link>{" "}
                 </Typography>
             </Box>
         </Card>

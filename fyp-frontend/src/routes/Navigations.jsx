@@ -7,7 +7,7 @@ const Navigations = () => {
         <div style={NavigationCSS.screen}>
             <BrowserRouter>
                 <Login />
-                <Register/>
+                {/* <Register/> */}
                 {/* <Appbar /> */}
                 <Routes>
                     {/* <Route exact path={HOME} element={<Home />} /> */}

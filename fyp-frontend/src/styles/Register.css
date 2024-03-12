@@ -1,15 +1,36 @@
 .registerMain{
     background-color: #F0F3FF !important;
-             /* border-radius: 30px !important; */
-
+             border-radius: 30px !important;
              padding: 50px;
              display: flex;
              flex-direction: column;
-             width:600px;
+             width: clamp(300px, 100%, 600px);
+}
+.registerHeading{
+    font-family: 'Archivo Black', sans-serif !important;
 }
 .registerFields {
     margin: 5px 0px !important;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.registerButton{
+    margin-top: 10px !important;
+             text-transform: capitalize !important;
+             background-color: #08422D !important;
+             width: 100px;
+             align-self: center;
+}
+.registerButton:hover{
+   background-color: #D8A900 !important;
+}
+.loginNotRegister {
+    margin-top: 10px !important;
+}
+
+.registerLoginLink {
+    text-decoration: none;
+    color: #08422D;
+    font-weight: 600;
 }

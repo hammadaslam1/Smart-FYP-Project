@@ -1,4 +1,5 @@
 import { Box, Button, Card, Typography } from "@mui/material";
+import "../../styles/Register.css";
 import EmailField from "../fields/EmailField";
 import PasswordField from "../fields/PasswordField";
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import axios from "axios";
 import NameField from "../fields/NameField";
 import ConfirmPasswordField from "../fields/ConfirmPasswordField";
 import RoleSelectField from "../fields/RoleSelectField";
-const RegisterForm = () => {
+const RegisterForm = (props) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -74,6 +75,7 @@ const RegisterForm = () => {
                     className="registerFields"
                 />
                 <RoleSelectField onChange={handleSelectChange} value={role} />
+                
                 <Button
                     className="registerButton"
                     variant="contained"
@@ -81,6 +83,10 @@ const RegisterForm = () => {
                 >
                     Register
                 </Button>
+                <Typography className="loginNotRegister">
+                    Already registered?{" "}
+                    <Link className="registerLoginLink" to="#" onClick={props.toggleProp}>Login</Link>{" "}
+                </Typography>
             </Box>
         </Card>
     );
