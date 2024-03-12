@@ -11,25 +11,31 @@ const RegisterForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [password, setPassword] = useState("-");
+    const [confirmPassword, setConfirmPassword] = useState("+");
     const [role, setRole] = useState("");
-    const url = "http://localhost/fyp-backend/login.php";
+    const url = "http://localhost/fyp-backend/register.php";
     const handleRegister = () => {
-        let fData = new FormData();
-        fData.append("email", email);
-        fData.append("password", password);
-        axios
-            .post(url, fData)
-            .then((response) => {
-                console.log(response);
-                if (response.data) {
-                    alert("loginSuccessful");
-                } else {
-                    alert("loginFailed");
-                }
-            })
-            .catch((e) => alert(e.message));
+        if (password === confirmPassword) {
+            let fData = new FormData();
+            fData.append("name", name);
+            fData.append("email", email);
+            fData.append("role", role);
+            fData.append("password", password);
+            axios
+                .post(url, fData)
+                .then((response) => {
+                    console.log(response);
+                    if (response.data) {
+                        alert("registered successfully");
+                    } else {
+                        alert("registration failed");
+                    }
+                })
+                .catch((e) => alert(e.message));
+        } else {
+            alert("password and confirm password dont match");
+        }
     };
     const handleName = (e) => {
         setName(e.target.value);
@@ -45,9 +51,8 @@ const RegisterForm = () => {
         setConfirmPassword(e.target.value);
     };
     const handleSelectChange = (e) => {
-        setRole(e.target.value)
-        alert(role)
-    }
+        setRole(e.target.value);
+    };
     return (
         <Card elevation={10} className="registerMain">
             <Box className="registerCard">
@@ -64,9 +69,11 @@ const RegisterForm = () => {
                     onChange={handlePassword}
                     className="registerFields"
                 />
-                <ConfirmPasswordField onChange={handleConfirmPassword}
-                    className="registerFields"/>
-                <RoleSelectField onChange={handleSelectChange} value={role}/>
+                <ConfirmPasswordField
+                    onChange={handleConfirmPassword}
+                    className="registerFields"
+                />
+                <RoleSelectField onChange={handleSelectChange} value={role} />
                 <Button
                     className="registerButton"
                     variant="contained"
