@@ -2,9 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
-import { MONGODB } from '../ENV.js'
+// import { MONGODB } from '../ENV.js'
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
@@ -12,11 +11,11 @@ import path from 'path';
 dotenv.config();
 
 
-mongoose
-    .connect(MONGODB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => console.log('connected')).catch((e) => console.log(e)).finally(() => console.log('start'));
+// mongoose
+//     .connect(MONGODB, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     }).then(() => console.log('connected')).catch((e) => console.log(e)).finally(() => console.log('start'));
 
 const __dirname = path.resolve();
 
