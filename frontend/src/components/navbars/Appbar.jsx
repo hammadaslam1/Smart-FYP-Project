@@ -61,7 +61,7 @@ const Appbar = () => {
                             { display: { xs: "none", md: "flex" } },
                         ]}
                     >
-                        FYP
+                        FYPMS
                     </Typography>
 
                     <Box

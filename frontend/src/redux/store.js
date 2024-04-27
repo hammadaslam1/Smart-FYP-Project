@@ -2,11 +2,13 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./userReducer/userSlice";
+import tabReducer from "./tabs/TabSlice";
 
 import { persistReducer, persistStore } from "redux-persist";
 
 const rootReducers = combineReducers({
   user: userReducer,
+  tab: tabReducer,
 });
 
 const persistConfig = {
