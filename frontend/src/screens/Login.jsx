@@ -1,10 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Typography } from "@mui/material";
 import "../styles/Login.css";
 import "../styles/Register.css";
 import LoginForm from "../components/forms/LoginForm";
 import RegisterForm from "../components/forms/RegisterForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { HOME } from "../routes/Routes";
 const Login = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser) {
+      return navigate(HOME);
+    }
+  }, []);
   const [showLoginForm, setShowLoginForm] = useState(true);
   const handleToggleForm = () => {
     setShowLoginForm(!showLoginForm);

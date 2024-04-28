@@ -40,7 +40,7 @@ const RegisterForm = (props) => {
       const emailRegex =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       // setOpen(true);
-      
+
       if (
         password == "" &&
         email == "" &&
@@ -92,46 +92,48 @@ const RegisterForm = (props) => {
         <Typography className="registerHeading" variant="h4" color={"#08422D"}>
           Register
         </Typography>
-        <NameField
-          onChange={(e) => {
-            dispatch(removeError());
-            setName(e.target.value);
-          }}
-          className="registerFields"
-        />
-        <EmailField
-          onChange={(e) => {
-            dispatch(removeError());
-            setEmail(e.target.value);
-          }}
-          className="registerFields"
-        />
-        <PasswordField
-          onChange={(e) => {
-            dispatch(removeError());
-            setPassword(e.target.value);
-          }}
-          className="registerFields"
-        />
-        <ConfirmPasswordField
-          onChange={(e) => {
-            dispatch(removeError());
-            setConfirmPassword(e.target.value);
-          }}
-          className="registerFields"
-        />
-        <RoleSelectField
-          onChange={(e) => {
-            dispatch(removeError());
-            setRole(e.target.value);
-          }}
-          value={role}
-        />
-        {error && (
-          <Alert variant="filled" severity="error" sx={{my: 2}}>
-            {error}
-          </Alert>
-        )}
+        <div>
+          <NameField
+            onChange={(e) => {
+              dispatch(removeError());
+              setName(e.target.value);
+            }}
+            className="registerFields"
+          />
+          <EmailField
+            onChange={(e) => {
+              dispatch(removeError());
+              setEmail(e.target.value);
+            }}
+            className="registerFields"
+          />
+          <PasswordField
+            onChange={(e) => {
+              dispatch(removeError());
+              setPassword(e.target.value);
+            }}
+            className="registerFields"
+          />
+          <ConfirmPasswordField
+            onChange={(e) => {
+              dispatch(removeError());
+              setConfirmPassword(e.target.value);
+            }}
+            className="registerFields"
+          />
+          <RoleSelectField
+            onChange={(e) => {
+              dispatch(removeError());
+              setRole(e.target.value);
+            }}
+            value={role}
+          />
+          {error && (
+            <Alert variant="filled" severity="error" sx={{ my: 2 }}>
+              {error}
+            </Alert>
+          )}
+        </div>
         <Button
           className="registerButton"
           variant="contained"

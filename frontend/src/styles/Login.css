@@ -12,7 +12,7 @@
              background-size: cover;
              background-position: bottom;
              background-attachment: fixed;
-            
+
          }
 
          .mainBox {
@@ -32,8 +32,9 @@
              /* border-radius: 30px !important; */
 
              padding: 50px;
-             display: flex;
-             flex-direction: column;
+             display: flex !important;
+             flex-direction: column !important;
+             align-items: center !important;
          }
 
          .loginFields {
@@ -83,11 +84,13 @@
              width: 100px;
              align-self: center;
          }
+
          .loginButton[disabled] {
-            background-color: gray !important;
+             background-color: gray !important;
          }
-         .loginButton:hover{
-            background-color: #D8A900 !important;
+
+         .loginButton:hover {
+             background-color: #D8A900 !important;
          }
 
          .loginRightHeading {

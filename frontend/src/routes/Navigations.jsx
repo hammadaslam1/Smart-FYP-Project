@@ -1,26 +1,42 @@
+/* eslint-disable eqeqeq */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationCSS } from "../styles/NavigationCSS";
 import Login from "../screens/Login";
-import Register from "../screens/Register";
-import { DASHBOARD, HOME, LOGIN } from "./Routes";
-import Home from "../screens/Home";
+import { DASHBOARD, HOME } from "./Routes";
 import Appbar from "../components/navbars/Appbar";
-import Footer from "../components/navbars/Footer";
 import DashSidebar from "../components/sidebar/DashSidebar";
-import Dashboard from "../screens/Dashboard";
+import { useSelector } from "react-redux";
+import StudentHome from "../screens/student/StudentHome";
+import StudentDashboard from "../screens/student/StudentDashboard";
+import SupervisorHome from "../screens/supervisor/SupervisorHome";
+import SupervisorDashboard from "../screens/supervisor/SupervisorDashboard";
 const Navigations = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   return (
     <div style={NavigationCSS.screen}>
       <BrowserRouter>
         {/* <Register/> */}
-        <DashSidebar />
-        <div style={{flex: 4, minHeight: '100vh'}}>
-          <Appbar />
-          <Routes>
-            <Route exact path={HOME} element={<Home />} />
-            <Route path={LOGIN} element={<Login />} />
-            <Route path={DASHBOARD} element={<Dashboard />} />
-          </Routes>
+        {currentUser ? <DashSidebar /> : <Login />}
+        <div style={{ flex: 4, minHeight: "100vh" }}>
+          {currentUser && currentUser.role == "Student" && (
+            <>
+              <Appbar />
+              <Routes>
+                <Route exact path={HOME} element={<StudentHome />} />
+                <Route path={DASHBOARD} element={<StudentDashboard />} />
+              </Routes>
+            </>
+          )}
+          {currentUser && currentUser.role == "Supervisor" && (
+            <>
+              <Appbar />
+              <Routes>
+                <Route exact path={HOME} element={<SupervisorHome />} />
+                <Route path={DASHBOARD} element={<SupervisorDashboard />} />
+              </Routes>
+            </>
+          )}
         </div>
       </BrowserRouter>
     </div>
