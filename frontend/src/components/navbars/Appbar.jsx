@@ -17,17 +17,18 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { AppbarCSS } from "./AppbarCSS";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signoutSuccess } from "../../redux/userReducer/userSlice";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Appbar = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser.name);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -182,7 +183,10 @@ const Appbar = () => {
                     color: "#023d65",
                   }}
                 >
-                  H
+                  {currentUser && currentUser.name.split(" ").length > 1
+                    ? currentUser.name.split(" ")[0][0] +
+                      currentUser.name.split(" ")[1][0]
+                    : currentUser.name.split(" ")[0][0]}
                 </Avatar>
               </IconButton>
             </Tooltip>

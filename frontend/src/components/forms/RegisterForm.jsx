@@ -72,6 +72,7 @@ const RegisterForm = (props) => {
         return dispatch(signinFailure(data.message));
       }
       if (res.ok) {
+        console.log(data);
         dispatch(signinSuccess(data));
         navigate("/");
       }

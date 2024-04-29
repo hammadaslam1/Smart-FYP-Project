@@ -12,16 +12,17 @@ import SupervisorHome from "../screens/supervisor/SupervisorHome";
 import SupervisorDashboard from "../screens/supervisor/SupervisorDashboard";
 const Navigations = () => {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
   return (
     <div style={NavigationCSS.screen}>
       <BrowserRouter>
         {/* <Register/> */}
         {currentUser ? <DashSidebar /> : <Login />}
         <div style={{ flex: 4, minHeight: "100vh" }}>
+          {currentUser && currentUser.name && <Appbar />}
           {currentUser && currentUser.role == "Student" && (
             <>
-              <Appbar />
+              {/* <Appbar /> */}
               <Routes>
                 <Route exact path={HOME} element={<StudentHome />} />
                 <Route path={DASHBOARD} element={<StudentDashboard />} />
@@ -30,7 +31,16 @@ const Navigations = () => {
           )}
           {currentUser && currentUser.role == "Supervisor" && (
             <>
-              <Appbar />
+              {/* <Appbar /> */}
+              <Routes>
+                <Route exact path={HOME} element={<SupervisorHome />} />
+                <Route path={DASHBOARD} element={<SupervisorDashboard />} />
+              </Routes>
+            </>
+          )}
+          {currentUser && currentUser.role == "Coordinator" && (
+            <>
+              {/* <Appbar /> */}
               <Routes>
                 <Route exact path={HOME} element={<SupervisorHome />} />
                 <Route path={DASHBOARD} element={<SupervisorDashboard />} />
