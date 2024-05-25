@@ -19,7 +19,7 @@ const Navigations = () => {
         {/* <Register/> */}
         {currentUser ? <DashSidebar /> : <Login />}
         <div style={{ flex: 4, minHeight: "100vh" }}>
-          {currentUser && currentUser.name && <Appbar />}
+          {currentUser  && <Appbar />}
           {currentUser && currentUser.role == "Student" && (
             <>
               {/* <Appbar /> */}

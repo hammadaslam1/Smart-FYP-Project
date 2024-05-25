@@ -183,10 +183,10 @@ const Appbar = () => {
                     color: "#023d65",
                   }}
                 >
-                  {currentUser && currentUser.name.split(" ").length > 1
+                  {/* {currentUser && currentUser.name.split(" ").length > 1
                     ? currentUser.name.split(" ")[0][0] +
                       currentUser.name.split(" ")[1][0]
-                    : currentUser.name.split(" ")[0][0]}
+                    : currentUser.name.split(" ")[0][0]} */}
                 </Avatar>
               </IconButton>
             </Tooltip>

@@ -1,32 +1,32 @@
-import { PieChart } from "@mui/x-charts/PieChart";
+// import { PieChart } from "@mui/x-charts/PieChart";
 
-const PieGraph = () => {
-  return (
-      <PieChart
-        series={[
-          {
-            data: [
-              { id: 0, value: 10, label: "series A" },
-              { id: 1, value: 20, label: "series B" },
-              { id: 2, value: 30, label: "series C" },
-              { id: 3, value: 40, label: "series D" },
-              { id: 4, value: 50, label: "series D" },
-              { id: 5, value: 15, label: "series D" },
-            ],
-            innerRadius: 10,
-            outerRadius: 150,
-            paddingAngle: 2,
-            cornerRadius: 10,
-            startAngle: 360,
-            endAngle: 0,
-            //   cx: 150,
-            //   cy: 100,
-          },
-        ]}
-        // width={400}
-        height={400}
-      />
-  );
-};
+// const PieGraph = () => {
+//   return (
+//       <PieChart
+//         series={[
+//           {
+//             data: [
+//               { id: 0, value: 10, label: "series A" },
+//               { id: 1, value: 20, label: "series B" },
+//               { id: 2, value: 30, label: "series C" },
+//               { id: 3, value: 40, label: "series D" },
+//               { id: 4, value: 50, label: "series D" },
+//               { id: 5, value: 15, label: "series D" },
+//             ],
+//             innerRadius: 10,
+//             outerRadius: 150,
+//             paddingAngle: 2,
+//             cornerRadius: 10,
+//             startAngle: 360,
+//             endAngle: 0,
+//             //   cx: 150,
+//             //   cy: 100,
+//           },
+//         ]}
+//         // width={400}
+//         height={400}
+//       />
+//   );
+// };
 
-export default PieGraph;
+// export default PieGraph;

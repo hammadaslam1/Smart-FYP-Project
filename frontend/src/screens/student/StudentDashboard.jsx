@@ -7,10 +7,10 @@ import Gauge from "../../components/progress/Guage";
 const StudentDashboard = () => {
   return (
     <div style={{}}>
-      <BarGraph />
-      <LineGraph />
-      <PieGraph />
-      <Gauge />
+      {/* <BarGraph /> */}
+      {/* <LineGraph /> */}
+      {/* <PieGraph /> */}
+      {/* <Gauge /> */}
     </div>
   );
 };
