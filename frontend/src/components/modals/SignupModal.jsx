@@ -11,6 +11,7 @@ import {
   DialogActions,
   FormControlLabel,
   IconButton,
+  InputAdornment,
   Slide,
   Typography,
 } from "@mui/material";
@@ -18,7 +19,7 @@ import Alert from "@mui/joy/Alert";
 import { forwardRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import LockIcon from "@mui/icons-material/Lock";
-import { Mail } from "@mui/icons-material";
+import { Mail, Visibility, VisibilityOff } from "@mui/icons-material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import PersonIcon from "@mui/icons-material/Person";
 // import {
@@ -33,6 +34,16 @@ import CallIcon from "@mui/icons-material/Call";
 import SignupInput from "../inputs/SignupInput.jsx";
 // import './dialog.css'
 import PrimaryButton from "../buttons/PrimaryButton";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import CategoryIcon from "@mui/icons-material/Category";
+import {
+  removeError,
+  signinFailure,
+  signinStart,
+  signinSuccess,
+} from "../../redux/userReducer/userSlice.jsx";
+import SignupSelect from "../inputs/SignupSelect.jsx";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,14 +55,17 @@ const SignupModal = ({
   setOpenSignup,
   setOpenLogin,
 }) => {
-  const [fullname, setFullname] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [contact, setContact] = useState("");
-  const [isFilled, setIsFilled] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isPressed, setIsPressed] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.user);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
+
   const handleBack = () => {
     setOpenSignup(false);
     setOpenLogin(true);
@@ -67,7 +81,7 @@ const SignupModal = ({
   };
 
   const handleGoogle = () => {
-    setIsPressed(true);
+    // setIsPressed(true);
     // const provider = new GoogleAuthProvider();
     // signInWithPopup(auth, provider)
     //   .then((result) => {
@@ -82,40 +96,60 @@ const SignupModal = ({
     //     // alert(e.code, e.message);
     //   });
   };
-  const handleRegister = () => {
-    if (fullname && email && contact && password) {
-      setIsPressed(true);
-      // createUserWithEmailAndPassword(auth, email, password)
-      //   .then(() => {
-      //     updateProfile(auth.currentUser, {
-      //       displayName: fullname,
-      //       phoneNumber: contact,
-      //     }).then(() => {
-      //       // alert("successfully registered!");
-      //       setIsPressed(false);
-      //       setOpenSignup(false);
-      //     });
-      //   })
-      //   .catch((e) => {
-      //     setIsPressed(false);
-      //     if (e.code == "auth/invalid-email") {
-      //       setErrorMessage("Please enter a valid email");
-      //       setIsFilled(true);
-      //     } else if (e.code == "auth/email-already-in-use") {
-      //       setErrorMessage(
-      //         "The email you provided has already been registered"
-      //       );
-      //       setIsFilled(true);
-      //     } else if (e.code == "auth/weak-password") {
-      //       setErrorMessage("Password should be at least 6 characters");
-      //       setIsFilled(true);
-      //     }
-      //     // alert(e.code + " - " + e.message);
-      //   });
-    } else {
-      setErrorMessage("Please fill all fields");
-      setIsFilled(true);
-      // console.log(auth);
+  const handleToggle = (e) => {
+    console.log(e);
+    if (e == "P") {
+      setShowPassword(!showPassword);
+      console.log(showPassword);
+    } else if (e == "CP") {
+      setShowCPassword(!showCPassword);
+      console.log(showCPassword);
+    }
+  };
+  const handleRegister = async () => {
+    try {
+      dispatch(signinStart());
+      const emailRegex =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // setOpen(true);
+
+      if (
+        password == "" &&
+        email == "" &&
+        name == "" &&
+        confirmPassword == "" &&
+        role == ""
+      ) {
+        return dispatch(signinFailure("Please enter your password"));
+      } else if (password != confirmPassword) {
+        return dispatch(signinFailure("Passwords do not match"));
+      }
+      if (!emailRegex.test(email)) {
+        return dispatch(signinFailure("Please enter a valid email address"));
+      }
+      const res = await fetch("http://localhost:3001/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+          role: role,
+        }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        return dispatch(signinFailure(data.message));
+      }
+      if (res.ok) {
+        console.log(data);
+        dispatch(signinSuccess(data));
+        navigate("/");
+      }
+    } catch (error) {
+      return dispatch(signinFailure(error.message));
     }
   };
 
@@ -133,8 +167,8 @@ const SignupModal = ({
       onKeyDown={handleKeyDown}
     >
       <Backdrop
-        sx={{ color: "#112d4e", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isPressed}
+        sx={{ color: "#08422D", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
         // onClick={handleClose}
       >
         <CircularProgress color="inherit" />
@@ -171,7 +205,7 @@ const SignupModal = ({
               textAlign: "center",
               fontFamily: "Helvetica",
               marginBottom: "20px",
-              color: "#112d4e",
+              color: "#08422D",
             }}
           >
             Sign up
@@ -179,62 +213,86 @@ const SignupModal = ({
           <SignupInput
             type="text"
             variant="outlined"
-            value={fullname}
+            value={name}
             onChange={(e) => {
-              setIsFilled(false);
-              setFullname(e.target.value);
+              dispatch(removeError());
+              setName(e.target.value);
             }}
             label="Full Name"
             placeholder="Enter Your Full Name"
             required
-            startDecorator={<PersonIcon sx={{ color: "#112d4e" }} />}
+            startDecorator={<PersonIcon sx={{ color: "#08422D" }} />}
           />
           <SignupInput
             type="email"
             variant="outlined"
             value={email}
             onChange={(e) => {
-              setIsFilled(false);
+              dispatch(removeError());
               setEmail(e.target.value);
             }}
             placeholder="Enter Email Address"
             label="Email Address"
             helperText="We'll use your email address for registration"
             required
-            startDecorator={<Mail sx={{ color: "#112d4e" }} />}
+            startDecorator={<Mail sx={{ color: "#08422D" }} />}
           />
           <SignupInput
-            type="tel"
-            variant="outlined"
-            value={contact}
-            onChange={(e) => {
-              setIsFilled(false);
-              setContact(e.target.value);
-            }}
-            placeholder="Enter Contact No."
-            label="Contact No."
-            required
-            startDecorator={<CallIcon sx={{ color: "#112d4e" }} />}
-          />
-          <SignupInput
-            type="password"
+            type={showPassword ? "text" : "password"}
             variant="outlined"
             value={password}
+            name="password"
             onChange={(e) => {
-              setIsFilled(false);
+              dispatch(removeError());
               setPassword(e.target.value);
             }}
-            startDecorator={<LockIcon sx={{ color: "#112d4e" }} />}
-            placeholder="Password"
+            endDecorator={
+              <IconButton
+                onClick={() => handleToggle("P")}
+                sx={{ color: "#08422D", p: 0, mx: 1 }}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            }
+            placeholder="Enter Password"
             label="Password"
             required
+            startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
           />
-          {isFilled ? (
+          <SignupInput
+            type={showCPassword ? "text" : "password"}
+            variant="outlined"
+            value={confirmPassword}
+            name="confirmPassword"
+            onChange={(e) => {
+              dispatch(removeError());
+              setConfirmPassword(e.target.value);
+            }}
+            endDecorator={
+              <IconButton
+                onClick={() => handleToggle("CP")}
+                sx={{ color: "#08422D", p: 0, mx: 1 }}
+                edge="end"
+              >
+                {showCPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            }
+            placeholder="Enter Password"
+            label="Confirm Password"
+            required
+            startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
+          />
+          <SignupSelect
+            value={role}
+            label="Role"
+            placeholder="Select a Role"
+            startDecorator={<CategoryIcon sx={{ color: "#08422D" }} />}
+          />
+          {error && (
             <Alert variant="solid" color="danger" sx={{ textAlign: "center" }}>
-              {errorMessage}
+              {error}
             </Alert>
-          ) : (
-            ""
           )}
           <PrimaryButton
             sx={{
@@ -245,7 +303,7 @@ const SignupModal = ({
           >
             Sign up
           </PrimaryButton>
-          <div
+          {/* <div
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -255,20 +313,20 @@ const SignupModal = ({
           >
             <div
               style={{
-                borderBottom: "1px solid #112d4eaa",
+                borderBottom: "1px solid #08422Daa",
                 width: "170px",
                 height: "0px",
               }}
             ></div>
-            <div style={{ color: "#112d4e" }}>or</div>
+            <div style={{ color: "#08422D" }}>or</div>
             <div
               style={{
-                borderBottom: "1px solid #112d4eaa",
+                borderBottom: "1px solid #08422Daa",
                 width: "170px",
                 height: "0px",
               }}
             ></div>
-          </div>
+          </div> */}
           <div style={{ display: "flex", flexDirection: "column" }}>
             {/* <SocialButton
               size={"large"}
@@ -296,7 +354,7 @@ const SignupModal = ({
                     setOpenLogin(true);
                   }}
                   style={{
-                    color: "#112d4e",
+                    color: "#08422D",
                     textDecoration: "underline",
                     fontSize: "15px",
                     fontWeight: "bold",

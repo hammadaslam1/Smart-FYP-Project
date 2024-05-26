@@ -32,9 +32,17 @@ import { Alert } from "@mui/joy";
 // import { auth } from "../../firebase/firebase";
 import PrimaryButton from "../buttons/PrimaryButton.jsx";
 import LoginInput from "../inputs/LoginInput.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // import GOOGLE_IMAGE from "../../assets/google.png";
 // import { useDispatch, useSelector } from "react-redux";
 // import './dialog.css'
+import {
+  signinFailure,
+  signinStart,
+  signinSuccess,
+  removeError,
+} from "../../redux/userReducer/userSlice";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -46,6 +54,9 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
   const [isFilled, setIsFilled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPressed, setIsPressed] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.user);
   // const user = useSelector((state) => state.UserReducer.user);
   // const dispatch = useDispatch();
   const handleKeyDown = (event) => {
@@ -53,29 +64,39 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
       handleSignin();
     }
   };
-  const handleSignin = () => {
-    if (email && password) {
-      setIsPressed(true);
-      // signInWithEmailAndPassword(auth, email, password)
-      //   .then(() => {
-      //     // alert("signed in");
-      //     setIsPressed(false);
-      //     setOpenLogin(false);
-      //   })
-      //   .catch((e) => {
-      //     if (e.code == "auth/invalid-email") {
-      //       setErrorMessage("Please enter valid email!");
-      //       setIsPressed(false);
-      //       setIsFilled(true);
-      //     } else if (e.code == "auth/invalid-credential") {
-      //       setErrorMessage("Invalid email or password!");
-      //       setIsPressed(false);
-      //       setIsFilled(true);
-      //     }
-      //   });
-    } else {
-      setErrorMessage("Please fill all fields");
-      setIsFilled(true);
+  const handleSignin = async () => {
+    try {
+      dispatch(signinStart());
+      const emailRegex =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // setOpen(true);
+      if (!emailRegex.test(email)) {
+        return dispatch(signinFailure("Please enter a valid email address"));
+      } else if (password == "") {
+        return dispatch(signinFailure("Please enter your password"));
+      }
+      const res = await fetch("http://localhost:3001/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        return dispatch(signinFailure(data.message));
+      }
+      if (res.ok) {
+        console.log(data);
+        dispatch(signinSuccess(data));
+        setOpenLogin(false);
+        navigate("/");
+      }
+    } catch (error) {
+      return dispatch(signinFailure(error.message));
     }
   };
   const handleForgot = () => {
@@ -118,8 +139,8 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
       onKeyDown={handleKeyDown}
     >
       <Backdrop
-        sx={{ color: "#112d4e", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isPressed}
+        sx={{ color: "#08422D", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
         // onClick={handleClose}
       >
         <CircularProgress color="inherit" />
@@ -145,7 +166,7 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
               textAlign: "center",
               fontFamily: "Helvetica",
               marginBottom: "20px",
-              color: "#112d4e",
+              color: "#08422D",
             }}
           >
             Sign in
@@ -155,10 +176,11 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
             type="email"
             value={email}
             onChange={(e) => {
+              dispatch(removeError());
               setEmail(e.target.value);
               setIsFilled(false);
             }}
-            startDecorator={<Mail sx={{ color: "#112d4e" }} />}
+            startDecorator={<Mail sx={{ color: "#08422D" }} />}
             placeholder="Enter Email Address"
             helperText="We'll use your email address for authentication"
             label="Email Address"
@@ -168,10 +190,11 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
             type="password"
             value={password}
             onChange={(e) => {
+              dispatch(removeError());
               setPassword(e.target.value);
               setIsFilled(false);
             }}
-            startDecorator={<LockIcon sx={{ color: "#112d4e" }} />}
+            startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
             placeholder="Enter Password"
             label="Enter Password"
             required
@@ -189,7 +212,7 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
                 handleForgot();
               }}
               style={{
-                color: "#112d4e",
+                color: "#08422D",
                 fontSize: "13px",
                 fontWeight: "bold",
                 textTransform: "capitalize",
@@ -199,12 +222,10 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
               Forgot Password
             </Button>
           </div>
-          {isFilled ? (
+          {error && (
             <Alert variant="solid" color="danger" sx={{ textAlign: "center" }}>
-              {errorMessage}
+              {error}
             </Alert>
-          ) : (
-            ""
           )}
           <PrimaryButton
             sx={{
@@ -216,7 +237,7 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
           >
             Sign in
           </PrimaryButton>
-          <div
+          {/* <div
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -226,20 +247,20 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
           >
             <div
               style={{
-                borderBottom: "1px solid #112d4eaa",
+                borderBottom: "1px solid #08422Daa",
                 width: "170px",
                 height: "0px",
               }}
             ></div>
-            <div style={{ color: "#112d4e" }}>or</div>
+            <div style={{ color: "#08422D" }}>or</div>
             <div
               style={{
-                borderBottom: "1px solid #112d4eaa",
+                borderBottom: "1px solid #08422Daa",
                 width: "170px",
                 height: "0px",
               }}
             ></div>
-          </div>
+          </div> */}
           <div style={{ display: "flex", flexDirection: "column" }}>
             {/* <SocialButton
                 size={"large"}
@@ -267,7 +288,7 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
                     setOpenLogin(false);
                   }}
                   style={{
-                    color: "#112d4e",
+                    color: "#08422D",
                     textDecoration: "underline",
                     fontSize: "15px",
                     fontWeight: "bold",

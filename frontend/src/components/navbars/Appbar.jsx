@@ -187,6 +187,7 @@ const Appbar = () => {
               alignItems: "center",
             }}
           >
+            <Typography>{currentUser && currentUser.username}</Typography>
             <PrimaryButton
               sx={{
                 minWidth: "100px",
@@ -195,11 +196,17 @@ const Appbar = () => {
                 fontWeight: "normal",
               }}
               children={user}
-              onClick={() => {}}
+              onClick={() => {
+                if (currentUser) {
+                  // signOut(auth);
+                } else {
+                  setOpenLogin(true);
+                }
+              }}
             />
           </div>
         </Toolbar>
-        {openLogin ? (
+        {!currentUser && openLogin ? (
           <LoginModal
             openLogin={openLogin}
             setOpenLogin={setOpenLogin}
@@ -209,7 +216,7 @@ const Appbar = () => {
         ) : (
           ""
         )}
-        {openSignup ? (
+        {!currentUser && openSignup ? (
           <SignupModal
             openSignup={openSignup}
             setOpenSignup={setOpenSignup}

@@ -7,8 +7,8 @@ import StudentDashboard from "./screens/student/StudentDashboard";
 
 function App() {
     return (
-    // <Navigations />
-    <AddWeeklyProgress/>
+    <Navigations />
+    // <AddWeeklyProgress/>
 );
 }
 
