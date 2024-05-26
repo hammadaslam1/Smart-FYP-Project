@@ -1,0 +1,40 @@
+.ideaSubmissionMain{
+    padding:10px;
+}
+.projectIdeaInput{
+    width: 80%;
+    margin-left: 5px;
+}
+.projectDescriptionDiv{
+    margin-top: 10px;   
+    width:100%;
+    margin-left: 5px;
+    position: relative;
+}
+.projectDescriptionLabel{
+    position: relative;
+    bottom:50px;
+    right:8px;
+}
+.projectDescriptionInput{
+    width: 76%;
+}
+.projectSubmitButtonDiv{
+    display: flex;
+    justify-content: center;
+}
+.projectSubmitButton{
+    height: 35px;
+    width:80px;
+    background-color:#08422D;
+    border: none;
+    color: white;
+    transition:300ms all ease;
+    border-radius: 5px;
+    margin-top: 20px;
+    
+}
+.projectSubmitButton:hover{
+    background-color: #D8A900;
+    cursor: pointer;
+}

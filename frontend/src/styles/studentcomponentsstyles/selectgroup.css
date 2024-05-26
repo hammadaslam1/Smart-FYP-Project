@@ -1,0 +1,30 @@
+.selectGroupMain{
+    padding:10px;
+}
+.selectGroupDiv{
+    display: flex;
+    flex-direction: column;
+    
+}
+.groupNameInput{
+    width: 80%;
+    height: 20px;
+}
+.classSelect{
+    height: 40px;
+    width: 80%; 
+}
+.groupSubmitButton{
+    height: 35px;
+    width:80px;
+    background-color:#08422D;
+    border: none;
+    color: white;
+    transition:300ms all ease;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.groupSubmitButton:hover{
+    background-color: #D8A900;
+    cursor: pointer;
+}
