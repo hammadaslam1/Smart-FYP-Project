@@ -17,9 +17,9 @@ const Navigations = () => {
     <div style={NavigationCSS.screen}>
       <BrowserRouter>
         {/* <Register/> */}
-        {/* {currentUser ? <DashSidebar /> : <Login />} */}
+        {currentUser && <Login />}
         <div style={{ flex: 4, minHeight: "100vh" }}>
-          {currentUser  && <Appbar />}
+          {currentUser && <Appbar />}
           {currentUser && currentUser.role == "Student" && (
             <>
               {/* <Appbar /> */}

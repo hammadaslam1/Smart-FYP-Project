@@ -42,7 +42,7 @@ const closedMixin = (theme) => ({
   },
 });
 const DrawerHeader = styled("div")(({ theme }) => ({
-  backgroundColor: "#112d4e",
+  backgroundColor: "#08422D",
   color: "#fff",
   height: "80px",
   display: "flex",
@@ -55,7 +55,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 const DrawerFooter = styled("div")(({ theme }) => ({
-  backgroundColor: "#112d4e",
+  backgroundColor: "#08422D",
   color: "#fff",
   height: "80px",
   display: "flex",
@@ -70,7 +70,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   height: "80px",
-  backgroundColor: "#112d4e",
+  backgroundColor: "#08422D",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -187,7 +187,7 @@ const Appbar = () => {
                   px: 3,
                   py: 2,
                   color: "#fff",
-                  backgroundColor: "#1a4578",
+                  backgroundColor: "#D8A900",
                   fontWeight: 600,
                   fontSize: 16,
                 }}
