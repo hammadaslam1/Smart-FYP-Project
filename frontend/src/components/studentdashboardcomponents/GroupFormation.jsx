@@ -1,5 +1,5 @@
 import '../../styles/studentcomponentsstyles/selectgroup.css'
-const SelectGroup = () => {
+const GroupFormation = () => {
     return ( 
         <div className='selectGroupMain'>
         <h1>Select Group</h1>
@@ -47,4 +47,4 @@ const SelectGroup = () => {
      );
 }
  
-export default SelectGroup;
+export default GroupFormation;

@@ -1,0 +1,21 @@
+.documentationSubmissionMain{
+    padding:20px;
+}
+.documentTypeSelect{
+    width:80%;
+    height: 35px;
+}
+.documentSubmitButton{
+    height: 35px;
+    width:100px;
+    background-color:#08422D;
+    border: none;
+    color: white;
+    transition:300ms all ease;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.documentSubmitButton:hover{
+    background-color: #D8A900;
+    cursor: pointer;
+}
