@@ -5,7 +5,7 @@ import { DASHBOARD } from "../../routes/Routes";
 const StudentHome = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    navigate(DASHBOARD);
+    // navigate(DASHBOARD);
   }, []);
   return (
     <Card>

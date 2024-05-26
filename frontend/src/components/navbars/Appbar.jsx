@@ -17,6 +17,11 @@ import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import PrimaryButton from "../buttons/PrimaryButton";
+import { useSelector } from "react-redux";
+import LOGO from "../assets/logos/uelogo.png";
+import LoginModal from "../modals/LoginModal";
+import SignupModal from "../modals/SignupModal";
 
 const drawerWidth = 300;
 
@@ -54,8 +59,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   zIndex: 1,
   ...theme.mixins.toolbar,
 }));
+let footer = true;
 const DrawerFooter = styled("div")(({ theme }) => ({
-  backgroundColor: "#08422D",
+  backgroundColor: footer ? "#D8A900" : "#08422D",
   color: "#fff",
   height: "80px",
   display: "flex",
@@ -70,7 +76,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   height: "80px",
-  backgroundColor: "#08422D",
+  backgroundColor: "#D8A900",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -105,8 +111,23 @@ const Drawer = styled(MuiDrawer, {
 
 const Appbar = () => {
   const [user, setUser] = useState();
+  const currentUser = useSelector((state) => state.currentUser);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // onAuthStateChanged(auth, (user) => {
+    if (currentUser) {
+      // auth.currentUser.displayName = 'hammad'
+      setUser("logout");
+      setOpenLogin(false);
+    } else {
+      // navigate(PRODUCTS);
+      setUser("login");
+      setOpenLogin(true);
+    }
+    // });
+  }, [currentUser]);
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -120,19 +141,43 @@ const Appbar = () => {
         <Toolbar sx={style.toolbar}>
           <div style={{ display: "flex", alignItems: "center" }}>
             {!open && (
-              <IconButton size="large" onClick={() => setOpen(!open)}>
+              <IconButton
+                size="large"
+                onClick={() => {
+                  setOpen(!open);
+                  footer = open;
+                }}
+              >
                 <MenuIcon htmlColor="#fff" />
               </IconButton>
             )}
             <IconButton
               size="large"
-              // onClick={() => setOpen(!open)}
+              onClick={() => {
+                setOpen(!open);
+                footer = open;
+              }}
+              sx={{ padding: 0 }}
             >
-              <img src={"LOGO"} height={50} alt="" srcset="" />
+              <img src={LOGO} height={50} alt="" srcset="" />
             </IconButton>
-            <div>
+            {/* <div>
               <img src={"NAME_SLOGAN"} height={35} alt="" srcset="" />
-            </div>
+            </div> */}
+            <Typography
+              variant="h5"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              FYPMS
+            </Typography>
           </div>
           <div
             style={{
@@ -142,7 +187,7 @@ const Appbar = () => {
               alignItems: "center",
             }}
           >
-            <Button
+            <PrimaryButton
               sx={{
                 minWidth: "100px",
                 alignSelf: "right",
@@ -154,6 +199,26 @@ const Appbar = () => {
             />
           </div>
         </Toolbar>
+        {openLogin ? (
+          <LoginModal
+            openLogin={openLogin}
+            setOpenLogin={setOpenLogin}
+            openSignup={openSignup}
+            setOpenSignup={setOpenSignup}
+          />
+        ) : (
+          ""
+        )}
+        {openSignup ? (
+          <SignupModal
+            openSignup={openSignup}
+            setOpenSignup={setOpenSignup}
+            openLogin={openLogin}
+            setOpenLogin={setOpenLogin}
+          />
+        ) : (
+          ""
+        )}
       </AppBar>
       <Drawer
         variant="permanent"
