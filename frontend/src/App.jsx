@@ -10,6 +10,8 @@ import ReportEvaluation from "./screens/coordinator/ReportEvaluation";
 import AnnounceDocumentDate from "./screens/coordinator/AnnounceDocumentDate";
 import IdeaApproval from "./screens/supervisor/IdeaApproval";
 import DocumentEvaluation from "./screens/supervisor/DocumentEvaluation";
+import CoordinatorDashboard from "./screens/coordinator/CoordinatorDashboard";
+import HODDashboard from "./screens/hod/HODDashboard";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
     // <AnnounceDocumentDate />
     // <IdeaApproval />
     // <DocumentEvaluation />
+    // <CoordinatorDashboard/>
+    // <HODDashboard/>
   );
 }
 
