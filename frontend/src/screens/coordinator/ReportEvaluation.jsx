@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Card,
@@ -15,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import { weeklyReportData } from "../../data/WeeklyReportData";
 
 const StyledHeadCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,15 +47,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const WeeklyProgressEvaluation = () => {
-  const [list, setList] = useState([]);
-  useEffect(() => {
-    setList(WeeklyEvaluationData);
-  }, []);
+
+const ReportEvaluation = () => {
   return (
     <Box>
       <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
-        Weekly Progress Evaluation
+        Weekly Evaluation Report 
       </Typography>
       <Card sx={{ p: 3 }} elevation={0}>
         <TableContainer component={Paper}>
@@ -64,18 +63,23 @@ const WeeklyProgressEvaluation = () => {
                 <StyledHeadCell align="left">Group Members</StyledHeadCell>
                 <StyledHeadCell align="left">Class Name</StyledHeadCell>
                 <StyledHeadCell align="left">Supervisor Name</StyledHeadCell>
-                <StyledHeadCell align="left">Document Type</StyledHeadCell>
-                <StyledHeadCell align="left">Document File</StyledHeadCell>
+                <StyledHeadCell align="left">Co-supervisor Name</StyledHeadCell>
+                <StyledHeadCell align="left">Week No.</StyledHeadCell>
+                <StyledHeadCell align="left">Week Progress</StyledHeadCell>
+                <StyledHeadCell align="left">Next Task</StyledHeadCell>
                 <StyledHeadCell align="left">
-                  Supervisor Evaluation
+                  Remarks by Co-supervisor
                 </StyledHeadCell>
                 <StyledHeadCell align="left">
-                  Coordinator Evaluation
+                  Remarks by Supervisor
+                </StyledHeadCell>
+                <StyledHeadCell align="left">
+                  Remarks by Supervisor
                 </StyledHeadCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {WeeklyEvaluationData.map((row) => (
+              {weeklyReportData.map((row) => (
                 <StyledTableRow key={row.name}>
                   <StyledTableCell component="th" scope="row">
                     {row.groupName}
@@ -90,16 +94,21 @@ const WeeklyProgressEvaluation = () => {
                     {row.supervisorName}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.documentType}
+                    {row.coSupervisorName}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.weekNo}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.weekProgress}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.nextTask}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.remarksByCoSupervisor}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <PrimaryButton>Download</PrimaryButton>
+                    {row.remarksBySupervisor}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.supervisorEvaluation}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.coordinationEvaluation}
+                    {row.remarksByCoordinator}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -111,4 +120,4 @@ const WeeklyProgressEvaluation = () => {
   );
 };
 
-export default WeeklyProgressEvaluation;
+export default ReportEvaluation;
