@@ -4,10 +4,11 @@ import DocumentationSubmission from "./components/studentdashboardcomponents/Doc
 
 import Navigations from "./routes/Navigations";
 import StudentDashboard from "./screens/student/StudentDashboard";
+import WeeklyProgressEvaluation from "./screens/supervisor/WeeklyProgressEvaluation";
 
 function App() {
     return (
-    <Navigations />
+    <WeeklyProgressEvaluation />
     // <AddWeeklyProgress/>
 );
 }
