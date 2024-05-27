@@ -8,11 +8,21 @@ import StudentDashboard from "./screens/student/StudentDashboard";
 import WeeklyProgressEvaluation from "./screens/coordinator/WeeklyProgressEvaluation";
 import ReportEvaluation from "./screens/coordinator/ReportEvaluation";
 import AnnounceDocumentDate from "./screens/coordinator/AnnounceDocumentDate";
+import IdeaApproval from "./screens/supervisor/IdeaApproval";
+import DocumentEvaluation from "./screens/supervisor/DocumentEvaluation";
 
 function App() {
   return (
-    <AnnounceDocumentDate />
-    // <AddWeeklyProgress/>
+    // <IdeaApproval />
+    // <AddWeeklyProgress />
+    // <DocumentationSubmission />
+    <Navigations />
+    // <StudentDashboard />
+    // <WeeklyProgressEvaluation />
+    // <ReportEvaluation />
+    // <AnnounceDocumentDate />
+    // <IdeaApproval />
+    // <DocumentEvaluation />
   );
 }
 

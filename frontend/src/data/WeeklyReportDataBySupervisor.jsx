@@ -1,0 +1,28 @@
+export const weeklyReportDataBySupervisor = [
+  {
+    groupName: "Hammad Aslam",
+    groupMembers: ["Hammad Aslam", "Saad Afzal"],
+    className: "BSIT Post ADP",
+    coSupervisorName: "Mr. Qasim",
+    CoordinatorName: "Farrah Aslam",
+    weekNo: 2,
+    weekProgress: "created login form",
+    nextTask: "create dashboard",
+    remarksByCoSupervisor: "login is working properly",
+    remarksByCoordinator: "A",
+    weekReportGrading: "A",
+  },
+  {
+    groupName: "Ahsan Usman",
+    groupMembers: ["Ahsan Usman", "Ahmad Jawad"],
+    className: "BSCS 2021-25",
+    coSupervisorName: "Faiza Azam",
+    CoordinatorName: "Farrah Aslam",
+    weekNo: 2,
+    weekProgress: "created Home Screen",
+    nextTask: "retrieve data from database",
+    remarksByCoSupervisor: "screen is responsive",
+    remarksByCoordinator: "A+",
+    weekReportGrading: "A+",
+  },
+];

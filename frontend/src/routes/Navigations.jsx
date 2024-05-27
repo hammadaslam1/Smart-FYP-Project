@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationCSS } from "../styles/NavigationCSS";
@@ -10,6 +11,8 @@ import StudentHome from "../screens/student/StudentHome";
 import StudentDashboard from "../screens/student/StudentDashboard";
 import SupervisorHome from "../screens/supervisor/SupervisorHome";
 import SupervisorDashboard from "../screens/supervisor/SupervisorDashboard";
+import DocumentEvaluation from "../screens/supervisor/DocumentEvaluation";
+import ReportEvaluationBySupervisor from "../screens/supervisor/ReportEvaluationBySupervisor";
 const Navigations = () => {
   const { currentUser } = useSelector((state) => state.user);
   // console.log(currentUser);
@@ -18,11 +21,10 @@ const Navigations = () => {
       <BrowserRouter>
         {/* <Register/> */}
         {/* {currentUser && <Login />} */}
-        <div style={{ flex: 4, minHeight: "100vh" }}>
-          {currentUser && <Appbar />}
-          {currentUser && currentUser.role == "Student" && (
+        {/* <div style={{ flex: 4, minHeight: "100vh" }}> */}
+        {currentUser && <Appbar />}
+        {/* {currentUser && currentUser.role == "Student" && (
             <>
-              {/* <Appbar /> */}
               <Routes>
                 <Route exact path={HOME} element={<StudentHome />} />
                 <Route path={DASHBOARD} element={<StudentDashboard />} />
@@ -31,7 +33,6 @@ const Navigations = () => {
           )}
           {currentUser && currentUser.role == "Supervisor" && (
             <>
-              {/* <Appbar /> */}
               <Routes>
                 <Route exact path={HOME} element={<SupervisorHome />} />
                 <Route path={DASHBOARD} element={<SupervisorDashboard />} />
@@ -40,14 +41,26 @@ const Navigations = () => {
           )}
           {currentUser && currentUser.role == "Coordinator" && (
             <>
-              {/* <Appbar /> */}
               <Routes>
                 <Route exact path={HOME} element={<SupervisorHome />} />
                 <Route path={DASHBOARD} element={<SupervisorDashboard />} />
               </Routes>
             </>
-          )}
-        </div>
+          )} */}
+        {/* <IdeaApproval /> */}
+        {/* <AddWeeklyProgress /> */}
+        {/* <DocumentationSubmission /> */}
+        {/* <Navigations /> */}
+        {/* <StudentDashboard /> */}
+        {/* <WeeklyProgressEvaluation /> */}
+        {/* <ReportEvaluation /> */}
+        {/* <AnnounceDocumentDate /> */}
+        {/* <IdeaApproval /> */}
+        {/* <DocumentEvaluation /> */}
+        <Routes>
+          <Route path="/" element={<ReportEvaluationBySupervisor />} />
+        </Routes>
+        {/* </div> */}
       </BrowserRouter>
     </div>
   );
