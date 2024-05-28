@@ -5,10 +5,12 @@ import userReducer from "./userReducer/userSlice";
 import tabReducer from "./tabs/TabSlice";
 
 import { persistReducer, persistStore } from "redux-persist";
+import LinkReducer from "./links/LinkReducer";
 
 const rootReducers = combineReducers({
   user: userReducer,
   tab: tabReducer,
+  links: LinkReducer,
 });
 
 const persistConfig = {

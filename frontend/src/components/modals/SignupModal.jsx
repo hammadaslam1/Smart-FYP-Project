@@ -287,6 +287,7 @@ const SignupModal = ({
             value={role}
             label="Role"
             placeholder="Select a Role"
+            onChange={(e) => setRole(e.target.value)}
             startDecorator={<CategoryIcon sx={{ color: "#08422D" }} />}
           />
           {error && (

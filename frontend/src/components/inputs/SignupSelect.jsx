@@ -18,13 +18,14 @@ const SignupSelect = ({ ...props }) => {
         {props.label}
       </FormLabel>
       {/* <Input sx={{ padding: "8px 12px" }} {...props} required /> */}
-      <Select labelId="" id="" sx={{ padding: "8px 12px" }} {...props}>
-        <Option value="Student">Student</Option>
-        <Option value="Coordinator">Coordinator</Option>
-        <Option value="Supervisor">Supervisor</Option>
-        <Option value="HOD">HOD</Option>
-        <Option value="Principal">Principal</Option>
-      </Select>
+      <select labelId="" id="" style={{ padding: "8px 12px" }} {...props}>
+        <option value="" selected disabled>Select a role</option>
+        <option value="Student">Student</option>
+        <option value="Coordinator">Coordinator</option>
+        <option value="Supervisor">Supervisor</option>
+        <option value="HOD">HOD</option>
+        {/* <option value="Principal">Principal</option> */}
+      </select>
       {/* <textarea {...props} /> */}
       <FormHelperText sx={{ color: "#112d4e" }}>
         {props.helperText}

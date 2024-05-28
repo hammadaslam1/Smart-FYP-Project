@@ -6,12 +6,14 @@ const IdeaSubmission = () => {
       <div className="ideaSubmission">
         <div>
           <label htmlFor="ProjectIdea">Project Idea*:</label>
-          <input className="projectIdeaInput" type="text" />
+          <input 
+          className="projectIdeaInput" 
+          type="text" />
         </div>
         <div className="projectDescriptionDiv">
           <label
             htmlFor="ProjectDescription"
-            className="projectDescriptionLabel"
+            // className="projectDescriptionLabel"
           >
             Project Description*:
           </label>

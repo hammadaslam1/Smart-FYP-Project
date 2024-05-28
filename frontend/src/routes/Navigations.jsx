@@ -15,6 +15,7 @@ import DocumentEvaluation from "../screens/supervisor/DocumentEvaluation";
 import ReportEvaluationBySupervisor from "../screens/supervisor/ReportEvaluationBySupervisor";
 const Navigations = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const { links } = useSelector((state) => state.links);
   // console.log(currentUser);
   return (
     <div style={NavigationCSS.screen}>
@@ -23,30 +24,35 @@ const Navigations = () => {
         {/* {currentUser && <Login />} */}
         {/* <div style={{ flex: 4, minHeight: "100vh" }}> */}
         {currentUser && <Appbar />}
+        <Routes>
+          {links.map((link, i) => (
+            <Route exact path={link.to} element={link.components} />
+          ))}
+        </Routes>
         {/* {currentUser && currentUser.role == "Student" && (
-            <>
-              <Routes>
-                <Route exact path={HOME} element={<StudentHome />} />
-                <Route path={DASHBOARD} element={<StudentDashboard />} />
-              </Routes>
-            </>
-          )}
-          {currentUser && currentUser.role == "Supervisor" && (
-            <>
-              <Routes>
-                <Route exact path={HOME} element={<SupervisorHome />} />
-                <Route path={DASHBOARD} element={<SupervisorDashboard />} />
-              </Routes>
-            </>
-          )}
-          {currentUser && currentUser.role == "Coordinator" && (
-            <>
-              <Routes>
-                <Route exact path={HOME} element={<SupervisorHome />} />
-                <Route path={DASHBOARD} element={<SupervisorDashboard />} />
-              </Routes>
-            </>
-          )} */}
+          <>
+            <Routes>
+              <Route exact path={HOME} element={<StudentHome />} />
+              <Route path={DASHBOARD} element={<StudentDashboard />} />
+            </Routes>
+          </>
+        )}
+        {currentUser && currentUser.role == "Supervisor" && (
+          <>
+            <Routes>
+              <Route exact path={HOME} element={<SupervisorHome />} />
+              <Route path={DASHBOARD} element={<SupervisorDashboard />} />
+            </Routes>
+          </>
+        )}
+        {currentUser && currentUser.role == "Coordinator" && (
+          <>
+            <Routes>
+              <Route exact path={HOME} element={<SupervisorHome />} />
+              <Route path={DASHBOARD} element={<SupervisorDashboard />} />
+            </Routes>
+          </>
+        )} */}
         {/* <IdeaApproval /> */}
         {/* <AddWeeklyProgress /> */}
         {/* <DocumentationSubmission /> */}
@@ -57,9 +63,9 @@ const Navigations = () => {
         {/* <AnnounceDocumentDate /> */}
         {/* <IdeaApproval /> */}
         {/* <DocumentEvaluation /> */}
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<ReportEvaluationBySupervisor />} />
-        </Routes>
+        </Routes> */}
         {/* </div> */}
       </BrowserRouter>
     </div>

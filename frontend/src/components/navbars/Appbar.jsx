@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import LOGO from "../assets/logos/uelogo.png";
 import LoginModal from "../modals/LoginModal";
 import SignupModal from "../modals/SignupModal";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 300;
 
@@ -114,7 +115,10 @@ const Appbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
-
+  const navigate = useNavigate();
+  const links = useSelector((state) => state.links);
+  const linkArray = links.links;
+  console.log(linkArray.length);
   useEffect(() => {
     // onAuthStateChanged(auth, (user) => {
     if (currentUser) {
@@ -244,65 +248,58 @@ const Appbar = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        {new Array(5)
-          .fill(1)
-          .sort()
-          .map((cat, i) => (
-            <div
-              key={i}
-              onClick={() => setOpen(true)}
-              style={{ cursor: "pointer" }}
+        {/* {linkArray.map((link, i) => (
+          <div
+            key={i}
+            onClick={() => setOpen(true)}
+            style={{ cursor: "pointer" }}
+          >
+            <Typography
+              component={"div"}
+              sx={{
+                px: 3,
+                py: 2,
+                color: "#fff",
+                backgroundColor: "#D8A900",
+                fontWeight: 600,
+                fontSize: 16,
+              }}
             >
-              <Typography
-                component={"div"}
+              {link.name}
+            </Typography> */}
+        <List>
+          {linkArray.map((link, index) => (
+            // data.category == cat &&
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
                 sx={{
-                  px: 3,
-                  py: 2,
-                  color: "#fff",
-                  backgroundColor: "#D8A900",
-                  fontWeight: 600,
-                  fontSize: 16,
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
                 }}
+                onClick={() => navigate(link.to)}
               >
-                {open ? cat : cat[0]}
-              </Typography>
-              <List>
-                {new Array(10)
-                  .fill(2)
-                  .sort((a, b) => a.name - b.name)
-                  .map((data, index) => (
-                    // data.category == cat &&
-                    <ListItem
-                      key={index}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? "initial" : "center",
-                          px: 2.5,
-                        }}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {data}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={data}
-                          sx={{ opacity: open ? 1 : 0, fontSize: "10pt" }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-              </List>
-            </div>
+                {/* <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {data}
+                  </ListItemIcon> */}
+                {/* <Typography>{link.name}</Typography> */}
+                <ListItemText
+                  primary={open ? link.name : link.name[0]}
+                  sx={{ fontSize: "10pt" }}
+                />
+              </ListItemButton>
+            </ListItem>
+            // <Typography>{index}</Typography>
           ))}
+        </List>
+        {/* </div>
+        ))} */}
         <DrawerFooter>
           <IconButton size="large" onClick={() => setOpen(!open)}>
             <Avatar />
