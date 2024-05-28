@@ -1,50 +1,85 @@
-import '../../styles/studentcomponentsstyles/selectgroup.css'
+import {
+  Autocomplete,
+  Box,
+  Card,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import SignupInput from "../../components/inputs/SignupInput";
+import "../../styles/studentcomponentsstyles/selectgroup.css";
+import PrimaryButton from "../../components/buttons/PrimaryButton";
 const GroupFormation = () => {
-    return ( 
-        <div className='selectGroupMain'>
-        <h1>Select Group</h1>
-        <div className="selectGroupDiv">
-            <div className="groupNameDiv">
-                <label htmlFor="groupName">Group Name*</label>
-                <br />
-                <input className='groupNameInput' type="text" />
-            </div>
-            <br />
-            <div className="ClassDiv">
-                <label htmlFor="Class">Class*</label>
-                <br />
-                <select className='classSelect'>
-                    <option value="">Select Class</option>
-                    <option value="BSCS 7th Morning">BSCS 7th Morning</option>
-                    <option value="BSIT 7th Evening">BSIT 7th Evening</option>
-                </select>
-            </div>
-            <br />
-            <div className="supervisiorDiv">
-                <label htmlFor="Class">Choose Supervisor*</label>
-                <br />
-                <select  className='classSelect'>
-                    <option value="">Select</option>
-                    <option value="Ms. Farrah Aslam">Ms. Farrah Aslam</option>
-                    <option value="Mr. Adil Waheed">Mr. Adil Waheed</option>
-                    <option value="Prof. Imran Kazmi">Prof. Imran Kazmi</option>
-                </select>
-            </div>
-            <br />
-            <div className="membersDiv">
-                <label htmlFor="Class">Note! Select Minimum 1 and Maximum 2 members for group (Select Multiple Members by Pressing CTRL + LEFT CLICK)</label>
-                <br />
-                <select  className='classSelect'>
-                    <option value="">Select Students</option>
-                    <option value="Ms. Farrah Aslam">Ms. Farrah Aslam</option>
-                    <option value="Mr. Adil Waheed">Mr. Adil Waheed</option>
-                    <option value="Prof. Imran Kazmi">Prof. Imran Kazmi</option>
-                </select>
-            </div>
-            <button className='groupSubmitButton'>Submit</button>
-        </div>
-        </div>
-     );
-}
- 
+  return (
+    <Box sx={{ pt: 10 }}>
+      <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
+        Select Group
+      </Typography>
+      <Card
+        elevation={0}
+        sx={{
+          px: 3,
+        }}
+      >
+        <SignupInput label="Group Name" placeholder="Enter group name" color="success" />
+        <FormControl sx={{ my: 2 }} fullWidth>
+          <InputLabel id="demo-simple-select-label" color="success">Class</InputLabel>
+          <Select color="success"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Docuement Type*"
+          >
+            <MenuItem value="BSCS 7th Morning">BSCS 7th Morning</MenuItem>
+            <MenuItem value="BSIT 7th Evening">BSIT 7th Evening</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ my: 2 }} fullWidth>
+          <InputLabel id="demo-simple-select-label"  color="success">
+            Choose Supervisor
+          </InputLabel>
+          <Select  color="success"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Docuement Type*"
+          >
+            <MenuItem value="Ms. Farrah Aslam">Ms. Farrah Aslam</MenuItem>
+            <MenuItem value="Mr. Adil Waheed">Mr. Adil Waheed</MenuItem>
+            <MenuItem value="Prof. Imran Kazmi">Prof. Imran Kazmi</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Typography
+          sx={{ color: "#08422D", fontWeight: 600 }}
+          variant="caption"
+        >
+          Note! Select Minimum 1 and Maximum 2 members for group
+        </Typography>
+        <Autocomplete
+         color="success"
+          sx={{ my: 1 }}
+          multiple
+          placeholder="Members"
+          options={["Ahsan Usman", "Hammad Aslam", "Saad Afzal"]}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Members"
+              placeholder="Members"
+            />
+          )}
+        />
+
+        <PrimaryButton sx={{ my: 1, width: "150px", height: "50px" }}>
+          Submit
+        </PrimaryButton>
+      </Card>
+    </Box>
+  );
+};
+
 export default GroupFormation;

@@ -26,9 +26,13 @@ import {
 // import HODDashboard from "./screens/hod/HODDashboard";
 
 function App() {
-  const currentUser = useSelector((state) => state.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  console.log(currentUser);
+  if(currentUser)
+    {
+      console.log("jugaar",currentUser);
+
+    }
   // useEffect(() => {
   if (currentUser && currentUser.role == "Student") {
     dispatch(toggleLink(studentLinks));

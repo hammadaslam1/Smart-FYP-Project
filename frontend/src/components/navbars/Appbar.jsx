@@ -113,6 +113,11 @@ const Drawer = styled(MuiDrawer, {
 const Appbar = () => {
   const [user, setUser] = useState();
   const currentUser = useSelector((state) => state.currentUser);
+  if(currentUser)
+    {
+      const myUser = currentUser;
+      console.log(myUser)
+    }
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const navigate = useNavigate();

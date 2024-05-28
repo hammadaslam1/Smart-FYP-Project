@@ -1,4 +1,4 @@
-import HODDashboard from "../screens/HOD/HODDashboard";
+import HODDashboard from "../screens/hod/HODdashboard";
 import AnnounceDocumentDate from "../screens/coordinator/AnnounceDocumentDate";
 import CoordinatorDashboard from "../screens/coordinator/CoordinatorDashboard";
 import ReportEvaluation from "../screens/coordinator/ReportEvaluation";
@@ -88,7 +88,7 @@ export const hodLinks = [
   {
     to: "/",
     name: "Dashboard",
-    components: <HODDashboard />,
+    components: <HODDashboard/>,
   },
 ];
 export const cosupervisorLinks = [];
