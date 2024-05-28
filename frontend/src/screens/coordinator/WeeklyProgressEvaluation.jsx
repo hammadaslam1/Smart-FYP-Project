@@ -52,7 +52,7 @@ const WeeklyProgressEvaluation = () => {
     setList(WeeklyEvaluationData);
   }, []);
   return (
-    <Box>
+    <Box sx={{ pt: 10 }}>
       <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
         Weekly Progress Evaluation
       </Typography>

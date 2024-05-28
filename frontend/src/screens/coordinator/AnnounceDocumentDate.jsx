@@ -5,7 +5,7 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 
 const AnnounceDocumentDate = () => {
   return (
-    <Box>
+    <Box sx={{ pt: 10 }}>
       <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
         Announce Document Date
       </Typography>
@@ -27,7 +27,9 @@ const AnnounceDocumentDate = () => {
           helperText="Select last date for submission of document"
         />
         <div>
-          <PrimaryButton sx={{width: '150px', height: '50px', my: 3}}>Submit</PrimaryButton>
+          <PrimaryButton sx={{ width: "150px", height: "50px", my: 3 }}>
+            Submit
+          </PrimaryButton>
         </div>
       </Card>
     </Box>

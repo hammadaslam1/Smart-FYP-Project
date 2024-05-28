@@ -50,13 +50,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ReportEvaluation = () => {
   return (
-    <Box>
+    <Box sx={{pt:10}}>
       <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
         Weekly Evaluation Report 
       </Typography>
       <Card sx={{ p: 3 }} elevation={0}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table>
             <TableHead sx={{ backgroundColor: "#08422D" }}>
               <TableRow>
                 <StyledHeadCell>Group Name</StyledHeadCell>

@@ -1,6 +1,8 @@
+import { Box } from "@mui/material";
+
 const CoordinatorDashboard = () => {
   return (
-    <div>
+    <Box sx={{ pt: 10 }}>
       <h1>Coordinator Dashboard</h1>
       <div className="buttonsDiv">
         <button className="dashboardBigButton">Project Idea Approval</button>
@@ -9,9 +11,8 @@ const CoordinatorDashboard = () => {
         <button className="dashboardBigButton">
           View Student Final Report
         </button>
-        
       </div>
-    </div>
+    </Box>
   );
 };
 
