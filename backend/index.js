@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
-import userRoutes from './routes/user.route.js';
+import userRoutes from "./routes/user.route.js";
+import studentRoutes from "./routes/student.route.js";
 import { connString } from "../ENV.js";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -33,8 +34,9 @@ app.listen(3001, () => {
   console.log("Server is running on port 3001!");
 });
 
-app.use('/api/user', userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/student", studentRoutes);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

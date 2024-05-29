@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-const HODDashboard = () => {
+const HODdashboard = () => {
   return (
     <Box sx={{ pt: 10 }}>
       <h1>HOD Dashboard</h1>
@@ -17,4 +17,4 @@ const HODDashboard = () => {
   );
 };
 
-export default HODDashboard;
+export default HODdashboard;

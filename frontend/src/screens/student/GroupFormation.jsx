@@ -13,7 +13,36 @@ import {
 import SignupInput from "../../components/inputs/SignupInput";
 import "../../styles/studentcomponentsstyles/selectgroup.css";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import { useEffect, useState } from "react";
 const GroupFormation = () => {
+  const [students, setStudents] = useState(null);
+  const handleStudents = async () => {
+    try {
+      await fetch("http://localhost:3001/api/student/getAllStudents")
+        .then((response) => response.json())
+        .then((responseData) => {
+          const studentNames = responseData.map((student) => student.student_name);
+          setStudents(studentNames);
+          console.log(studentNames);
+        })
+        .catch((error) => alert(error));
+      // const data = await res.json();
+      // if (data.success === false) {
+      //   return dispatch(signinFailure(data.message));
+      // }
+      // if (res.ok) {
+      //   console.log(data);
+      //   dispatch(signinSuccess(data));
+      //   setOpenLogin(false);
+      //   navigate("/");
+      // }
+    } catch (error) {
+      return dispatch(signinFailure(error.message));
+    }
+  };
+  useEffect(() => {
+    handleStudents();
+  }, []);
   return (
     <Box sx={{ pt: 10 }}>
       <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
@@ -25,10 +54,17 @@ const GroupFormation = () => {
           px: 3,
         }}
       >
-        <SignupInput label="Group Name" placeholder="Enter group name" color="success" />
+        <SignupInput
+          label="Group Name"
+          placeholder="Enter group name"
+          color="success"
+        />
         <FormControl sx={{ my: 2 }} fullWidth>
-          <InputLabel id="demo-simple-select-label" color="success">Class</InputLabel>
-          <Select color="success"
+          <InputLabel id="demo-simple-select-label" color="success">
+            Class
+          </InputLabel>
+          <Select
+            color="success"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Docuement Type*"
@@ -38,10 +74,11 @@ const GroupFormation = () => {
           </Select>
         </FormControl>
         <FormControl sx={{ my: 2 }} fullWidth>
-          <InputLabel id="demo-simple-select-label"  color="success">
+          <InputLabel id="demo-simple-select-label" color="success">
             Choose Supervisor
           </InputLabel>
-          <Select  color="success"
+          <Select
+            color="success"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Docuement Type*"
@@ -58,12 +95,12 @@ const GroupFormation = () => {
         >
           Note! Select Minimum 1 and Maximum 2 members for group
         </Typography>
-        <Autocomplete
-         color="success"
+        {students&&<Autocomplete
+          color="success"
           sx={{ my: 1 }}
           multiple
           placeholder="Members"
-          options={["Ahsan Usman", "Hammad Aslam", "Saad Afzal"]}
+          options={students}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -72,7 +109,7 @@ const GroupFormation = () => {
               placeholder="Members"
             />
           )}
-        />
+        />}
 
         <PrimaryButton sx={{ my: 1, width: "150px", height: "50px" }}>
           Submit

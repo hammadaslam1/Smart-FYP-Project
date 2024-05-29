@@ -1,8 +1,8 @@
-import HODDashboard from "../screens/hod/HODdashboard";
 import AnnounceDocumentDate from "../screens/coordinator/AnnounceDocumentDate";
 import CoordinatorDashboard from "../screens/coordinator/CoordinatorDashboard";
 import ReportEvaluation from "../screens/coordinator/ReportEvaluation";
 import WeeklyProgressEvaluation from "../screens/coordinator/WeeklyProgressEvaluation";
+import HODdashboard from "../screens/HOD/HODdashboard";
 import AddWeeklyProgress from "../screens/student/AddWeeklyProgress";
 import DocumentationSubmission from "../screens/student/DocumentationSubmission";
 import GroupFormation from "../screens/student/GroupFormation";
@@ -88,7 +88,7 @@ export const hodLinks = [
   {
     to: "/",
     name: "Dashboard",
-    components: <HODDashboard/>,
+    components: <HODdashboard />,
   },
 ];
 export const cosupervisorLinks = [];
