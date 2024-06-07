@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import studentRoutes from "./routes/student.route.js";
+import supervisorRoutes from "./routes/supervisor.route.js";
 import { connString } from "../ENV.js";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -37,7 +38,7 @@ app.listen(3001, () => {
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/student", studentRoutes);
-
+app.use('/api/supervisor',supervisorRoutes);
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {

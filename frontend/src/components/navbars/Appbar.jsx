@@ -311,7 +311,7 @@ const Appbar = () => {
           </IconButton>
           <div>
             <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
-              a
+              Footer
             </Typography>
           </div>
         </DrawerFooter>

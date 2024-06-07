@@ -16,12 +16,15 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useEffect, useState } from "react";
 const GroupFormation = () => {
   const [students, setStudents] = useState(null);
+  const [supervisors, setSupervisors] = useState(null);
   const handleStudents = async () => {
     try {
       await fetch("http://localhost:3001/api/student/getAllStudents")
         .then((response) => response.json())
         .then((responseData) => {
-          const studentNames = responseData.map((student) => student.student_name);
+          const studentNames = responseData.map(
+            (student) => student.student_name
+          );
           setStudents(studentNames);
           console.log(studentNames);
         })
@@ -37,11 +40,28 @@ const GroupFormation = () => {
       //   navigate("/");
       // }
     } catch (error) {
-      return dispatch(signinFailure(error.message));
+      // return dispatch(signinFailure(error.message));
+    }
+  };
+  const handleSupervisors = async () => {
+    try {
+      await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
+        .then((response) => response.json())
+        .then((responseData) => {
+          const supervisorNames = responseData.map(
+            (supervisor) => supervisor.supervisor_name
+          );
+          setSupervisors(supervisorNames);
+          console.log(supervisorNames);
+        })
+        .catch((error) => alert(error));
+    } catch (error) {
+      // return dispatch(signinFailure(error.message));
     }
   };
   useEffect(() => {
     handleStudents();
+    handleSupervisors();
   }, []);
   return (
     <Box sx={{ pt: 10 }}>
@@ -77,16 +97,18 @@ const GroupFormation = () => {
           <InputLabel id="demo-simple-select-label" color="success">
             Choose Supervisor
           </InputLabel>
-          <Select
-            color="success"
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Docuement Type*"
-          >
-            <MenuItem value="Ms. Farrah Aslam">Ms. Farrah Aslam</MenuItem>
-            <MenuItem value="Mr. Adil Waheed">Mr. Adil Waheed</MenuItem>
-            <MenuItem value="Prof. Imran Kazmi">Prof. Imran Kazmi</MenuItem>
-          </Select>
+          {supervisors && (
+            <Select
+              color="success"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Docuement Type*"
+            >
+              {supervisors.map((supervisor) => (
+                <MenuItem value={supervisor}>{supervisor}</MenuItem>
+              ))}
+            </Select>
+          )}
         </FormControl>
 
         <Typography
@@ -95,21 +117,23 @@ const GroupFormation = () => {
         >
           Note! Select Minimum 1 and Maximum 2 members for group
         </Typography>
-        {students&&<Autocomplete
-          color="success"
-          sx={{ my: 1 }}
-          multiple
-          placeholder="Members"
-          options={students}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label="Members"
-              placeholder="Members"
-            />
-          )}
-        />}
+        {students && (
+          <Autocomplete
+            color="success"
+            sx={{ my: 1 }}
+            multiple
+            placeholder="Members"
+            options={students}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Members"
+                placeholder="Members"
+              />
+            )}
+          />
+        )}
 
         <PrimaryButton sx={{ my: 1, width: "150px", height: "50px" }}>
           Submit
