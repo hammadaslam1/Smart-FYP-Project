@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import getStudentModel from "../models/students.model.js";
 
 export const getStudents = async (req, res, next) => {
-    const StudentModel = getStudentModel();
+  const {getAllStudents} = req.params;
+    const StudentModel = getStudentModel(getAllStudents);
   try {
     const students = await StudentModel.find();
     res.status(200).json(students);

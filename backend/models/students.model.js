@@ -8,8 +8,8 @@ const studentSchema = new Schema({
   id_: String,
 });
 
-const getStudentModel = () => {
-  return mongoose.model("morning-students", studentSchema);
+const getStudentModel = (getAllStudents) => {
+  return mongoose.model(getAllStudents, studentSchema);
 };
 
 export default getStudentModel;

@@ -21,7 +21,6 @@ const GroupFormation = () => {
   //     class:""
   //   }
   // )
-  const [fypClass, setFypClass] = useState("");
   const [students, setStudents] = useState(null);
   const [supervisors, setSupervisors] = useState(null);
   const handleStudents = async () => {
@@ -58,9 +57,16 @@ const GroupFormation = () => {
     }
   };
   const handleClassChange = (e) => {
-    setFypClass(e.target.value);
+    const fypClass = e.target.value;
     try{
-      
+     const response = fetch(`http://localhost:3001/api/student/${fypClass}`).then((response) => response.json())
+     .then((responseData) => {
+       const studentNames = responseData.map(
+         (student) => student.student_name
+       );
+       setStudents(studentNames);
+       console.log(studentNames);
+     }).catch((error)=>{ console.error(error)})
     }catch{
 
     }
