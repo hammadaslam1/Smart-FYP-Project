@@ -1,40 +1,103 @@
 /* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
 import {
-  Alert,
   Backdrop,
+  // Alert,
+  Card,
   Box,
   Button,
-  Card,
+  Checkbox,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Slide,
   Typography,
 } from "@mui/material";
-import "../../styles/Register.css";
-import EmailField from "../fields/EmailField";
-import PasswordField from "../fields/PasswordField";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import NameField from "../fields/NameField";
-import ConfirmPasswordField from "../fields/ConfirmPasswordField";
-import RoleSelectField from "../fields/RoleSelectField";
+import Alert from "@mui/joy/Alert";
+import { forwardRef, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import LockIcon from "@mui/icons-material/Lock";
+import { Mail, Visibility, VisibilityOff } from "@mui/icons-material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import PersonIcon from "@mui/icons-material/Person";
+// import {
+//   GoogleAuthProvider,
+//   createUserWithEmailAndPassword,
+//   signInWithPopup,
+//   updateProfile,
+// } from "../../firebase/firebase.js";
+// import { auth } from "../../firebase/firebase";
+import GoogleIcon from "@mui/icons-material/Google";
+import CallIcon from "@mui/icons-material/Call";
+import SignupInput from "../inputs/SignupInput.jsx";
+// import './dialog.css'
+import PrimaryButton from "../buttons/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CategoryIcon from "@mui/icons-material/Category";
 import {
   removeError,
   signinFailure,
   signinStart,
   signinSuccess,
-} from "../../redux/userReducer/userSlice";
-const RegisterForm = (props) => {
+} from "../../redux/userReducer/userSlice.jsx";
+import SignupSelect from "../inputs/SignupSelect.jsx";
+const RegisterForm = ({toggleProp}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("-");
-  const [confirmPassword, setConfirmPassword] = useState("+");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.user);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleBack = () => {
+    // setOpenSignup(false);
+    // setOpenLogin(true);
+  };
+  const handleClose = () => {
+    // setOpenSignup(false);
+    // setOpenLogin(false);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleRegister();
+    }
+  };
+
+  const handleGoogle = () => {
+    // setIsPressed(true);
+    // const provider = new GoogleAuthProvider();
+    // signInWithPopup(auth, provider)
+    //   .then((result) => {
+    //     const credential = GoogleAuthProvider.credentialFromResult(result);
+    //     const token = credential.accessToken;
+    //     const user = result.user;
+    //     setIsPressed(false);
+    //     setOpenSignup(false);
+    //   })
+    //   .catch((e) => {
+    //     setIsPressed(false);
+    //     // alert(e.code, e.message);
+    //   });
+  };
+  const handleToggle = (e) => {
+    console.log(e);
+    if (e == "P") {
+      setShowPassword(!showPassword);
+      console.log(showPassword);
+    } else if (e == "CP") {
+      setShowCPassword(!showCPassword);
+      console.log(showCPassword);
+    }
+  };
+  const handleRegister = async () => {
     try {
       dispatch(signinStart());
       const emailRegex =
@@ -74,80 +137,191 @@ const RegisterForm = (props) => {
       if (res.ok) {
         console.log(data);
         dispatch(signinSuccess(data));
-        navigate("/");
+        toggleProp();
+        // navigate("/");
       }
     } catch (error) {
       return dispatch(signinFailure(error.message));
     }
   };
 
+  const backStyle = {
+    borderRadius: "20px",
+  };
+
   return (
-    <Card elevation={10} className="registerMain">
-      <Box className="registerCard">
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        <Typography className="registerHeading" variant="h4" color={"#08422D"}>
-          Register
-        </Typography>
-        <div>
-          <NameField
+    <Card elevation={10} className="registerMain" >
+      <Box sx={{ padding: 5, width: 500 }} >
+       
+        <div className="bg-image">
+          
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "700",
+              textAlign: "center",
+              fontFamily: "Helvetica",
+              marginBottom: "20px",
+              color: "#08422D",
+            }}
+          >
+            Sign up
+          </Typography>
+          <SignupInput
+            type="text"
+            variant="outlined"
+            value={name}
             onChange={(e) => {
               dispatch(removeError());
               setName(e.target.value);
             }}
-            className="registerFields"
+            label="Full Name"
+            placeholder="Enter Your Full Name"
+            required
+            startDecorator={<PersonIcon sx={{ color: "#08422D" }} />}
           />
-          <EmailField
+          <SignupInput
+            type="email"
+            variant="outlined"
+            value={email}
             onChange={(e) => {
               dispatch(removeError());
               setEmail(e.target.value);
             }}
-            className="registerFields"
+            placeholder="Enter Email Address"
+            label="Email Address"
+            helperText="We'll use your email address for registration"
+            required
+            startDecorator={<Mail sx={{ color: "#08422D" }} />}
           />
-          <PasswordField
+          <SignupInput
+            type={showPassword ? "text" : "password"}
+            variant="outlined"
+            value={password}
+            name="password"
             onChange={(e) => {
               dispatch(removeError());
               setPassword(e.target.value);
             }}
-            className="registerFields"
+            endDecorator={
+              <IconButton
+                onClick={() => handleToggle("P")}
+                sx={{ color: "#08422D", p: 0, mx: 1 }}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            }
+            placeholder="Enter Password"
+            label="Password"
+            required
+            startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
           />
-          <ConfirmPasswordField
+          <SignupInput
+            type={showCPassword ? "text" : "password"}
+            variant="outlined"
+            value={confirmPassword}
+            name="confirmPassword"
             onChange={(e) => {
               dispatch(removeError());
               setConfirmPassword(e.target.value);
             }}
-            className="registerFields"
+            endDecorator={
+              <IconButton
+                onClick={() => handleToggle("CP")}
+                sx={{ color: "#08422D", p: 0, mx: 1 }}
+                edge="end"
+              >
+                {showCPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            }
+            placeholder="Enter Password"
+            label="Confirm Password"
+            required
+            startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
           />
-          <RoleSelectField
-            onChange={(e) => {
-              dispatch(removeError());
-              setRole(e.target.value);
-            }}
+          <SignupSelect
             value={role}
+            label="Role"
+            placeholder="Select a Role"
+            onChange={(e) => setRole(e.target.value)}
+            startDecorator={<CategoryIcon sx={{ color: "#08422D" }} />}
           />
           {error && (
-            <Alert variant="filled" severity="error" sx={{ my: 2 }}>
+            <Alert variant="solid" color="danger" sx={{ textAlign: "center" }}>
               {error}
             </Alert>
           )}
+          <PrimaryButton
+            sx={{
+              marginTop: "10px",
+            }}
+            size={"medium"}
+            onClick={handleRegister}
+          >
+            Sign up
+          </PrimaryButton>
+          {/* <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "15px",
+            }}
+          >
+            <div
+              style={{
+                borderBottom: "1px solid #08422Daa",
+                width: "170px",
+                height: "0px",
+              }}
+            ></div>
+            <div style={{ color: "#08422D" }}>or</div>
+            <div
+              style={{
+                borderBottom: "1px solid #08422Daa",
+                width: "170px",
+                height: "0px",
+              }}
+            ></div>
+          </div> */}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {/* <SocialButton
+              size={"large"}
+              onClick={handleGoogle}
+              startIcon={<GoogleIcon />}
+            >
+              Continue with Google
+            </SocialButton> */}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <DialogActions sx={{ alignSelf: "center" }}>
+              <Typography
+                variant="body2"
+                color="#505050"
+                style={{
+                  marginTop: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body2">Already a member?</Typography>{" "}
+                <Button
+                  onClick={toggleProp}
+                  style={{
+                    color: "#08422D",
+                    textDecoration: "underline",
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Sign in
+                </Button>
+              </Typography>
+            </DialogActions>
+          </div>
         </div>
-        <Button
-          className="registerButton"
-          variant="contained"
-          onClick={handleSubmit}
-        >
-          Register
-        </Button>
-        <Typography className="loginNotRegister">
-          Already registered?{" "}
-          <Link className="registerLoginLink" to="#" onClick={props.toggleProp}>
-            Login
-          </Link>{" "}
-        </Typography>
       </Box>
     </Card>
   );

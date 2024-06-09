@@ -20,6 +20,8 @@ export const signup = async (req, res, next) => {
     next(errorHandler(400, "All fields are required"));
   }
 
+
+
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
   const newUser = new User({
@@ -33,7 +35,7 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
-    res.json("Signup successful");
+    res.json("signup successful");
     console.log('signup successful');
   } catch (error) {
     next(error);
@@ -73,6 +75,18 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const signout = (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json("User has been signed out");
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 export const google = async (req, res, next) => {
   const { email, name, photoURL } = req.body;

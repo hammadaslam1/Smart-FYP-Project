@@ -23,6 +23,9 @@ import {
   studentLinks,
   supervisorLinks,
 } from "./data/Links";
+import LoginForm from "./components/forms/LoginForm";
+import RegisterForm from "./components/forms/RegisterForm";
+import Login from "./screens/Login";
 // import HODDashboard from "./screens/hod/HODDashboard";
 
 function App() {
@@ -53,6 +56,9 @@ function App() {
     // <AddWeeklyProgress />
     // <DocumentationSubmission />
     <Navigations />
+    // <LoginForm/>
+    // <RegisterForm/>
+    // <Login/>
     // <StudentDashboard />
     // <WeeklyProgressEvaluation />
     // <ReportEvaluation />

@@ -18,11 +18,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PrimaryButton from "../buttons/PrimaryButton";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import LOGO from "../assets/logos/uelogo.png";
 import LoginModal from "../modals/LoginModal";
 import SignupModal from "../modals/SignupModal";
 import { useNavigate } from "react-router-dom";
+import {
+  signoutSuccess
+} from "../../redux/userReducer/userSlice";
 
 const drawerWidth = 300;
 
@@ -111,12 +114,12 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Appbar = () => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState();
-  const currentUser = useSelector((state) => state.currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
   if(currentUser)
     {
       const myUser = currentUser;
-      console.log(myUser)
     }
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
@@ -196,7 +199,7 @@ const Appbar = () => {
               alignItems: "center",
             }}
           >
-            <Typography>{currentUser && currentUser.username}</Typography>
+            {/* <Typography>{currentUser && currentUser.username}</Typography> */}
             <PrimaryButton
               sx={{
                 minWidth: "100px",
@@ -208,6 +211,21 @@ const Appbar = () => {
               onClick={() => {
                 if (currentUser) {
                   // signOut(auth);
+                 fetch("http://localhost:3001/api/auth/signout", {
+                  method: "POST", // or "GET", "PUT", etc. depending on your server's requirements
+                  credentials: "include" // if you need to send cookies or authentication headers
+                })
+                  .then(response => {
+                    if (response.ok) {
+                      dispatch(signoutSuccess());
+                      console.log("ok ok ok");
+                    } else {
+                      // handle sign-out error
+                    }
+                  })
+                  .catch(error => {
+                    // handle fetch error
+                  });
                 } else {
                   setOpenLogin(true);
                 }
@@ -310,9 +328,12 @@ const Appbar = () => {
             <Avatar />
           </IconButton>
           <div>
-            <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
-              Footer
+            {
+              currentUser && <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
+              {currentUser.username}
+              {/* Footer */}
             </Typography>
+            }
           </div>
         </DrawerFooter>
       </Drawer>

@@ -15,6 +15,13 @@ import "../../styles/studentcomponentsstyles/selectgroup.css";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useEffect, useState } from "react";
 const GroupFormation = () => {
+  // const [formData,setFormData] = useState(
+  //   {
+  //     teamLead:"",
+  //     class:""
+  //   }
+  // )
+  const [fypClass, setFypClass] = useState("");
   const [students, setStudents] = useState(null);
   const [supervisors, setSupervisors] = useState(null);
   const handleStudents = async () => {
@@ -29,18 +36,9 @@ const GroupFormation = () => {
           console.log(studentNames);
         })
         .catch((error) => alert(error));
-      // const data = await res.json();
-      // if (data.success === false) {
-      //   return dispatch(signinFailure(data.message));
-      // }
-      // if (res.ok) {
-      //   console.log(data);
-      //   dispatch(signinSuccess(data));
-      //   setOpenLogin(false);
-      //   navigate("/");
-      // }
+     
     } catch (error) {
-      // return dispatch(signinFailure(error.message));
+       console.error(error);
     }
   };
   const handleSupervisors = async () => {
@@ -56,9 +54,18 @@ const GroupFormation = () => {
         })
         .catch((error) => alert(error));
     } catch (error) {
-      // return dispatch(signinFailure(error.message));
+      console.error(error);
     }
   };
+  const handleClassChange = (e) => {
+    setFypClass(e.target.value);
+    try{
+      
+    }catch{
+
+    }
+  };
+  
   useEffect(() => {
     handleStudents();
     handleSupervisors();
@@ -75,8 +82,8 @@ const GroupFormation = () => {
         }}
       >
         <SignupInput
-          label="Group Name"
-          placeholder="Enter group name"
+          label="Team Lead"
+          placeholder="Enter team lead"
           color="success"
         />
         <FormControl sx={{ my: 2 }} fullWidth>
@@ -88,9 +95,10 @@ const GroupFormation = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Docuement Type*"
+            onChange={handleClassChange}
           >
-            <MenuItem value="BSCS 7th Morning">BSCS 7th Morning</MenuItem>
-            <MenuItem value="BSIT 7th Evening">BSIT 7th Evening</MenuItem>
+            <MenuItem value="morning-students">BSCS 7th Morning</MenuItem>
+            <MenuItem value="evening-students">BSIT 7th Evening</MenuItem>
           </Select>
         </FormControl>
         <FormControl sx={{ my: 2 }} fullWidth>
@@ -103,6 +111,7 @@ const GroupFormation = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Docuement Type*"
+              
             >
               {supervisors.map((supervisor) => (
                 <MenuItem value={supervisor}>{supervisor}</MenuItem>

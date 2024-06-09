@@ -10,15 +10,16 @@ import { useNavigate } from "react-router-dom";
 import { HOME } from "../routes/Routes";
 const Login = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     if (currentUser) {
-      return navigate(HOME);
+      // return navigate(HOME);
     }
   }, []);
   const [showLoginForm, setShowLoginForm] = useState(true);
   const handleToggleForm = () => {
     setShowLoginForm(!showLoginForm);
+    console.log("heheh")
   };
 
   return (

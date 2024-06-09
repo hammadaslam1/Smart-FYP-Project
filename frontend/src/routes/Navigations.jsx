@@ -2,7 +2,8 @@
 /* eslint-disable eqeqeq */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationCSS } from "../styles/NavigationCSS";
-import Login from "../screens/Login";
+import Login from "../../src/screens/Login";
+
 import { DASHBOARD, HOME } from "./Routes";
 import Appbar from "../components/navbars/Appbar";
 import DashSidebar from "../components/sidebar/DashSidebar";
@@ -14,21 +15,38 @@ import SupervisorDashboard from "../screens/supervisor/SupervisorDashboard";
 import DocumentEvaluation from "../screens/supervisor/DocumentEvaluation";
 import ReportEvaluationBySupervisor from "../screens/supervisor/ReportEvaluationBySupervisor";
 const Navigations = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const { links } = useSelector((state) => state.links);
   // console.log(currentUser);
+  console.log(currentUser)
   return (
     <div style={NavigationCSS.screen}>
       <BrowserRouter>
         {/* <Register/> */}
         {/* {currentUser && <Login />} */}
         {/* <div style={{ flex: 4, minHeight: "100vh" }}> */}
+        {/* { <Appbar />} */}
+
+        {!currentUser?<Login/>:<>
+          <Appbar />
+          <Routes>
+          {links.map((link, i) => (
+            <Route exact path={link.to} element={link.components} />
+          ))}
+        </Routes>
+        </>}
+
+
+
+
+
+{/* 
         {currentUser && <Appbar />}
         <Routes>
           {links.map((link, i) => (
             <Route exact path={link.to} element={link.components} />
           ))}
-        </Routes>
+        </Routes> */}
         {/* {currentUser && currentUser.role == "Student" && (
           <>
             <Routes>

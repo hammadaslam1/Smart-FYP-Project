@@ -30,7 +30,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 app.listen(3001, () => {
   console.log("Server is running on port 3001!");
 });

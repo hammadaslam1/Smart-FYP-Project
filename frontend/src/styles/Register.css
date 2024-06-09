@@ -1,7 +1,7 @@
 .registerMain {
-    background-color: #F0F3FF !important;
+    background-color: #fff !important;
     border-radius: 30px !important;
-    padding: 50px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     width: clamp(300px, 100%, 600px);
