@@ -18,6 +18,9 @@ import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import TaskIcon from '@mui/icons-material/Task';
 export const studentLinks = [
   {
     to: "/",
@@ -55,21 +58,25 @@ export const supervisorLinks = [
     to: "/",
     name: "Supervisor Dashboard",
     components: <SupervisorDashboard />,
+    icon:DashboardIcon,
   },
   {
     to: "/document-evaluation",
     name: "Document Evaluation",
     components: <DocumentEvaluation />,
+    icon:DashboardIcon,
   },
   {
     to: "/idea-approval",
     name: "Idea Approval",
     components: <IdeaApproval />,
+    icon:DashboardIcon,
   },
   {
     to: "/report-evaluation",
     name: "Report Evaluation",
     components: <ReportEvaluationBySupervisor />,
+    icon:DashboardIcon,
   },
 ];
 export const coordinatorLinks = [
@@ -77,21 +84,25 @@ export const coordinatorLinks = [
     to: "/",
     name: "Coordinator Dashboard",
     components: <CoordinatorDashboard />,
+    icon:DashboardIcon,
   },
   {
     to: "/announce-document-date",
     name: "Announce Document Date",
     components: <AnnounceDocumentDate />,
+    icon:CampaignIcon,
   },
   {
     to: "/report-evaluation",
     name: "Report Evaluation",
     components: <ReportEvaluation />,
+    icon:CheckCircleIcon,
   },
   {
     to: "/weekly-progress-evaluation",
     name: "Weekly Progress Evaluation",
     components: <WeeklyProgressEvaluation />,
+    icon:TaskIcon,
   },
 ];
 export const hodLinks = [
@@ -99,6 +110,7 @@ export const hodLinks = [
     to: "/",
     name: "Dashboard",
     components: <HODdashboard/>,
+    icon:DashboardIcon,
   },
 ];
 export const cosupervisorLinks = [];

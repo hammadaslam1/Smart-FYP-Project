@@ -23,6 +23,7 @@ import LOGO from "../assets/logos/uelogo.png";
 import LoginModal from "../modals/LoginModal";
 import SignupModal from "../modals/SignupModal";
 import { useNavigate } from "react-router-dom";
+import avatarImage from "../assets/avatars/user-avatar-happy.svg"
 import {
   signoutSuccess
 } from "../../redux/userReducer/userSlice";
@@ -325,12 +326,12 @@ const Appbar = () => {
         ))} */}
         <DrawerFooter>
           <IconButton size="large" onClick={() => setOpen(!open)}>
-            <Avatar />
+            <Avatar sx={{marginLeft:"-10px"}} src={avatarImage} />
           </IconButton>
           <div>
             {
               currentUser && <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
-              {currentUser.username}
+              {currentUser.name}
               {/* Footer */}
             </Typography>
             }
