@@ -13,32 +13,41 @@ import DocumentEvaluation from "../screens/supervisor/DocumentEvaluation";
 import IdeaApproval from "../screens/supervisor/IdeaApproval";
 import ReportEvaluationBySupervisor from "../screens/supervisor/ReportEvaluationBySupervisor";
 import SupervisorDashboard from "../screens/supervisor/SupervisorDashboard";
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 export const studentLinks = [
   {
     to: "/",
     name: "Student Dashboard",
     components: <StudentDashboard />,
+    icon:DashboardIcon,
   },
   {
     to: "/add-weekly-progress",
     name: "Add Weekly Progress",
     components: <AddWeeklyProgress />,
+    icon:PublishedWithChangesIcon,
   },
   {
     to: "/documentation-submission",
     name: "Documentation Submission",
     components: <DocumentationSubmission />,
+    icon:UploadFileIcon,
   },
   {
     to: "/group-formation",
     name: "Group Formation",
     components: <GroupFormation />,
+    icon:GroupAddIcon,
   },
   {
     to: "/idea-submission",
     name: "Idea Submission",
     components: <IdeaSubmission />,
+    icon:TipsAndUpdatesIcon,
   },
 ];
 export const supervisorLinks = [
