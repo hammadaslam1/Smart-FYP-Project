@@ -314,7 +314,7 @@ const Appbar = () => {
                   </ListItemIcon> */}
                 {/* <Typography>{link.name}</Typography> */}
                 <ListItemText
-                  primary={open ? link.name : <link.icon sx={{color:"#08422D"}}/>}
+                  primary={open ?<><link.icon sx={{color:"#08422D"}}/><span style={{position:"relative",bottom:"7px"}}> {link.name}</span></> : <link.icon sx={{color:"#08422D"}}/>}
                   sx={{ fontSize: "10pt" }}
                 />
               </ListItemButton>
