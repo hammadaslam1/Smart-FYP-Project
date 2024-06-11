@@ -303,18 +303,18 @@ const Appbar = () => {
                 }}
                 onClick={() => navigate(link.to)}
               >
-                {/* <ListItemIcon
+                <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
                     }}
                   >
-                    {data}
-                  </ListItemIcon> */}
+                    <link.icon  sx={{color:"#08422D"}}/>
+                  </ListItemIcon>
                 {/* <Typography>{link.name}</Typography> */}
                 <ListItemText
-                  primary={open ?<><link.icon sx={{color:"#08422D"}}/><span style={{position:"relative",bottom:"7px"}}> {link.name}</span></> : <link.icon sx={{color:"#08422D"}}/>}
+                  primary={open && link.name}
                   sx={{ fontSize: "10pt" }}
                 />
               </ListItemButton>

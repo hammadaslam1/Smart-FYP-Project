@@ -7,6 +7,14 @@ const CoordinatorDashboard = () => {
     <Box sx={{ pt: 10 }}>
       <h1>Coordinator Dashboard</h1>
       <div className="buttonsDiv">
+      <button
+          className="dashboardBigButton"
+          onClick={() => {
+            navigate("/fyp-groups");
+          }}
+        >
+          View FYP Groups
+        </button>
         <button
           className="dashboardBigButton"
           

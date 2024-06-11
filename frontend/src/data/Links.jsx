@@ -2,7 +2,7 @@ import AnnounceDocumentDate from "../screens/coordinator/AnnounceDocumentDate";
 import CoordinatorDashboard from "../screens/coordinator/CoordinatorDashboard";
 import ReportEvaluation from "../screens/coordinator/ReportEvaluation";
 import WeeklyProgressEvaluation from "../screens/coordinator/WeeklyProgressEvaluation";
-import HODdashboard from "../screens/hod/HODdashboard";
+import HODdashboard from "../screens/hod/HODDashboard";
 
 import AddWeeklyProgress from "../screens/student/AddWeeklyProgress";
 import DocumentationSubmission from "../screens/student/DocumentationSubmission";
@@ -21,6 +21,7 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TaskIcon from '@mui/icons-material/Task';
+import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
 export const studentLinks = [
   {
     to: "/",
@@ -85,6 +86,12 @@ export const coordinatorLinks = [
     name: "Coordinator Dashboard",
     components: <CoordinatorDashboard />,
     icon:DashboardIcon,
+  },
+  {
+    to: "/fyp-groups",
+    name: "View FYP Groups",
+    components: <ViewFYPGroups/>,
+    icon:CampaignIcon,
   },
   {
     to: "/announce-document-date",

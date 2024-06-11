@@ -40,6 +40,7 @@ const GroupFormation = () => {
   };
   const handleClassChange = (e) => {
     const fypClass = e.target.value;
+    setMembers([]);
     setStudentClass(e.target.options[e.target.selectedIndex].text);
     try{
      const response = fetch(`http://localhost:3001/api/student/${fypClass}`).then((response) => response.json())
@@ -53,9 +54,28 @@ const GroupFormation = () => {
 
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // alert(`Team Lead: ${teamLead} \n Student Class: ${studentClass} \n Supervisor ${supervisor} \n Team Members: ${members}`)
-  }
+   const response = await fetch("http://localhost:3001/api/groups/insertgroup",{
+      method: "POST",
+      body: JSON.stringify({
+        team_lead: teamLead,
+        class: studentClass,
+        supervisor: supervisor,
+        members: members,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      }})
+      const json = await response.json();
+      if (!response.ok) {
+        console.error("there was an error in submitting the group");
+      }
+      if (response.ok) {
+        alert("shabash!");
+      }
+    };
+  
   useEffect(() => {
     handleSupervisors();
   }, []);
@@ -127,6 +147,7 @@ const GroupFormation = () => {
             color="success"
             sx={{ my: 1 }}
             multiple
+            value={members}
             placeholder="Members"
             options={students?students:["select class"]}
             onChange={(e,value)=>{setMembers(value)
