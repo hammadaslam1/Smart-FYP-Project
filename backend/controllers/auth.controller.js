@@ -5,17 +5,19 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../ENV.js";
 
 export const signup = async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role,id } = req.body;
 
   if (
     !name ||
     !email ||
     !password ||
     !role ||
+    !id ||
     name === "" ||
     email === "" ||
     password === "" ||
-    role === ""
+    role === ""||
+    id ===""
   ) {
     next(errorHandler(400, "All fields are required"));
   }
@@ -30,6 +32,7 @@ export const signup = async (req, res, next) => {
     email,
     password: hashedPassword,
     role,
+    id,
     verified: false
   });
 

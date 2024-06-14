@@ -47,6 +47,7 @@ import {
 import SignupSelect from "../inputs/SignupSelect.jsx";
 const RegisterForm = ({toggleProp}) => {
   const [name, setName] = useState("");
+  const [id,setId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -109,7 +110,8 @@ const RegisterForm = ({toggleProp}) => {
         email == "" &&
         name == "" &&
         confirmPassword == "" &&
-        role == ""
+        role == "" &&
+        id == ""
       ) {
         return dispatch(signinFailure("Please enter your password"));
       } else if (password != confirmPassword) {
@@ -128,6 +130,7 @@ const RegisterForm = ({toggleProp}) => {
           email: email,
           password: password,
           role: role,
+          id:id,
         }),
       });
       const data = await res.json();
@@ -136,7 +139,7 @@ const RegisterForm = ({toggleProp}) => {
       }
       if (res.ok) {
         console.log(data);
-        dispatch(signinSuccess(data));
+        // dispatch(signinSuccess(data));
         toggleProp();
         // navigate("/");
       }
@@ -181,6 +184,20 @@ const RegisterForm = ({toggleProp}) => {
             startDecorator={<PersonIcon sx={{ color: "#08422D" }} />}
           />
           <SignupInput
+            type="text"
+            variant="outlined"
+            value={id}
+            onChange={(e) => {
+              dispatch(removeError());
+              setId(e.target.value);
+            }}
+            placeholder="Enter University ID"
+            label="University ID"
+            helperText="*students will enter their student id i.e bsf2104040*"
+            required
+            startDecorator={<Mail sx={{ color: "#08422D" }} />}
+          />
+          <SignupInput
             type="email"
             variant="outlined"
             value={email}
@@ -190,7 +207,7 @@ const RegisterForm = ({toggleProp}) => {
             }}
             placeholder="Enter Email Address"
             label="Email Address"
-            helperText="We'll use your email address for registration"
+            helperText="Enter your university email address for registration"
             required
             startDecorator={<Mail sx={{ color: "#08422D" }} />}
           />

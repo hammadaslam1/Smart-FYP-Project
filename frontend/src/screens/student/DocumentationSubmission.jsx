@@ -44,9 +44,10 @@ const DocumentationSubmission = () => {
               label="Docuement Type*"
               color="success"
             >
-              <MenuItem value="Introduction">Introduction</MenuItem>
-              <MenuItem value="Thesis">Thesis</MenuItem>
-              <MenuItem value="Abstract">Abstract</MenuItem>
+              <MenuItem value="Introduction">Proposal</MenuItem>
+              <MenuItem value="Thesis">Defense</MenuItem>
+              <MenuItem value="Abstract">Documentation</MenuItem>
+              <MenuItem value="Abstract">Final Presentation</MenuItem>
             </Select>
           </FormControl>
           
