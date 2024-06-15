@@ -25,6 +25,7 @@ import SignupModal from "../modals/SignupModal";
 import { useNavigate } from "react-router-dom";
 import avatarImage from "../assets/avatars/user-avatar-happy.svg";
 import { signoutSuccess } from "../../redux/userReducer/userSlice";
+import { relative } from "path";
 
 const drawerWidth = 300;
 
@@ -152,6 +153,7 @@ const Appbar = () => {
           <div style={{ display: "flex", alignItems: "center" }}>
             {!open && (
               <IconButton
+                sx={{position:"relative",right:"13px"}}
                 size="large"
                 onClick={() => {
                   setOpen(!open);

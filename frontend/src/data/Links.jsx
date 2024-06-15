@@ -27,6 +27,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ManageGroups from "../screens/coordinator/ManageGroups";
 import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
 import GroupDetails from "../screens/coordinator/GroupDetails";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 export const studentLinks = [
   {
     to: "/",
@@ -106,7 +107,7 @@ export const coordinatorLinks = [
     to: "/view-fyp-groups",
     name: "View FYP Groups",
     components: <ViewFYPGroups />,
-    icon: DashboardIcon,
+    icon: VisibilityIcon,
     flag: true,
   },
   {
@@ -120,7 +121,7 @@ export const coordinatorLinks = [
     to: "/manage-groups",
     name: "Manage Groups",
     components: <ManageGroups />,
-    icon: VisibilityIcon,
+    icon: ManageAccountsIcon,
     flag: true,
   },
   {

@@ -87,6 +87,10 @@ const groupSchema = new Schema({
   finalevaluation:{
     type: [String],
     default: [""],
+  },
+  progress:{
+    type:Number,
+    default:0,
   }
 });
 

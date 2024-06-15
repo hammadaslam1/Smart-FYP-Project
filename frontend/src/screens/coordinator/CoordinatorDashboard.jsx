@@ -1,57 +1,53 @@
-import { Box } from "@mui/material";
+import { Box,Typography,Card} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../../components/buttons/PrimaryButton";
 
 const CoordinatorDashboard = () => {
   const navigate = useNavigate();
   return (
+    
     <Box sx={{ pt: 10 }}>
-      <h1>Coordinator Dashboard</h1>
-      <div className="buttonsDiv">
-        <button
-          className="dashboardBigButton"
-          onClick={() => {
+      <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
+      Coordinator Dashboard
+      </Typography>
+      <Card
+        sx={{
+          px: 3,
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+        elevation={0}
+      >
+        <PrimaryButton   onClick={() => {
             navigate("/view-fyp-groups");
-          }}
-        >
+          }} sx={{ width: "33%", height: "150px", my: 1 }}>
           View FYP Groups
-        </button>
-        <button
-          className="dashboardBigButton"
-          onClick={() => {
+        </PrimaryButton>
+        <PrimaryButton  onClick={() => {
             navigate("/manage-groups");
-          }}
-        >
-          Manage Groups
-        </button>
-        <button
-          className="dashboardBigButton"
-          onClick={() => {
+          }} sx={{ width: "33%", height: "150px", my: 1 }}>
+        Manage Groups
+        </PrimaryButton>
+        <PrimaryButton  onClick={() => {
             navigate("/manage-project-ideas");
-          }}
-        >
+          }} sx={{ width: "33%", height: "150px", my: 1 }}>
           Manage Project Ideas
-        </button>
-        <button
-          className="dashboardBigButton"
-          onClick={() => {
+        </PrimaryButton>
+        <PrimaryButton  onClick={() => {
             navigate("/weekly-progress-evaluation");
-          }}
-        >
+          }} sx={{ width: "33%", height: "150px", my: 1 }}>
           Evaluate Weekly Progress
-        </button>
-        <button
-          className="dashboardBigButton"
-          onClick={() => {
+        </PrimaryButton>
+        <PrimaryButton  onClick={() => {
             navigate("/report-evaluation");
-          }}
-        >
-          Report Evaluation
-        </button>
-        {/* //yahan jugaar hua hai Evaluate Documentation asli name */}
-        <button className="dashboardBigButton">
-          View Student Final Report
-        </button>
-      </div>
+          }} sx={{ width: "33%", height: "150px", my: 1 }}>
+           Report Evaluation
+        </PrimaryButton>
+        <PrimaryButton sx={{ width: "33%", height: "150px", my: 1 }}>
+        View Student Final Report
+        </PrimaryButton>
+      </Card>
     </Box>
   );
 };

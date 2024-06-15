@@ -1,10 +1,12 @@
-import { Box, Card, Typography, Tooltip, Chip } from "@mui/material";
+import { Box, Card, Typography, Tooltip, Chip, Slider,  } from "@mui/material";
 import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
-
+import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import LinearProgressWithLabel from '../../components/progress/LinearProgressWithLabel'
 const ViewFYPGroups = () => {
   const [groups, setGroups] = useState([]);
+  const [progress,setProgess] = useState(30);
   const getAllGroups = async () => {
     const response = await fetch("http://localhost:3001/api/groups/getgroups");
     const data = await response.json();
@@ -31,7 +33,7 @@ const ViewFYPGroups = () => {
         {groups &&
           groups.map((data, i) => (
             <Box onClick={() => alert("clicked")} sx={{ cursor: "pointer" }}>
-              <Tooltip title={"data.title"} followCursor>
+              <Tooltip title= {data.idea.title===""?"Title Not Selected":data.idea.title} >
                 <Card
                   elevation={0}
                   key={i}
@@ -42,7 +44,7 @@ const ViewFYPGroups = () => {
                     border: "2px solid #c4c4c4",
                     width: "400px",
                     "&:hover": {
-                        boxShadow: "0 2px 15px 5px #b3b3b3",
+                      boxShadow: "0 2px 15px 5px #b3b3b3",
                       border: "2px solid transparent",
                       // boxShadow: 10,
                     },
@@ -57,7 +59,7 @@ const ViewFYPGroups = () => {
                   >
                     <AvatarGroup max={3} min={2}>
                       {new Array(data.members.length).fill(1).map((j) => (
-                      <Avatar />
+                        <Avatar />
                       ))}
                     </AvatarGroup>
                   </Box>
@@ -68,9 +70,10 @@ const ViewFYPGroups = () => {
                     sx={{ maxHeight: 100, my: 1 }}
                     noWrap
                   >
-                    {
+                    {data.idea.title===""?"Title Not Selected":data.idea.title}
+                    {/* {
                       "customer reviews classification and analysis system using data mining and nlp"
-                    }
+                    } */}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -88,6 +91,9 @@ const ViewFYPGroups = () => {
                     color={"#585858"}
                     sx={{ my: 1 }}
                   >
+                    <RecordVoiceOverIcon
+                      sx={{ position: "relative", top: "3px", right: "2px" }}
+                    />
                     {data.supervisor}
                   </Typography>
                   <Typography
@@ -103,6 +109,7 @@ const ViewFYPGroups = () => {
                       label={data.status ? "Approved" : "Pending"}
                     />
                   </Typography>
+                    <LinearProgressWithLabel color="success"  value={progress} />
                 </Card>
               </Tooltip>
             </Box>
