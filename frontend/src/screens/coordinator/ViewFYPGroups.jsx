@@ -1,150 +1,115 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-unused-vars */
-import {
-    Box,
-    Button,
-    Card,
-    Chip,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    styled,
-    tableCellClasses,
-  } from "@mui/material";
-  import { useEffect, useState } from "react";
-  import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
-  import PrimaryButton from "../../components/buttons/PrimaryButton";
-  import { basicInfo } from "../../data/BasicInfo";
-  
-  const StyledHeadCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#08422D",
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-  
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-  
-  const ViewFYPGroups = () => {
-    const [flag, setFlag] = useState(false);
-    const [groups,setGroups] = useState([]);
-    const getGroups = async () => {
-      const response = await fetch("http://localhost:3001/api/groups/getgroups");
-      const data = await response.json();
-      setGroups(data);
-    };
-    const handleGroupStatus = async (row) => {
-        const response = await fetch("http://localhost:3001/api/groups/updategroup/"+row._id, {
-            method: "PUT",
-            body: JSON.stringify(row),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        const data = await response.json();
-        if(response){
-            setFlag(prev => !prev)
-        }
-        
-      };
-    
-    useEffect(() => {
-      getGroups();
-    },[flag]);
-    return (
-      <Box>
-        <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
-          FYP Groups
-        </Typography>
-        <Card sx={{ p: 3 }} elevation={0}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead sx={{ backgroundColor: "#08422D" }}>
-                <TableRow>
-                  <StyledHeadCell>Team Lead</StyledHeadCell>
-                  <StyledHeadCell align="left">Class</StyledHeadCell>
-                  <StyledHeadCell align="left">Members</StyledHeadCell>
-                  <StyledHeadCell align="left">Supervisor</StyledHeadCell>
-                  <StyledHeadCell align="left">Status</StyledHeadCell>
-                  <StyledHeadCell align="left">Action</StyledHeadCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {groups.length>0 && groups.map((row) => (
-                  <StyledTableRow key={row._id}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.team_lead}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.class}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.members.join(', ')}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.supervisor}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <Chip
-                        label={row.status?"Approved":"Pending"}
-                        sx={{
-                          backgroundColor:
-                            row.status? "#0f0" : "#f00",
-                          color: "#fff",
-                          "&:hover": {
-                            backgroundColor:
-                              row.status
-                                ? "#0f0"
-                                : "#f00",
-                            color: "#fff",
-                          },
-                        }}
-                        disableFocusRipple
-                        disableElevation
-                        disableRipple
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <PrimaryButton
-                      onClick={()=>{handleGroupStatus(row)}}
-                      >{row.status?"Reject":"Approve"}</PrimaryButton>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                  
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Card>
-      </Box>
-    );
+import { Box, Card, Typography, Tooltip, Chip } from "@mui/material";
+import { useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
+
+const ViewFYPGroups = () => {
+  const [groups, setGroups] = useState([]);
+  const getAllGroups = async () => {
+    const response = await fetch("http://localhost:3001/api/groups/getgroups");
+    const data = await response.json();
+    setGroups(data);
   };
-  
-  export default ViewFYPGroups;
-  
+  useEffect(() => {
+    getAllGroups();
+  }, []);
+  const elevate = () => {
+    return 7;
+  };
+  return (
+    <Box sx={{ mt: 10, p: 3 }}>
+      <Typography variant="h2">All FYP Groups</Typography>
+      <Card elevation={0}>filter card</Card>
+      <Card
+        elevation={0}
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          flexWrap: "wrap",
+        }}
+      >
+        {groups &&
+          groups.map((data, i) => (
+            <Box onClick={() => alert("clicked")} sx={{ cursor: "pointer" }}>
+              <Tooltip title={"data.title"} followCursor>
+                <Card
+                  elevation={0}
+                  key={i}
+                  sx={{
+                    m: 2,
+                    p: 3,
+                    borderRadius: 4,
+                    border: "2px solid #c4c4c4",
+                    width: "400px",
+                    "&:hover": {
+                        boxShadow: "0 2px 15px 5px #b3b3b3",
+                      border: "2px solid transparent",
+                      // boxShadow: 10,
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      my: 1,
+                    }}
+                  >
+                    <AvatarGroup max={3} min={2}>
+                      {new Array(data.members.length).fill(1).map((j) => (
+                      <Avatar />
+                      ))}
+                    </AvatarGroup>
+                  </Box>
+                  <Typography
+                    variant="h5"
+                    color={"#474747"}
+                    fontWeight={600}
+                    sx={{ maxHeight: 100, my: 1 }}
+                    noWrap
+                  >
+                    {
+                      "customer reviews classification and analysis system using data mining and nlp"
+                    }
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    fontWeight={600}
+                    color={"#808080"}
+                    sx={{ my: 1 }}
+                  >
+                    {data.members.join(", ")}
+                  </Typography>
+                  {/* <Typography variant="body1">{data.members[0]}</Typography> */}
+                  {/* <Typography variant="body1">{data.members.join(", ")}</Typography> */}
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    color={"#585858"}
+                    sx={{ my: 1 }}
+                  >
+                    {data.supervisor}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ display: "flex", justifyContent: "flex-end", my: 1 }}
+                  >
+                    <Chip
+                      sx={{
+                        backgroundColor: data.status ? "#0f0" : "#f00",
+                        color: "#fff",
+                        fontWeight: "600",
+                      }}
+                      label={data.status ? "Approved" : "Pending"}
+                    />
+                  </Typography>
+                </Card>
+              </Tooltip>
+            </Box>
+          ))}
+      </Card>
+    </Box>
+  );
+};
+
+export default ViewFYPGroups;

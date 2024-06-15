@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 
-const ManageProjectIdeas = () => {
+const GroupDetails = () => {
     return ( 
-        <Box sx={{pt:10}}>
+        <Box sx={{mt:10, p:3}}>
             i am manage project ideas
         </Box>
      );
 }
  
-export default ManageProjectIdeas;
+export default GroupDetails;

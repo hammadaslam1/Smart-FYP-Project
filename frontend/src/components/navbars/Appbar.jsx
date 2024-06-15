@@ -18,15 +18,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PrimaryButton from "../buttons/PrimaryButton";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LOGO from "../assets/logos/uelogo.png";
 import LoginModal from "../modals/LoginModal";
 import SignupModal from "../modals/SignupModal";
 import { useNavigate } from "react-router-dom";
-import avatarImage from "../assets/avatars/user-avatar-happy.svg"
-import {
-  signoutSuccess
-} from "../../redux/userReducer/userSlice";
+import avatarImage from "../assets/avatars/user-avatar-happy.svg";
+import { signoutSuccess } from "../../redux/userReducer/userSlice";
 
 const drawerWidth = 300;
 
@@ -118,10 +116,9 @@ const Appbar = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState();
   const currentUser = useSelector((state) => state.user.currentUser);
-  if(currentUser)
-    {
-      const myUser = currentUser;
-    }
+  if (currentUser) {
+    const myUser = currentUser;
+  }
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const navigate = useNavigate();
@@ -212,21 +209,21 @@ const Appbar = () => {
               onClick={() => {
                 if (currentUser) {
                   // signOut(auth);
-                 fetch("http://localhost:3001/api/auth/signout", {
-                  method: "POST", // or "GET", "PUT", etc. depending on your server's requirements
-                  credentials: "include" // if you need to send cookies or authentication headers
-                })
-                  .then(response => {
-                    if (response.ok) {
-                      dispatch(signoutSuccess());
-                      console.log("ok ok ok");
-                    } else {
-                      // handle sign-out error
-                    }
+                  fetch("http://localhost:3001/api/auth/signout", {
+                    method: "POST", // or "GET", "PUT", etc. depending on your server's requirements
+                    credentials: "include", // if you need to send cookies or authentication headers
                   })
-                  .catch(error => {
-                    // handle fetch error
-                  });
+                    .then((response) => {
+                      if (response.ok) {
+                        dispatch(signoutSuccess());
+                        console.log("ok ok ok");
+                      } else {
+                        // handle sign-out error
+                      }
+                    })
+                    .catch((error) => {
+                      // handle fetch error
+                    });
                 } else {
                   setOpenLogin(true);
                 }
@@ -292,49 +289,52 @@ const Appbar = () => {
               {link.name}
             </Typography> */}
         <List>
-          {linkArray.map((link, index) => (
-            // data.category == cat &&
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-                onClick={() => navigate(link.to)}
-              >
-                <ListItemIcon
+          {linkArray.map(
+            (link, index) =>
+              // data.category == cat &&
+              link.flag && (
+                <ListItem disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
+                    onClick={() => navigate(link.to)}
                   >
-                    <link.icon  sx={{color:"#08422D"}}/>
-                  </ListItemIcon>
-                {/* <Typography>{link.name}</Typography> */}
-                <ListItemText
-                  primary={open && link.name}
-                  sx={{ fontSize: "10pt" }}
-                />
-              </ListItemButton>
-            </ListItem>
-            // <Typography>{index}</Typography>
-          ))}
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <link.icon sx={{ color: "#08422D" }} />
+                    </ListItemIcon>
+                    {/* <Typography>{link.name}</Typography> */}
+                    <ListItemText
+                      primary={open && link.name}
+                      sx={{ fontSize: "10pt" }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+              // <Typography>{index}</Typography>
+          )}
         </List>
         {/* </div>
         ))} */}
         <DrawerFooter>
           <IconButton size="large" onClick={() => setOpen(!open)}>
-            <Avatar sx={{marginLeft:"-10px"}} src={avatarImage} />
+            <Avatar sx={{ marginLeft: "-10px" }} src={avatarImage} />
           </IconButton>
           <div>
-            {
-              currentUser && <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
-              {currentUser.name}
-              {/* Footer */}
-            </Typography>
-            }
+            {currentUser && (
+              <Typography variant="h6" sx={{ marginX: 3, fontWeight: 500 }}>
+                {currentUser.name}
+                {/* Footer */}
+              </Typography>
+            )}
           </div>
         </DrawerFooter>
       </Drawer>

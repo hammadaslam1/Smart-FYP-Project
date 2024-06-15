@@ -7,10 +7,10 @@ const CoordinatorDashboard = () => {
     <Box sx={{ pt: 10 }}>
       <h1>Coordinator Dashboard</h1>
       <div className="buttonsDiv">
-      <button
+        <button
           className="dashboardBigButton"
           onClick={() => {
-            navigate("/fyp-groups");
+            navigate("/view-fyp-groups");
           }}
         >
           View FYP Groups
@@ -18,10 +18,18 @@ const CoordinatorDashboard = () => {
         <button
           className="dashboardBigButton"
           onClick={() => {
+            navigate("/manage-groups");
+          }}
+        >
+          Manage Groups
+        </button>
+        <button
+          className="dashboardBigButton"
+          onClick={() => {
             navigate("/manage-project-ideas");
           }}
         >
-         Manage Project Ideas
+          Manage Project Ideas
         </button>
         <button
           className="dashboardBigButton"
@@ -37,14 +45,10 @@ const CoordinatorDashboard = () => {
             navigate("/report-evaluation");
           }}
         >
-         Report Evaluation
-          
+          Report Evaluation
         </button>
         {/* //yahan jugaar hua hai Evaluate Documentation asli name */}
-        <button
-          className="dashboardBigButton"
-          
-        >
+        <button className="dashboardBigButton">
           View Student Final Report
         </button>
       </div>
