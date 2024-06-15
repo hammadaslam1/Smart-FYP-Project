@@ -23,6 +23,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import TaskIcon from '@mui/icons-material/Task';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
+import ManageProjectIdeas from "../screens/coordinator/ManageProjectIdeas";
 export const studentLinks = [
   {
     to: "/",
@@ -87,7 +88,13 @@ export const coordinatorLinks = [
     name: "Coordinator Dashboard",
     components: <CoordinatorDashboard />,
     icon:DashboardIcon,
-  },
+  },{
+    to: "/manage-project-ideas",
+    name: "Manage Project Ideas",
+    components: <ManageProjectIdeas />,
+    icon:DashboardIcon,
+  }
+  ,
   {
     to: "/fyp-groups",
     name: "View FYP Groups",

@@ -37,3 +37,12 @@ export const updateGroup = async (req, res) => {
   }
   res.status(200).json(group);
 };
+// export const insertProjectIdea = async (req,res)=> {
+//   const ProjectIdea = getGroupModel();
+//   try {
+//     const projectIdea = await ProjectIdea.create(req.body);
+//     res.status(200).json(projectIdea);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// }

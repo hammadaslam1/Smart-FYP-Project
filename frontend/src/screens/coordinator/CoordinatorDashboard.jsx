@@ -17,9 +17,11 @@ const CoordinatorDashboard = () => {
         </button>
         <button
           className="dashboardBigButton"
-          
+          onClick={() => {
+            navigate("/manage-project-ideas");
+          }}
         >
-          Project Idea Approval
+         Manage Project Ideas
         </button>
         <button
           className="dashboardBigButton"

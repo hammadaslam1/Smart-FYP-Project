@@ -12,34 +12,82 @@ const groupSchema = new Schema({
     default: false
   },
   idea:{
-    title:String,
-    description:String,
+    title:{
+      type: String,
+      default: "",
+    },
+    description:{
+      type: String,
+      default: "",
+    },
   },
-  weeklyreport:[Object],
+  weeklyreport:{
+    type: [Object],
+    default: [{}],
+  },
   documentation:{
     proposal:{
-      filename:String,
-      path:String,
-      evalutaion:[String],
+      filename:{
+        type: String,
+        default: "",
+      },
+      path:{
+        type: String,
+        default: "",
+      },
+      evalutaion:{
+        type: [String],
+        default: [""],
+      },
     },
     defense:{
-      filename:String,
-      path:String,
-      evalutaion:[String],
+      filename:{
+        type: String,
+        default: "",
+      },
+      path:{
+        type: String,
+        default: "",
+      },
+      evalutaion:{
+        type: [String],
+        default: [""],
+      },
 
     },
     documentation:{
-      filename:String,
-      path:String,
-      evalutaion:[String],
+      filename:{
+        type: String,
+        default: "",
+      },
+      path:{
+        type: String,
+        default: "",
+      },
+      evalutaion:{
+        type: [String],
+        default: [''],
+      },
     },
     presentation:{
-      filename:String,
-      path:String,
-      evalutaion:[String],
+      filename:{
+        type: String,
+        default: "",
+      },
+      path:{
+        type: String,
+        default: "",
+      },
+      evalutaion:{
+        type: [String],
+        default: [""],
+      },
     },
   },
-  finalevaluation:[String]
+  finalevaluation:{
+    type: [String],
+    default: [""],
+  }
 });
 
 const getGroupModel = (getAllGroups) => {
