@@ -4,7 +4,6 @@
 import "./App.css";
 import AddWeeklyProgress from "./screens/student/AddWeeklyProgress";
 import DocumentationSubmission from "./screens/student/DocumentationSubmission";
-
 import Navigations from "./routes/Navigations";
 import StudentDashboard from "./screens/student/StudentDashboard";
 import WeeklyProgressEvaluation from "./screens/coordinator/WeeklyProgressEvaluation";
@@ -31,11 +30,9 @@ import Login from "./screens/Login";
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
-  if(currentUser)
-    {
-      console.log("jugaar",currentUser);
-
-    }
+  if (currentUser) {
+    console.log("jugaar", currentUser);
+  }
   // useEffect(() => {
   if (currentUser && currentUser.role == "Student") {
     dispatch(toggleLink(studentLinks));

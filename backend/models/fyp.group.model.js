@@ -55,7 +55,7 @@ const groupSchema = new Schema({
       },
 
     },
-    documentation:{
+    final_documentation:{
       filename:{
         type: String,
         default: "",

@@ -4,7 +4,9 @@ import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import LinearProgressWithLabel from '../../components/progress/LinearProgressWithLabel'
+import { useNavigate } from "react-router-dom";
 const ViewFYPGroups = () => {
+  const navigate = useNavigate();
   const [groups, setGroups] = useState([]);
   const [progress,setProgess] = useState(30);
   const getAllGroups = async () => {
@@ -32,7 +34,9 @@ const ViewFYPGroups = () => {
       >
         {groups &&
           groups.map((data, i) => (
-            <Box onClick={() => alert("clicked")} sx={{ cursor: "pointer" }}>
+            <Box onClick={()=>{navigate('/group-details',{
+              state:data
+            })}} sx={{ cursor: "pointer" }}>
               <Tooltip title= {data.idea.title===""?"Title Not Selected":data.idea.title} >
                 <Card
                   elevation={0}
