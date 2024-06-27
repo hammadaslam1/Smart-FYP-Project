@@ -10,7 +10,8 @@ import groupsRoutes from "./routes/fyp.group.route.js";
 import { connString } from "../ENV.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-
+import bodyParser from 'body-parser';
+import multer from "multer";
 dotenv.config();
 
 mongoose
@@ -28,7 +29,8 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
-
+app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -60,3 +62,4 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+

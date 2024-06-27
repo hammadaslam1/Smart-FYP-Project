@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const groupSchema = new Schema({
-  team_lead: Object,
+  teamLead: Object,
   class: String,
   supervisor: String,
   members: [Object],
@@ -35,6 +35,10 @@ const groupSchema = new Schema({
         type: String,
         default: "",
       },
+      contentType:{
+        type: String,
+        default: "",
+      },
       evalutaion:{
         type: [String],
         default: [""],
@@ -46,6 +50,11 @@ const groupSchema = new Schema({
         default: "",
       },
       path:{
+        type: String,
+        default: "",
+      }
+      ,
+      contentType:{
         type: String,
         default: "",
       },
@@ -64,6 +73,10 @@ const groupSchema = new Schema({
         type: String,
         default: "",
       },
+      contentType:{
+        type: String,
+        default: "",
+      },
       evalutaion:{
         type: [String],
         default: [''],
@@ -75,6 +88,10 @@ const groupSchema = new Schema({
         default: "",
       },
       path:{
+        type: String,
+        default: "",
+      },
+      contentType:{
         type: String,
         default: "",
       },

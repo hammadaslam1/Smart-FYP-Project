@@ -24,10 +24,10 @@ const GroupDetails = () => {
           Supervisor: {state.supervisor}{" "}
         </Typography>
         <Typography variant="h4" textAlign="center">
-          Team Lead: {state.team_lead}{" "}
+          Team Lead: {state.teamLead}{" "}
         </Typography>
       </Box>
-      <Box
+      <Box 
         sx={{
           width: "100%",
           border: "1px solid red",

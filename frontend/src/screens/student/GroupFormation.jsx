@@ -45,24 +45,34 @@ const GroupFormation = () => {
     try{
      const response = fetch(`http://localhost:3001/api/student/${fypClass}`).then((response) => response.json())
      .then((responseData) => {
-       const studentNames = responseData.map(
-         (student) => student.student_name
+       const studentInfo = responseData.map(
+         (student) => `${student.student_name} | ${student.student_id}`
        );
-       setStudents(studentNames);
+       console.log(studentInfo)
+       setStudents(studentInfo);
      }).catch((error)=>{ console.error(error)})
     }catch{
 
     }
   };
   const handleSubmit = async () => {
+    const splitarray = members.map(member => {
+      const temp = member.split(' | ')
+      const obj = {
+        student_name: temp[0],
+        student_id: temp[1]
+      }
+      return obj;
+    })
     // alert(`Team Lead: ${teamLead} \n Student Class: ${studentClass} \n Supervisor ${supervisor} \n Team Members: ${members}`)
    const response = await fetch("http://localhost:3001/api/groups/insertgroup",{
+    
       method: "POST",
       body: JSON.stringify({
         team_lead: teamLead,
         class: studentClass,
         supervisor: supervisor,
-        members: members,
+        members: splitarray,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -152,6 +162,7 @@ const GroupFormation = () => {
             options={students?students:["select class"]}
             onChange={(e,value)=>{setMembers(value)
             }}
+            
             renderInput={(params) => (
               <TextField
                 {...params}
