@@ -15,13 +15,13 @@ import "../../styles/studentcomponentsstyles/selectgroup.css";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useEffect, useState } from "react";
 const GroupFormation = () => {
- 
   const [students, setStudents] = useState(null);
   const [supervisors, setSupervisors] = useState(null);
-  const [teamLead,setTeamLead] = useState("");
-  const [studentClass,setStudentClass] = useState("");
-  const [supervisor,setSupervisor] = useState("");
-  const [members,setMembers] = useState([]);
+  const [teamLead, setTeamLead] = useState("");
+  const [studentClass, setStudentClass] = useState("");
+  const [shift, setShift] = useState("");
+  const [supervisor, setSupervisor] = useState("");
+  const [members, setMembers] = useState([]);
   const handleSupervisors = async () => {
     try {
       await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
@@ -38,54 +38,59 @@ const GroupFormation = () => {
       console.error(error);
     }
   };
-  const handleClassChange = (e) => {
-    const fypClass = e.target.value;
+  const handleClassChange = async (e) => {
+    const fypShift = e.target.value;
     setMembers([]);
-    setStudentClass(e.target.options[e.target.selectedIndex].text);
-    try{
-     const response = fetch(`http://localhost:3001/api/student/${fypClass}`).then((response) => response.json())
-     .then((responseData) => {
-       const studentInfo = responseData.map(
-         (student) => `${student.student_name} | ${student.student_id}`
-       );
-       console.log(studentInfo)
-       setStudents(studentInfo);
-     }).catch((error)=>{ console.error(error)})
-    }catch{
-
+    setShift(e.target.value);
+  
+    try {
+      const response = await fetch(`http://localhost:3001/api/student/`);
+      const responseData = await response.json();
+  
+      const studentInfo = responseData
+        .filter((student) => fypShift === student.shift)
+        .map((student) => `${student.student_name} | ${student.student_id}`);
+      setStudents(studentInfo);
+    } catch (error) {
+      console.error(error);
     }
   };
+  
   const handleSubmit = async () => {
-    const splitarray = members.map(member => {
-      const temp = member.split(' | ')
+    const splitarray = members.map((member) => {
+      const temp = member.split(" | ");
       const obj = {
         student_name: temp[0],
-        student_id: temp[1]
-      }
+        student_id: temp[1],
+      };
       return obj;
-    })
+    });
     // alert(`Team Lead: ${teamLead} \n Student Class: ${studentClass} \n Supervisor ${supervisor} \n Team Members: ${members}`)
-   const response = await fetch("http://localhost:3001/api/groups/insertgroup",{
-    
-      method: "POST",
-      body: JSON.stringify({
-        team_lead: teamLead,
-        class: studentClass,
-        supervisor: supervisor,
-        members: splitarray,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      }})
-      const json = await response.json();
-      if (!response.ok) {
-        console.error("there was an error in submitting the group");
+    const response = await fetch(
+      "http://localhost:3001/api/groups/insertgroup",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          team_lead: teamLead,
+          class: studentClass,
+          supervisor: supervisor,
+          shift:shift,
+          members: splitarray,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-      if (response.ok) {
-        alert("shabash!");
-      }
-    };
-  
+    );
+    const json = await response.json();
+    if (!response.ok) {
+      console.error("there was an error in submitting the group");
+    }
+    if (response.ok) {
+      alert("shabash!");
+    }
+  };
+
   useEffect(() => {
     handleSupervisors();
   }, []);
@@ -106,25 +111,26 @@ const GroupFormation = () => {
           color="success"
           onChange={(e) => setTeamLead(e.target.value)}
         />
+         <SignupInput
+          label="Class"
+          placeholder="Enter Class Name"
+          color="success"
+          onChange={(e) => setStudentClass(e.target.value)}
+        />
         <FormControl sx={{ my: 2 }} fullWidth>
-          <label id="demo-simple-select-label" color="success">
-            Class
-          </label>
-          <select
-            style={{
-              width: '100%',
-              height:"50px"
-            }}
+        <InputLabel id="demo-simple-select-label" color="success">
+            Shift
+          </InputLabel>
+          <Select
             color="success"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Docuement Type*"
+            label="Shift"
             onChange={handleClassChange}
           >
-            <option value="">Select Class</option>
-            <option value="morning-students">BSCS 7th Morning</option>
-            <option value="evening-students">BSIT 7th Evening</option>
-          </select>
+            <MenuItem value="morning">Morning</MenuItem>
+            <MenuItem value="evening">Evening</MenuItem>
+          </Select>
         </FormControl>
         <FormControl sx={{ my: 2 }} fullWidth>
           <InputLabel id="demo-simple-select-label" color="success">
@@ -136,7 +142,9 @@ const GroupFormation = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Docuement Type*"
-              onChange={(e)=>{setSupervisor(e.target.value)}}
+              onChange={(e) => {
+                setSupervisor(e.target.value);
+              }}
             >
               {supervisors.map((supervisor) => (
                 <MenuItem value={supervisor}>{supervisor}</MenuItem>
@@ -151,32 +159,32 @@ const GroupFormation = () => {
         >
           Note! Select Minimum 1 and Maximum 2 members for group
         </Typography>
-        
-          <Autocomplete
-            disabled={!students}
-            color="success"
-            sx={{ my: 1 }}
-            multiple
-            value={members}
-            placeholder="Members"
-            options={students?students:["select class"]}
-            onChange={(e,value)=>{setMembers(value)
-            }}
-            
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Members"
-                placeholder="Members"
-              />
-            )}
-          />
-   
 
-        <PrimaryButton 
-        onClick={handleSubmit}
-        sx={{ my: 1, width: "150px", height: "50px" }}>
+        <Autocomplete
+          disabled={!students}
+          color="success"
+          sx={{ my: 1 }}
+          multiple
+          value={members}
+          placeholder="Members"
+          options={students ? students : ["select class"]}
+          onChange={(e, value) => {
+            setMembers(value);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Members"
+              placeholder="Members"
+            />
+          )}
+        />
+
+        <PrimaryButton
+          onClick={handleSubmit}
+          sx={{ my: 1, width: "150px", height: "50px" }}
+        >
           Submit
         </PrimaryButton>
       </Card>

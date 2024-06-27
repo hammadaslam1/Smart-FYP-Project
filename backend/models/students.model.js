@@ -6,10 +6,21 @@ const studentSchema = new Schema({
   student_id: String,
   student_name: String,
   id_: String,
+  group:{
+    group_id:{
+      type: String,
+      default: "",
+    },
+    status:{
+      type: Boolean,
+      default: "",
+    },
+    shift:String, 
+  }
 });
 
-const getStudentModel = (getAllStudents) => {
-  return mongoose.model(getAllStudents, studentSchema);
+const getStudentModel = () => {
+  return mongoose.model("students", studentSchema);
 };
 
 export default getStudentModel;

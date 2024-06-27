@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const groupSchema = new Schema({
   teamLead: Object,
   class: String,
+  shift:String,
   supervisor: String,
   members: [Object],
   status:{

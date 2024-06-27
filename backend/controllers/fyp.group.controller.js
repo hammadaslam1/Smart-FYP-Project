@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 import getGroupModel from '../models/fyp.group.model.js';
+import getStudentModel from "../models/students.model.js";
 export const insertGroup = async (req, res) => {
     const groupObject = req.body;
     const Group = getGroupModel();
     try {
       const group = await Group.create(groupObject);
+      console.log(group)
+      const {members} = group
+      members.map((member)=>{
+        const student = getStudentModel()
+      })
       res.status(200).json(group);
     } catch (error) {
       res.status(400).json({ error: error.message });
