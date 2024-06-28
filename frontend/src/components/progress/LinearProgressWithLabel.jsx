@@ -8,10 +8,10 @@ function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress sx={{height:"8px",borderRadius:"5px"}} variant="determinate" {...props} />
+        <LinearProgress sx={{height:"8px",borderRadius:"5px"}}  variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
+        <Typography variant="body2"  color="text.secondary">{`${Math.round(
           props.value,
         )}%`}</Typography>
       </Box>
