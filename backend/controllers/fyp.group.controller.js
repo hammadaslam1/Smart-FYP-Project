@@ -1,21 +1,37 @@
 import mongoose from "mongoose";
-import getGroupModel from '../models/fyp.group.model.js';
+import getGroupModel from "../models/fyp.group.model.js";
 import getStudentModel from "../models/students.model.js";
 export const insertGroup = async (req, res) => {
-    const groupObject = req.body;
-    const Group = getGroupModel();
-    try {
-      const group = await Group.create(groupObject);
-      console.log(group)
-      const {members} = group
-      members.map((member)=>{
-        const student = getStudentModel()
-      })
-      res.status(200).json(group);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+  const groupObject = req.body;
+  const Group = getGroupModel();
+  const Student = getStudentModel();
+  try {
+    const group = await Group.create(groupObject);
+    console.log(group);
+    const { members } = group;
+    const groupID = group._id;
+    for (const member of members) {
+      try {
+        const student = await Student.findOne({
+          student_id: member.student_id,
+        });
+        if (!student) {
+          console.log(`Student with ID ${member.student_id} not found`);
+          continue; // Skip to the next iteration
+        }
+        console.log(student);
+        student.group.group_id = groupID;
+        student.group.status = true;
+        await student.save();
+      } catch (error) {
+        console.error("Error finding student:", error);
+      }
     }
-  };
+    res.status(200).json(group);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 export const getGroups = async (req, res) => {
   const Group = getGroupModel();
   try {
@@ -35,7 +51,7 @@ export const updateGroup = async (req, res) => {
     { _id: id },
     {
       ...req.body,
-      status:!req.body.status
+      status: !req.body.status,
     }
   );
   if (!group) {
@@ -43,7 +59,7 @@ export const updateGroup = async (req, res) => {
   }
   res.status(200).json(group);
 };
-export const insertProjectIdea = async (req,res)=> {
+export const insertProjectIdea = async (req, res) => {
   const ProjectIdea = getGroupModel();
   try {
     const projectIdea = await ProjectIdea.create(req.body);
@@ -51,4 +67,4 @@ export const insertProjectIdea = async (req,res)=> {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-}
+};

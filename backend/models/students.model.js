@@ -13,7 +13,7 @@ const studentSchema = new Schema({
     },
     status:{
       type: Boolean,
-      default: "",
+      default: false,
     },
     shift:String, 
   }
