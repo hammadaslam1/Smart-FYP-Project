@@ -25,17 +25,31 @@ import {
 import LoginForm from "./components/forms/LoginForm";
 import RegisterForm from "./components/forms/RegisterForm";
 import Login from "./screens/Login";
+import { setStudent } from "./redux/studentReducer/studentSlice";
 // import HODDashboard from "./screens/hod/HODDashboard";
 
 function App() {
   const currentUser = useSelector((state) => state.user.currentUser);
+  // const student = useSelector((state) => state.student.student);
   const dispatch = useDispatch();
+  const fetchStudent = () => {
+    fetch(`http://127.0.0.1:3001/api/student/getstudent/${currentUser.id}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        dispatch(setStudent(data));
+      })
+      .catch((error) => alert(error.message));
+  };
   if (currentUser) {
     console.log("jugaar", currentUser);
   }
   // useEffect(() => {
   if (currentUser && currentUser.role == "Student") {
     dispatch(toggleLink(studentLinks));
+    fetchStudent();
   } else if (currentUser && currentUser.role == "Coordinator") {
     dispatch(toggleLink(coordinatorLinks));
   } else if (currentUser && currentUser.role == "Supervisor") {
@@ -44,9 +58,8 @@ function App() {
     dispatch(toggleLink(hodLinks));
   } else if (currentUser && currentUser.role == "Principal") {
     dispatch(toggleLink(principalLinks));
-  } else {
-    dispatch(toggleLink(studentLinks));
   }
+
   // }, []);
   return (
     // <IdeaApproval />
