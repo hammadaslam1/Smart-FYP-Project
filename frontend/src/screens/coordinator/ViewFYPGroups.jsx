@@ -75,9 +75,6 @@ const ViewFYPGroups = () => {
                     noWrap
                   >
                     {data.idea.title===""?"Title Not Selected":data.idea.title}
-                    {/* {
-                      "customer reviews classification and analysis system using data mining and nlp"
-                    } */}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -85,7 +82,12 @@ const ViewFYPGroups = () => {
                     color={"#808080"}
                     sx={{ my: 1 }}
                   >
-                    {data.members.join(", ")}
+                    {/* {data.members.join(", ")} */}
+                    {
+                      data.members.map((member)=>(
+                        <Typography>{member.student_name + " | " + member.student_id}</Typography>
+                      ))
+                    }
                   </Typography>
                   {/* <Typography variant="body1">{data.members[0]}</Typography> */}
                   {/* <Typography variant="body1">{data.members.join(", ")}</Typography> */}
@@ -96,7 +98,7 @@ const ViewFYPGroups = () => {
                     sx={{ my: 1 }}
                   >
                     <RecordVoiceOverIcon
-                      sx={{ position: "relative", top: "3px", right: "2px" }}
+                      sx={{ position: "relative", top: "3px", right: "4px" }}
                     />
                     {data.supervisor}
                   </Typography>

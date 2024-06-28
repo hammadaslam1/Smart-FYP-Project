@@ -48,7 +48,7 @@ const GroupFormation = () => {
       const responseData = await response.json();
   
       const studentInfo = responseData
-        .filter((student) => fypShift === student.shift)
+        .filter((student) => fypShift === student.shift && !student.group.status)
         .map((student) => `${student.student_name} | ${student.student_id}`);
       setStudents(studentInfo);
     } catch (error) {
@@ -71,7 +71,7 @@ const GroupFormation = () => {
       {
         method: "POST",
         body: JSON.stringify({
-          team_lead: teamLead,
+          teamLead: teamLead,
           class: studentClass,
           supervisor: supervisor,
           shift:shift,
@@ -109,7 +109,7 @@ const GroupFormation = () => {
           label="Team Lead"
           placeholder="Enter team lead"
           color="success"
-          onChange={(e) => setTeamLead(e.target.value)}
+          onChange={(e) => {setTeamLead(e.target.value)}}
         />
          <SignupInput
           label="Class"

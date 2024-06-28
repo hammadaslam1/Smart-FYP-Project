@@ -112,7 +112,7 @@ const groupSchema = new Schema({
   }
 });
 
-const getGroupModel = (getAllGroups) => {
+const getGroupModel = () => {
   return mongoose.model('fyp-groups', groupSchema);
 };
 

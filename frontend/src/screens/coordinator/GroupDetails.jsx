@@ -48,7 +48,7 @@ const GroupDetails = () => {
           >
             {state.members.map((member) => (
               <Typography variant="h4" textAlign="left">
-                {member}
+                {member.student_name}
               </Typography>
             ))}
           </Box>

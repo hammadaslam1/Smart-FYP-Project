@@ -7,7 +7,6 @@ export const insertGroup = async (req, res) => {
   const Student = getStudentModel();
   try {
     const group = await Group.create(groupObject);
-    console.log(group);
     const { members } = group;
     const groupID = group._id;
     for (const member of members) {
@@ -19,7 +18,6 @@ export const insertGroup = async (req, res) => {
           console.log(`Student with ID ${member.student_id} not found`);
           continue; // Skip to the next iteration
         }
-        console.log(student);
         student.group.group_id = groupID;
         student.group.status = true;
         await student.save();
