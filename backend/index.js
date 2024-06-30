@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import bodyParser from 'body-parser';
 import multer from "multer";
+import { resetStudents } from "./controllers/fyp.group.controller.js";
 dotenv.config();
 
 mongoose
@@ -49,17 +50,10 @@ app.use('/api/supervisor',supervisorRoutes);
 app.use('/api/groups',groupsRoutes);
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-// });
 
-// app.use((err, req, res, next) => {
-//   const statusCode = err.statusCode || 500;
-//   const message = err.message || "Internal Server Error";
-//   res.status(statusCode).json({
-//     success: false,
-//     statusCode,
-//     message,
-//   });
-// });
+
+
+//caution!
+// resetStudents(); handle with care
+
 
