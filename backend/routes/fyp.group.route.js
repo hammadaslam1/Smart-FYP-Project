@@ -1,5 +1,5 @@
 import express from "express";
-import { getDocument, getGroups, insertDocumentation, insertGroup, insertProjectIdea, updateGroup } from "../controllers/fyp.group.controller.js";
+import { getDocument, getGroups, insertDocumentation, insertGroup, insertProjectIdea, submitweeklyprogress, updateGroup } from "../controllers/fyp.group.controller.js";
 import multer from 'multer'
 import fs from 'fs';
 import path from 'path';
@@ -48,5 +48,6 @@ router.post("/insertgroup", insertGroup);
 router.get("/getgroups", getGroups);
 router.put("/updategroup/:id", updateGroup);
 router.post("/insertidea/:id", insertProjectIdea);
+router.post("/submitweeklyprogress/:id", submitweeklyprogress);
 
 export default router;

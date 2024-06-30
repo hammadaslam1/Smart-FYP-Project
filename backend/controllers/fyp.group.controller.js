@@ -133,3 +133,23 @@ export const getDocument = async (req, res) => {
   }
 };
 
+export const submitweeklyprogress =async  (req,res) => {
+  const {previousTask,nextTask} = req.body;
+  const {id} = req.params;
+  try{
+    const Group = getGroupModel();
+  const group =await Group.findById({_id:id});
+  group.weeklyreport.push({
+    previousTask: previousTask,
+    nextTask: nextTask,
+    date: new Date(),
+    
+  })
+  group.save();
+  res.status(200).json(group);
+
+  }catch(error){
+    res.status(500).json(error.message);
+  }
+  
+}
