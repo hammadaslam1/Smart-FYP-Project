@@ -13,18 +13,41 @@ import SignupSelect from "../../components/inputs/SignupSelect";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import UploadButton from "../../components/buttons/UploadButton";
 import { useRef, useState } from "react";
+import {useSelector} from 'react-redux'
+
 const DocumentationSubmission = () => {
+  const id = useSelector((state)=>state.student.student.group.group_id);
   const uploadButtonRef = useRef(null);
-  const [fileName,setFileName] = useState(null);
+  const [type,setType] = useState("")
+  const [fileName,setFileName] = useState("")
+  const [file,setFile] = useState(null)
   const handleFileUpload = (e) => {
-    const result = e.target.files[0];
-    if(result)
-      {
-        setFileName(result.name);
-        
-        
-      }
+    setFile(e.target.files[0])
+    const fileKaNaam = e.target.files[0].name;
+    setFileName(fileKaNaam);
+    
+    
   };
+  const handleFileSubmit = (e) => {
+    // console.log(file,type,id);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch(`http://localhost:3001/api/groups/documentationupload/${id}/${type}`,{
+      method: 'POST',
+      body: formData,
+    }).then((response) => {
+      if(response.ok){
+      alert("submitted successfully")
+
+      }
+      else{
+        alert("error")
+      }
+    }).catch((error) => {
+      console.log("there was an error")
+    })
+  }
   return (
     <Box sx={{ pt: 10 }}>
       <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
@@ -43,11 +66,12 @@ const DocumentationSubmission = () => {
               id="demo-simple-select"
               label="Docuement Type*"
               color="success"
+              onChange={(e)=>{setType(e.target.value)}}
             >
-              <MenuItem value="Introduction">Proposal</MenuItem>
-              <MenuItem value="Thesis">Defense</MenuItem>
-              <MenuItem value="Abstract">Documentation</MenuItem>
-              <MenuItem value="Abstract">Final Presentation</MenuItem>
+              <MenuItem value="Proposal">Proposal</MenuItem>
+              <MenuItem value="Defense">Defense</MenuItem>
+              <MenuItem value="Documentation">Documentation</MenuItem>
+              <MenuItem value="Final Presentation">Final Presentation</MenuItem>
             </Select>
           </FormControl>
           
@@ -75,7 +99,7 @@ const DocumentationSubmission = () => {
         textTransform: "capitalize"
       }} type="file" accept="application/pdf" />
 <br />
-<PrimaryButton   sx={{my:1, width:"110px",height:"40px"}}>Upload</PrimaryButton>
+<PrimaryButton   sx={{my:1, width:"110px",height:"40px"}} onClick={handleFileSubmit}>Upload</PrimaryButton>
       </Card>
     </Box>
   );

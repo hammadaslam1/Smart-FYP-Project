@@ -114,7 +114,6 @@ export const insertDocumentation = async (req,res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-  res.json(path)
 }
 export const getDocument = async (req, res) => {
   try {
