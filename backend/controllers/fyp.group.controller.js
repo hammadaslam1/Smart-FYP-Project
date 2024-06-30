@@ -58,10 +58,18 @@ export const updateGroup = async (req, res) => {
   res.status(200).json(group);
 };
 export const insertProjectIdea = async (req, res) => {
+  const {id} = req.params;
+  const {title, description} = req.body;
   const ProjectIdea = getGroupModel();
   try {
-    const projectIdea = await ProjectIdea.create(req.body);
-    res.status(200).json(projectIdea);
+    const group = await ProjectIdea.findById({_id:id});
+    if (!group) {
+      return res.status(404).json({ error: "Item not found!" });
+    }
+    group.idea.title = title;
+    group.idea.description = description;
+    group.save();
+    res.status(200).json(group);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

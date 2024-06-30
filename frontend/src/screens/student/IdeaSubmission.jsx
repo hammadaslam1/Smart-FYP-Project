@@ -5,8 +5,24 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import {useSelector} from 'react-redux'
 import { useState } from "react";
 const IdeaSubmission = () => {
+  const id = useSelector((state)=>state.student.student.group.group_id);
   const handleIdeaSubmission = () => {
-    alert(`Idea Title: ${title} \nIdea Description: ${description}`)
+    fetch("http://localhost:3001/api/groups/insertidea/"+id,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description })
+    }).then((response)=>{
+      if(response.ok){
+        alert("Idea submitted successfully!")
+      }else{
+        alert("Failed to submit idea!")
+      }
+      response.json().then((data) => {
+        console.log(data);
+      });
+    })
   };
   const { currentUser } = useSelector((state) => state.user);
   const [title,setTitle] = useState("")
