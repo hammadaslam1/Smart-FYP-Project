@@ -2,8 +2,20 @@ import { Box, Card, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 const GroupDetails = () => {
+
   const { state } = useLocation();
   console.log(state);
+  const handleFileFetch =  (id,filename) => {
+    fetch(`http://localhost:3001/api/groups/getdocument/${id}/${filename}`,{
+      method: "GET",
+     
+    }).then(async (response)=>{
+      const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    })
+   
+  }
   return (
     <Card sx={{ mt: 10, p: 3 }}>
       <Box sx={{ width: "100%", border: "1px solid red" }}>
@@ -73,7 +85,9 @@ const GroupDetails = () => {
               <Typography variant="h4">
                 {state.documentation.proposal.filename}
               </Typography>
-              <PrimaryButton sx={{ width: "200px" }}>Download</PrimaryButton>
+              <PrimaryButton sx={{ width: "200px" }} onClick={()=>{
+                handleFileFetch(state._id,state.documentation.proposal.filename)
+              }}>Download</PrimaryButton>
             </Box>
           </Box>
           <Box>
@@ -92,7 +106,9 @@ const GroupDetails = () => {
               <Typography variant="h4">
                 {state.documentation.defense.filename}
               </Typography>
-              <PrimaryButton sx={{ width: "200px" }}>Download</PrimaryButton>
+              <PrimaryButton sx={{ width: "200px" }} onClick={()=>{
+                handleFileFetch(state._id,state.documentation.proposal.filename)
+              }}>Download</PrimaryButton>
             </Box>
           </Box>
           <Box>
@@ -111,7 +127,9 @@ const GroupDetails = () => {
               <Typography variant="h4">
                 {state.documentation.presentation.filename}
               </Typography>
-              <PrimaryButton sx={{ width: "200px" }}>Download</PrimaryButton>
+              <PrimaryButton sx={{ width: "200px" }} onClick={()=>{
+                handleFileFetch(state._id,state.documentation.proposal.filename)
+              }}>Download</PrimaryButton>
             </Box>
           </Box>
           <Box>
@@ -130,7 +148,9 @@ const GroupDetails = () => {
               <Typography variant="h4">
                 {state.documentation.final_documentation.filename}
               </Typography>
-              <PrimaryButton sx={{ width: "200px" }}>Download</PrimaryButton>
+              <PrimaryButton sx={{ width: "200px" }} onClick={()=>{
+                handleFileFetch(state._id,state.documentation.proposal.filename)
+              }}>Download</PrimaryButton>
             </Box>
           </Box>
         </Box>
