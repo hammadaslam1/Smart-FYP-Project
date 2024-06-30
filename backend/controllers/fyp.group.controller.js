@@ -153,15 +153,15 @@ export const submitweeklyprogress =async  (req,res) => {
   }
   
 }
-export const resetStudents =async  () => {
-  const Student = getStudentModel();
-  const students =await  Student.find({});
-  for (const student of students)
-    {
-      student.group.group_id = "";
-      student.group.status = false;
-      student.save();
-    } 
+// export const resetStudents =async  () => {
+//   const Student = getStudentModel();
+//   const students =await  Student.find({});
+//   for (const student of students)
+//     {
+//       student.group.group_id = "";
+//       student.group.status = false;
+//       student.save();
+//     } 
  
   
-}
+// }
