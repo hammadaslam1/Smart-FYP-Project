@@ -116,6 +116,7 @@ const GroupDetails = () => {
           <Box sx={{ display: "flex", flexWrap: "wrap" }}>
             <PrimaryButton
               sx={{
+                display: "flex",
                 flex: 1,
                 margin: "5px",
                 "&.Mui-disabled": {
@@ -136,6 +137,7 @@ const GroupDetails = () => {
 
             <PrimaryButton
               sx={{
+                display: "flex",
                 flex: 1,
                 margin: "5px",
                 "&.Mui-disabled": {
@@ -156,6 +158,7 @@ const GroupDetails = () => {
 
             <PrimaryButton
               sx={{
+                display: "flex",
                 flex: 1,
                 margin: "5px",
                 "&.Mui-disabled": {
@@ -176,6 +179,7 @@ const GroupDetails = () => {
 
             <PrimaryButton
               sx={{
+                display: "flex",
                 flex: 1,
                 margin: "5px",
                 "&.Mui-disabled": {
