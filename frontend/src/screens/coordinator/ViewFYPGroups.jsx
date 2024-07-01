@@ -10,9 +10,9 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -21,7 +21,7 @@ import LinearProgressWithLabel from "../../components/progress/LinearProgressWit
 import { useNavigate } from "react-router-dom";
 const ViewFYPGroups = () => {
   const navigate = useNavigate();
-  const [groupsHeading,setGroupsHeading] = useState("All FYP Groups");
+  const [groupsHeading, setGroupsHeading] = useState("All FYP Groups");
   const [loading, setLoading] = useState(false);
   const [groups, setGroups] = useState([]);
   const [originalGroups, setOriginalGroups] = useState([]);
@@ -43,22 +43,16 @@ const ViewFYPGroups = () => {
   const handleFilterChange = async (event) => {
     const newFilter = event.target.value;
     setFilter(event.target.value);
-    if(newFilter === "allgroups"){
+    if (newFilter === "allgroups") {
       setGroups(originalGroups);
-      setGroupsHeading("All FYP Groups")
+      setGroupsHeading("All FYP Groups");
+    } else if (newFilter === "morning") {
+      setGroups(originalGroups.filter((group) => group.shift === "morning"));
+      setGroupsHeading("Morning Shift FYP Groups");
+    } else if (newFilter === "evening") {
+      setGroups(originalGroups.filter((group) => group.shift === "evening"));
+      setGroupsHeading("Evening Shift FYP Groups");
     }
-    else if(newFilter==="morning")
-      {
-        setGroups(originalGroups.filter(group=>group.shift==="morning"))
-      setGroupsHeading("Morning Shift FYP Groups")
-        
-      }
-      else if(newFilter==="evening")
-        {
-          setGroups(originalGroups.filter(group=>group.shift==="evening"))
-      setGroupsHeading("Evening Shift FYP Groups")
-
-        }
   };
   return (
     <>
@@ -73,35 +67,38 @@ const ViewFYPGroups = () => {
           <CircularProgress color="success" />
         </Box>
       ) : (
-        <Box sx={{ mt: 10, p: 3,width:"100%" }}>
+        <Box sx={{ mt: 10, p: 3, width: "100%" }}>
           <Box
-            
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h2">{groupsHeading}</Typography>
+            <Typography variant="h3">{groupsHeading}</Typography>
             <Box>
-            <FormControl fullWidth>
-              
-              <InputLabel color="success" id="demo-simple-select-label" sx={{display:"flex",alignItems:"center"}}><FilterAltIcon/> Filter</InputLabel>
-              <Select
-                sx={{width:"150px"}}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={filter}
-                label="filtering.."
-                color="success"
-                onChange={handleFilterChange}
-              >
-                <MenuItem value={"allgroups"}>All Groups</MenuItem>
-                <MenuItem value={"morning"}>Morning Shift</MenuItem>
-                <MenuItem value={"evening"}>Evening Shift</MenuItem>
-              </Select>
-            </FormControl>
-
+              <FormControl fullWidth>
+                <InputLabel
+                  color="success"
+                  id="demo-simple-select-label"
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <FilterAltIcon /> Filter
+                </InputLabel>
+                <Select
+                  sx={{ width: "150px" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={filter}
+                  label="filtering.."
+                  color="success"
+                  onChange={handleFilterChange}
+                >
+                  <MenuItem value={"allgroups"}>All Groups</MenuItem>
+                  <MenuItem value={"morning"}>Morning Shift</MenuItem>
+                  <MenuItem value={"evening"}>Evening Shift</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
           </Box>
 
@@ -134,11 +131,12 @@ const ViewFYPGroups = () => {
                       elevation={0}
                       key={i}
                       sx={{
-                        m: 2,
-                        p: 3,
+                        m: 1,
+                        p: 2,
                         borderRadius: 4,
                         border: "2px solid #c4c4c4",
-                        width: "400px",
+                        width: "500px",
+                        height:"200px",
                         "&:hover": {
                           boxShadow: "0 2px 15px 5px #b3b3b3",
                           border: "2px solid transparent",
@@ -149,7 +147,7 @@ const ViewFYPGroups = () => {
                       <Box
                         sx={{
                           display: "flex",
-                          justifyContent: "flex-start",
+                          justifyContent: "space-between",
                           my: 1,
                         }}
                       >
@@ -158,6 +156,23 @@ const ViewFYPGroups = () => {
                             <Avatar />
                           ))}
                         </AvatarGroup>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            my: 1,
+                          }}
+                        >
+                          <Chip
+                            sx={{
+                              backgroundColor: data.status ? "#0f0" : "#f00",
+                              color: "#fff",
+                              fontWeight: "600",
+                            }}
+                            label={data.status ? "Approved" : "Pending"}
+                          />
+                        </Typography>
                       </Box>
                       <Typography
                         variant="h5"
@@ -170,53 +185,47 @@ const ViewFYPGroups = () => {
                           ? "Title Not Selected"
                           : data.idea.title}
                       </Typography>
-                      <Typography
-                        variant="h6"
-                        fontWeight={600}
-                        color={"#808080"}
-                        sx={{ my: 1 }}
-                      >
-                        {/* {data.members.join(", ")} */}
-                        {data.members.map((member) => (
-                          <Typography>
-                            {member.student_name + " | " + member.student_id}
-                          </Typography>
-                        ))}
-                      </Typography>
-                      {/* <Typography variant="body1">{data.members[0]}</Typography> */}
-                      {/* <Typography variant="body1">{data.members.join(", ")}</Typography> */}
-                      <Typography
-                        variant="h5"
-                        fontWeight={600}
-                        color={"#585858"}
-                        sx={{ my: 1 }}
-                      >
-                        <RecordVoiceOverIcon
-                          sx={{
-                            position: "relative",
-                            top: "3px",
-                            right: "4px",
-                          }}
-                        />
-                        {data.supervisor}
-                      </Typography>
-                      <Typography
-                        variant="body1"
+                      <Box
                         sx={{
                           display: "flex",
-                          justifyContent: "flex-end",
-                          my: 1,
+                          justifyContent: "space-between",
+                          alignItems:"center"
                         }}
                       >
-                        <Chip
-                          sx={{
-                            backgroundColor: data.status ? "#0f0" : "#f00",
-                            color: "#fff",
-                            fontWeight: "600",
-                          }}
-                          label={data.status ? "Approved" : "Pending"}
-                        />
-                      </Typography>
+                        <Typography
+                          variant="h6"
+                          fontWeight={600}
+                          color={"#808080"}
+                          sx={{ my: 1 }}
+                        >
+                          {/* {data.members.join(", ")} */}
+                          {data.members.map((member) => (
+                            <Typography>
+                              {member.student_name + " | " + member.student_id}
+                            </Typography>
+                          ))}
+                        </Typography>
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            color={"#585858"}
+                          >
+                            <RecordVoiceOverIcon
+                              sx={{
+                                position: "relative",
+                                top: "5px",
+                                right: "4px",
+                              }}
+                            />
+                            {data.supervisor}
+                          </Typography>
+                          <Typography variant="h6" color={"#808080"} sx={{position:"relative",right:"5px"}}>
+                            Shift: {data.shift}
+                          </Typography>
+                        </Box>
+                      </Box>
+
                       <LinearProgressWithLabel
                         color="success"
                         value={progress}

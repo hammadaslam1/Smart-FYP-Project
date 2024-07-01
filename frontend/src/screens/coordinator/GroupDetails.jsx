@@ -50,7 +50,6 @@ const GroupDetails = () => {
           textAlign="center"
         >
           {state.idea.description}{" "}
-          asjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskajasjdaskdjsajdaksjladskaj
         </Typography>
       </Box>
       <Box
