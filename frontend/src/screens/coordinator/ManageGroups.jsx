@@ -132,7 +132,7 @@ const [reload,setReload] = useState(0);
                 {groups.length>0 && groups.map((row) => (
                   <StyledTableRow key={row._id}>
                     <StyledTableCell component="th" scope="row">
-                      {row.team_lead}
+                      {row.teamLead}
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       {row.class}
