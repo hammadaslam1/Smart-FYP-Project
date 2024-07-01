@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.route.js";
 import studentRoutes from "./routes/student.route.js";
 import supervisorRoutes from "./routes/supervisor.route.js";
 import groupsRoutes from "./routes/fyp.group.route.js";
+import broadcastRoutes from "./routes/broadcast.route.js";
 import { connString } from "../ENV.js";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -48,6 +49,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/student", studentRoutes);
 app.use('/api/supervisor',supervisorRoutes);
 app.use('/api/groups',groupsRoutes);
+app.use('/api/broadcast',broadcastRoutes);
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 
