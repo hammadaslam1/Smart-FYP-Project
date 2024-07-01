@@ -14,7 +14,12 @@ import SignupInput from "../../components/inputs/SignupInput";
 import "../../styles/studentcomponentsstyles/selectgroup.css";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setStudent } from "../../redux/studentReducer/studentSlice";
+
 const GroupFormation = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
   const [students, setStudents] = useState(null);
   const [supervisors, setSupervisors] = useState(null);
   const [teamLead, setTeamLead] = useState("");
@@ -55,7 +60,17 @@ const GroupFormation = () => {
       console.error(error);
     }
   };
-  
+  const fetchStudent = () => {
+    fetch(`http://127.0.0.1:3001/api/student/getstudent/${currentUser.id}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        dispatch(setStudent(data));
+      })
+      .catch((error) => alert(error.message));
+  };
   const handleSubmit = async () => {
     const splitarray = members.map((member) => {
       const temp = member.split(" | ");
@@ -88,6 +103,7 @@ const GroupFormation = () => {
     }
     if (response.ok) {
       alert("shabash!");
+      fetchStudent();
     }
   };
 

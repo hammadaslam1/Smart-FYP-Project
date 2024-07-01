@@ -14,7 +14,8 @@ import {
     TableRow,
     Typography,
     styled,
-    tableCellClasses,
+  CircularProgress,
+  tableCellClasses,
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
@@ -53,11 +54,15 @@ import {
   
   const ManageGroups = () => {
     const [flag, setFlag] = useState(false);
+  const [loading, setLoading] = useState(false);
+const [reload,setReload] = useState(0);
     const [groups,setGroups] = useState([]);
     const getGroups = async () => {
+      setLoading(true)
       const response = await fetch("http://localhost:3001/api/groups/getgroups");
       const data = await response.json();
       setGroups(data);
+      setLoading(false)
     };
     const handleGroupStatus = async (row) => {
         const response = await fetch("http://localhost:3001/api/groups/updategroup/"+row._id, {
@@ -73,13 +78,41 @@ import {
         }
         
       };
-    
+    const handleGroupDelete = (id) => {
+      setFlag(true)
+      fetch(`http://localhost:3001/api/groups/deletegroup/${id}`, {
+        method: "POST",
+      }).then((response)=>{
+        if(response.ok)
+          {
+            getGroups();
+          }
+          else{
+            alert("there was a problem deleting")
+          }
+      }).catch((error) => {
+        alert("Error:", error);
+      });
+     setFlag(false)
+    }
     useEffect(() => {
       getGroups();
     },[flag]);
-    return (
-      <Box>
-        <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
+    return (<>
+    {
+      loading ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100vh"
+          width="100%"
+        >
+          <CircularProgress color="success" />
+        </Box>
+      ):(
+        <Box width="100%">
+        <Typography variant="h4" sx={{ p: 2, color: "#08422D", fontWeight: 600 }}>
           FYP Groups
         </Typography>
         <Card sx={{ p: 3 }} elevation={0}>
@@ -105,7 +138,11 @@ import {
                       {row.class}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {row.members.join(', ')}
+                      {row.members.map((member) => (
+                            <Typography>
+                              {member.student_name + " | " + member.student_id}
+                            </Typography>
+                          ))}
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       {row.supervisor}
@@ -130,11 +167,17 @@ import {
                         disableRipple
                       />
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell align="left" sx={{display:"flex"}}>
                       <PrimaryButton
+                      sx={{mx:1}}
                       onClick={()=>{handleGroupStatus(row)}}
                       >{row.status?"Reject":"Approve"}</PrimaryButton>
+                      <PrimaryButton
+                      sx={{mx:1,}}
+                      onClick={()=>{handleGroupDelete(row._id)}}
+                      >Delete</PrimaryButton>
                     </StyledTableCell>
+                    
                   </StyledTableRow>
                   
                 ))}
@@ -143,6 +186,11 @@ import {
           </TableContainer>
         </Card>
       </Box>
+      )
+    }
+          
+    </>
+      
     );
   };
   

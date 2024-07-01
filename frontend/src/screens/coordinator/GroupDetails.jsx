@@ -110,56 +110,86 @@ const GroupDetails = () => {
         }}
       >
         <Box>
-          <Typography variant="h4" textAlign="center">Documentation</Typography>
+          <Typography variant="h4" textAlign="center">
+            Documentation
+          </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap" }}>
             <PrimaryButton
-              sx={{flex:1,margin:"5px" }}
+              sx={{
+                flex: 1,
+                margin: "5px",
+                "&.Mui-disabled": {
+                  backgroundColor: "lightgray",
+                  color: "#08422D",
+                },
+              }}
               onClick={() => {
                 handleFileFetch(
                   state._id,
                   state.documentation.proposal.filename
                 );
               }}
-              disabled={state.documentation.proposal.filename?false:true}
+              disabled={state.documentation.proposal.filename ? false : true}
             >
               Proposal
             </PrimaryButton>
 
             <PrimaryButton
-              sx={{ flex:1,margin:"5px" }}
+              sx={{
+                flex: 1,
+                margin: "5px",
+                "&.Mui-disabled": {
+                  backgroundColor: "lightgray",
+                  color: "#08422D",
+                },
+              }}
               onClick={() => {
                 handleFileFetch(
                   state._id,
                   state.documentation.defense.filename
                 );
               }}
-              disabled={state.documentation.proposal.filename?false:true}
+              disabled={state.documentation.proposal.filename ? false : true}
             >
               Defense
             </PrimaryButton>
 
             <PrimaryButton
-              sx={{ flex:1,margin:"5px"}}
+              sx={{
+                flex: 1,
+                margin: "5px",
+                "&.Mui-disabled": {
+                  backgroundColor: "lightgray",
+                  color: "#08422D",
+                },
+              }}
               onClick={() => {
                 handleFileFetch(
                   state._id,
                   state.documentation.final_documentation.filename
                 );
               }}
-              disabled={state.documentation.proposal.filename?false:true}
+              disabled={state.documentation.proposal.filename ? false : true}
             >
               Final Documentation
             </PrimaryButton>
 
             <PrimaryButton
-              sx={{flex:1,margin:"5px" }}
+              sx={{
+                flex: 1,
+                margin: "5px",
+                "&.Mui-disabled": {
+                  backgroundColor: "lightgray",
+                  color: "#08422D",
+                },
+              }}
               onClick={() => {
                 handleFileFetch(
                   state._id,
                   state.documentation.presentation.filename
                 );
               }}
-              disabled={state.documentation.proposal.filename?false:true}
+              disabled={state.documentation.proposal.filename ? false : true}
             >
               Final Presentation
             </PrimaryButton>

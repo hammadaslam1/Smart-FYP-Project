@@ -7,7 +7,7 @@ import { useState } from "react";
 const IdeaSubmission = () => {
   const id = useSelector((state)=>state.student.student.group.group_id);
   const handleIdeaSubmission = () => {
-    fetch("http://localhost:3001/api/groups/insertidea/"+id,{
+    fetch(`http://localhost:3001/api/groups/insertidea/${id}`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
