@@ -7,15 +7,22 @@ import {
   Select,
   MenuItem,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import SignupInput from "../../components/inputs/SignupInput";
 import SignupSelect from "../../components/inputs/SignupSelect";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useSelector } from "react-redux";
 
 const AnnounceDocumentDate = () => {
+  const sender = useSelector((state) => state.user.currentUser._id);
+
   const [message, setMessage] = useState("");
+  const [students, setStudents] = useState("");
+  const [messageType, setMessageType] = useState("");
+  const [messageReceivers, setMessageReceivers] = useState([]);
   const [announcementHeading, setAnnouncementHeading] = useState(
     "Broadcast Announcement"
   );
@@ -36,18 +43,50 @@ const AnnounceDocumentDate = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({message:message}),
-    }).then((response) => {
-      if(response.ok)
-        {
-          alert("broadcast sent successfully")
+      body: JSON.stringify({ message: message }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("broadcast sent successfully");
           setMessage("");
+        } else {
+          alert("Error sending broadcast");
         }
-        else{
-          alert("Error sending broadcast")
-        }
-    }).catch((error) => {
-        alert(error.message)
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/student/`)
+      .then((response) => response.json())
+      .then((data) => {
+        const studentInfo = data
+          .filter((student) => student.group.status)
+          .map((student) => `${student.student_name} | ${student.student_id}`);
+        setStudents(studentInfo);
+      });
+  }, []);
+  const handleSendMessage = () => {
+    console.log(messageReceivers)
+    fetch("http://localhost:3001/api/student/sendmessage/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: message,
+        members: messageReceivers,
+        sender: sender,
+        type: messageType,
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        alert("Message sent successfully");
+        setMessage("");
+      } else {
+        alert("Error sending message");
+      }
     });
   };
   return (
@@ -86,7 +125,64 @@ const AnnounceDocumentDate = () => {
         </Box>
       </Box>
       {specificStudent ? (
-        <h1>Specific</h1>
+        <Box>
+          <Box>
+            <Typography>Select Student(s)</Typography>
+            <Autocomplete
+              disabled={!students}
+              color="success"
+              sx={{ my: 1 }}
+              multiple
+              value={messageReceivers}
+              placeholder="Students"
+              options={students ? students : ["select class"]}
+              onChange={(e, value) => {
+                setMessageReceivers(value);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Members"
+                  placeholder="Members"
+                />
+              )}
+            />
+            <Typography>Select Message Type</Typography>
+            <Select
+              sx={{ width: "300px" }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={messageType}
+              label="filtering.."
+              color="success"
+              onChange={(e) => {
+                setMessageType(e.target.value);
+              }}
+            >
+              <MenuItem value={"warning"}>Warning</MenuItem>
+              <MenuItem value={"successs"}>Acknowledgement</MenuItem>
+              <MenuItem value={"info"}>Information</MenuItem>
+              <MenuItem value={"error"}>Deadline</MenuItem>
+            </Select>
+            <Typography variant="h5">Write Message</Typography>
+            <TextField
+              multiline
+              disabled={messageType ? false : true}
+              minRows={3}
+              sx={{ mx: 2 }}
+              name="previousTask"
+              fullWidth
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+            ></TextField>
+            <PrimaryButton sx={{ width: "200px" }} onClick={handleSendMessage}>
+              Send Message
+            </PrimaryButton>
+          </Box>
+        </Box>
       ) : (
         <Box sx={{ width: "500px" }}>
           <TextField

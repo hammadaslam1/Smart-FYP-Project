@@ -6,12 +6,14 @@ import tabReducer from "./tabs/TabSlice";
 import studentReducer from './studentReducer/studentSlice'
 import { persistReducer, persistStore } from "redux-persist";
 import LinkReducer from "./links/LinkReducer";
+import coordinatorSlice from "./coordinatorReducer/coordinatorSlice";
 
 const rootReducers = combineReducers({
   user: userReducer,
   tab: tabReducer,
   links: LinkReducer,
   student:studentReducer,
+  coordinator:coordinatorSlice,
 });
 
 const persistConfig = {

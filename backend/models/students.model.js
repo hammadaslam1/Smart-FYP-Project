@@ -16,7 +16,25 @@ const studentSchema = new Schema({
       default: false,
     },
     shift:String, 
-  }
+  },
+  notification:{
+    text:{
+      type: String,
+      default: "",
+    },
+    sender: {
+      type: String,
+      default: "",
+    },
+    type:{
+      type: String,
+      default: "",
+    },
+    date: {
+      type: Date,
+      default: null,
+    }
+  },
 });
 
 const getStudentModel = () => {
