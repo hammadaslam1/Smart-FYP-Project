@@ -17,7 +17,7 @@ const studentSchema = new Schema({
     },
     shift:String, 
   },
-  notification:{
+  notifications:[{
     text:{
       type: String,
       default: "",
@@ -34,7 +34,8 @@ const studentSchema = new Schema({
       type: Date,
       default: null,
     }
-  },
+  }]
+  // notifications:[Object]
 });
 
 const getStudentModel = () => {

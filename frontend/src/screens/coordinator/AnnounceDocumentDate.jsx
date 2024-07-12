@@ -21,21 +21,32 @@ const AnnounceDocumentDate = () => {
 
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState("");
+  const [groups, setGroups] = useState("");
+  const [selectedGroups, setSelectedGroups] = useState([]);
   const [messageType, setMessageType] = useState("");
   const [messageReceivers, setMessageReceivers] = useState([]);
   const [announcementHeading, setAnnouncementHeading] = useState(
     "Broadcast Announcement"
   );
   const [announcementType, setAnnouncementType] = useState("");
-  const [specificStudent, setSpecificStudent] = useState(false);
   const handleSelect = (e) => {
     setAnnouncementType(e.target.value);
-    if (e.target.value === "toone") {
-      setSpecificStudent(true);
-      setAnnouncementHeading("Send to Student");
-    } else {
-      setSpecificStudent(false);
+    setComponentType(e.target.value);
+    let tempComponentType = e.target.value;
+    switch(tempComponentType) {
+      case "Broadcast":
+        setAnnouncementHeading("Broadcast Announcement");
+        break;
+      case "Specific":
+        setAnnouncementHeading("Message Specific Student");
+        break;
+      case "Group":
+        setAnnouncementHeading("Group Announcement");
+        break;
+      default:
+        setMessageReceivers([]);
     }
+    
   };
   const handleSendBroadcast = () => {
     fetch("http://localhost:3001/api/broadcast/insertbroadcast", {
@@ -66,6 +77,14 @@ const AnnounceDocumentDate = () => {
           .map((student) => `${student.student_name} | ${student.student_id}`);
         setStudents(studentInfo);
       });
+      fetch(`http://localhost:3001/api/groups/getgroups`)
+      .then((response) => response.json())
+      .then((data) => {
+        const groupInfo = data
+          .map((group) => group.members.map((member) => member.student_name))
+        setGroups(data);
+        console.log(data);
+      });
   }, []);
   const handleSendMessage = () => {
     console.log(messageReceivers)
@@ -89,7 +108,171 @@ const AnnounceDocumentDate = () => {
       }
     });
   };
+  const handleGroupMessage = () => {
+    fetch("http://localhost:3001/api/groups/sendgroupmessage",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: message,
+        groups: selectedGroups,
+        sender: sender,
+        type: messageType,
+      }),
+    }).then((response)=>{
+      if(response.ok)
+      {
+        alert("Group message sent successfully");
+        setMessage("");
+      }else{
+        alert("Error sending group message");
+      }
+    }).catch((error) =>{
+      alert(error);
+    })
+  }
+  let component = null;
+  const [componentType,setComponentType] =  useState("Broadcast")
+  switch (componentType) {
+    case "Broadcast":
+      component = <Box sx={{ width: "500px" }}>
+      <TextField
+        multiline
+        minRows={3}
+        sx={{ mx: 2 }}
+        name="previousTask"
+        fullWidth
+        value={message}
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
+      ></TextField>
+      <PrimaryButton sx={{ width: "200px" }} onClick={handleSendBroadcast}>
+        Send Broadcast
+      </PrimaryButton>
+    </Box>
+      break;
+    case "Specific":
+      component = <Box>
+      <Box>
+        <Typography>Select Student(s)</Typography>
+        <Autocomplete
+          disabled={!students}
+          color="success"
+          sx={{ my: 1 }}
+          multiple
+          value={messageReceivers}
+          placeholder="Students"
+          options={students ? students : ["select class"]}
+          onChange={(e, value) => {
+            setMessageReceivers(value);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Members"
+              placeholder="Members"
+            />
+          )}
+        />
+        <Typography>Select Message Type</Typography>
+        <Select
+          sx={{ width: "300px" }}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={messageType}
+          label="filtering.."
+          color="success"
+          onChange={(e) => {
+            setMessageType(e.target.value);
+          }}
+        >
+          <MenuItem value={"warning"}>Warning</MenuItem>
+          <MenuItem value={"successs"}>Acknowledgement</MenuItem>
+          <MenuItem value={"info"}>Information</MenuItem>
+          <MenuItem value={"error"}>Deadline</MenuItem>
+        </Select>
+        <Typography variant="h5">Write Message</Typography>
+        <TextField
+          multiline
+          disabled={messageType ? false : true}
+          minRows={3}
+          sx={{ mx: 2 }}
+          name="previousTask"
+          fullWidth
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+        ></TextField>
+        <PrimaryButton sx={{ width: "200px" }} onClick={handleSendMessage}>
+          Send Message
+        </PrimaryButton>
+      </Box>
+    </Box>
+      break;
+    case "Group":
+      component = <Box>
+        <Typography>Select Groups</Typography>
+        <Select
+              sx={{width:"80%"}}
+              color="success"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="FYP Groups"
+              onChange={(e) => {
+                const tempArray = selectedGroups;
+                tempArray.push(e.target.value);
+                setSelectedGroups(tempArray);
+                console.log(selectedGroups);
+              }}
+            >
+              {groups.map((group) => (
+                <MenuItem value={group._id}><Typography><b>Team Lead: </b>{group.teamLead}<br/><b>Title: </b>{group.idea.title }</Typography></MenuItem>
+              ))}
+            </Select>
+            <Typography>Write Message</Typography>
+            <TextField
+        multiline
+        minRows={3}
+        sx={{ mx: 2 }}
+        name="Message"
+        fullWidth
+        value={message}
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
+      ></TextField>
+      <Typography>Select Message Type</Typography>
+        <Select
+          sx={{ width: "300px" }}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={messageType}
+          label="filtering.."
+          color="success"
+          onChange={(e) => {
+            setMessageType(e.target.value);
+          }}
+        >
+          <MenuItem value={"warning"}>Warning</MenuItem>
+          <MenuItem value={"successs"}>Acknowledgement</MenuItem>
+          <MenuItem value={"info"}>Information</MenuItem>
+          <MenuItem value={"error"}>Deadline</MenuItem>
+        </Select>
+      <PrimaryButton sx={{ width: "200px" }} onClick={handleGroupMessage}>
+        Send Message to Group
+      </PrimaryButton>
+      </Box>
+      break;  
+    default:
+      break;
+  }
+  
   return (
+    <>
     <Box sx={{ pt: 10, width: "100%" }}>
       <Box
         sx={{
@@ -118,90 +301,16 @@ const AnnounceDocumentDate = () => {
               color="success"
               onChange={handleSelect}
             >
-              <MenuItem value={"all"}>Broadcast</MenuItem>
-              <MenuItem value={"toone"}>Specific Student</MenuItem>
+              <MenuItem value={"Broadcast"}>Broadcast</MenuItem>
+              <MenuItem value={"Specific"}>Specific Student</MenuItem>
+              <MenuItem value={"Group"}>Group Announcement</MenuItem>
             </Select>
           </FormControl>
         </Box>
       </Box>
-      {specificStudent ? (
-        <Box>
-          <Box>
-            <Typography>Select Student(s)</Typography>
-            <Autocomplete
-              disabled={!students}
-              color="success"
-              sx={{ my: 1 }}
-              multiple
-              value={messageReceivers}
-              placeholder="Students"
-              options={students ? students : ["select class"]}
-              onChange={(e, value) => {
-                setMessageReceivers(value);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="Members"
-                  placeholder="Members"
-                />
-              )}
-            />
-            <Typography>Select Message Type</Typography>
-            <Select
-              sx={{ width: "300px" }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={messageType}
-              label="filtering.."
-              color="success"
-              onChange={(e) => {
-                setMessageType(e.target.value);
-              }}
-            >
-              <MenuItem value={"warning"}>Warning</MenuItem>
-              <MenuItem value={"successs"}>Acknowledgement</MenuItem>
-              <MenuItem value={"info"}>Information</MenuItem>
-              <MenuItem value={"error"}>Deadline</MenuItem>
-            </Select>
-            <Typography variant="h5">Write Message</Typography>
-            <TextField
-              multiline
-              disabled={messageType ? false : true}
-              minRows={3}
-              sx={{ mx: 2 }}
-              name="previousTask"
-              fullWidth
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
-            ></TextField>
-            <PrimaryButton sx={{ width: "200px" }} onClick={handleSendMessage}>
-              Send Message
-            </PrimaryButton>
-          </Box>
-        </Box>
-      ) : (
-        <Box sx={{ width: "500px" }}>
-          <TextField
-            multiline
-            minRows={3}
-            sx={{ mx: 2 }}
-            name="previousTask"
-            fullWidth
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
-          ></TextField>
-          <PrimaryButton sx={{ width: "200px" }} onClick={handleSendBroadcast}>
-            Send Broadcast
-          </PrimaryButton>
-        </Box>
-      )}
+      <Box>{component}</Box>
     </Box>
+    </>
   );
 };
 

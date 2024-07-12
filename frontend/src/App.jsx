@@ -26,7 +26,7 @@ import LoginForm from "./components/forms/LoginForm";
 import RegisterForm from "./components/forms/RegisterForm";
 import Login from "./screens/Login";
 import { setStudent } from "./redux/studentReducer/studentSlice";
-import { setCoordinator } from "./redux/coordinatorReducer/coordinatorSlice";
+// import { setCoordinator } from "./redux/coordinatorReducer/coordinatorSlice";
 // import HODDashboard from "./screens/hod/HODDashboard";
 
 function App() {
@@ -64,7 +64,6 @@ function App() {
     fetchStudent();
   } else if (currentUser && currentUser.role == "Coordinator") {
     dispatch(toggleLink(coordinatorLinks));
-    // fetchCoordinator();
   } else if (currentUser && currentUser.role == "Supervisor") {
     dispatch(toggleLink(supervisorLinks));
   } else if (currentUser && currentUser.role == "HOD") {

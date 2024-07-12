@@ -187,6 +187,54 @@ export const deleteGroup = async (req, res) => {
   }
 };
 
+export const sendGroupMessage = async (req, res) => {
+  const { message, groups, sender, type } = req.body;
+  const Student = getStudentModel();
+  const Group = getGroupModel();
+
+  try {
+    for (const singleGroup of groups) {
+      const group = await Group.findOne({ _id: singleGroup });
+      if (!group) {
+        console.log(`Group with ID ${singleGroup} not found`);
+        continue;
+      }
+
+      for (const member of group.members) {
+        try {
+          const memberID = member.student_id;
+          const student = await Student.findOne({ student_id: memberID });
+
+          if (student) {
+            console.log(message,type,sender)
+            console.log(student)
+            // student.notification.text = message;
+            // student.notification.date = new Date();
+            // student.notification.type = type;
+            // student.notification.sender = sender;
+            // await student.save();
+            student.notifications.push({
+              text:message,
+              date:new Date(),
+              type:type,
+              sender:sender
+            })
+            student.save();
+          } else {
+            console.log(`Student with ID ${memberID} not found`);
+          }
+        } catch (error) {
+          console.error(`Error updating student with ID ${member.student_id}:`, error);
+        }
+      }
+    }
+    res.status(200).json({ message: 'Messages sent successfully' });
+  } catch (error) {
+    console.error("An error occurred while sending messages:", error);
+    res.status(500).json({ error: 'An error occurred while sending messages' });
+  }
+};
+
 export const resetStudents = async () => {
   //   const Student = getStudentModel();
   //   const students =await  Student.find({});
@@ -197,3 +245,4 @@ export const resetStudents = async () => {
   //       student.save();
   //     }
 };
+
