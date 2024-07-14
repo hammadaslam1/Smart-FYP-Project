@@ -16,7 +16,7 @@ import { useState, useEffect } from "react";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useSelector } from "react-redux";
 
-const AnnounceDocumentDate = () => {
+const Announcements = () => {
   const sender = useSelector((state) => state.user.currentUser._id);
 
   const [message, setMessage] = useState("");
@@ -38,7 +38,7 @@ const AnnounceDocumentDate = () => {
         setAnnouncementHeading("Broadcast Announcement");
         break;
       case "Specific":
-        setAnnouncementHeading("Message Specific Student");
+        setAnnouncementHeading("Message Specific Student(s)");
         break;
       case "Group":
         setAnnouncementHeading("Group Announcement");
@@ -73,7 +73,7 @@ const AnnounceDocumentDate = () => {
       .then((response) => response.json())
       .then((data) => {
         const studentInfo = data
-          .filter((student) => student.group.status)
+          // .filter((student) => student.group.status)
           .map((student) => `${student.student_name} | ${student.student_id}`);
         setStudents(studentInfo);
       });
@@ -136,11 +136,12 @@ const AnnounceDocumentDate = () => {
   const [componentType,setComponentType] =  useState("Broadcast")
   switch (componentType) {
     case "Broadcast":
-      component = <Box sx={{ width: "500px" }}>
+      component = <Box sx={{ width: "600px",padding:"10px 30px" }}>
+      <Typography variant="body1">Write Broadcast Message - [This message will be sent to all users]</Typography>
       <TextField
         multiline
         minRows={3}
-        sx={{ mx: 2 }}
+        sx={{marginTop:"5px"}}
         name="previousTask"
         fullWidth
         value={message}
@@ -148,14 +149,13 @@ const AnnounceDocumentDate = () => {
           setMessage(e.target.value);
         }}
       ></TextField>
-      <PrimaryButton sx={{ width: "200px" }} onClick={handleSendBroadcast}>
+      <PrimaryButton sx={{ width: "200px",marginTop:"10px" }} onClick={handleSendBroadcast}>
         Send Broadcast
       </PrimaryButton>
     </Box>
       break;
     case "Specific":
-      component = <Box>
-      <Box>
+      component = <Box sx={{ width: "600px",padding:"10px 30px" }}>
         <Typography>Select Student(s)</Typography>
         <Autocomplete
           disabled={!students}
@@ -179,11 +179,10 @@ const AnnounceDocumentDate = () => {
         />
         <Typography>Select Message Type</Typography>
         <Select
-          sx={{ width: "300px" }}
+          sx={{ width: "100%" }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={messageType}
-          label="filtering.."
           color="success"
           onChange={(e) => {
             setMessageType(e.target.value);
@@ -194,12 +193,12 @@ const AnnounceDocumentDate = () => {
           <MenuItem value={"info"}>Information</MenuItem>
           <MenuItem value={"error"}>Deadline</MenuItem>
         </Select>
-        <Typography variant="h5">Write Message</Typography>
+        <Typography sx={{my:1}} variant="body1">Write Message - [This message will only be sent to selected student(s)]</Typography>
         <TextField
           multiline
           disabled={messageType ? false : true}
           minRows={3}
-          sx={{ mx: 2 }}
+          sx={{width: "100%"}}
           name="previousTask"
           fullWidth
           value={message}
@@ -207,17 +206,16 @@ const AnnounceDocumentDate = () => {
             setMessage(e.target.value);
           }}
         ></TextField>
-        <PrimaryButton sx={{ width: "200px" }} onClick={handleSendMessage}>
+        <PrimaryButton sx={{ my:1,width: "200px" }} onClick={handleSendMessage}>
           Send Message
         </PrimaryButton>
-      </Box>
     </Box>
       break;
     case "Group":
-      component = <Box>
+      component = <Box sx={{ width: "600px",padding:"10px 30px" }}>
         <Typography>Select Groups</Typography>
         <Select
-              sx={{width:"80%"}}
+              sx={{width:"100%"}}
               color="success"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -237,7 +235,7 @@ const AnnounceDocumentDate = () => {
             <TextField
         multiline
         minRows={3}
-        sx={{ mx: 2 }}
+        sx={{ my: 1 }}
         name="Message"
         fullWidth
         value={message}
@@ -247,7 +245,7 @@ const AnnounceDocumentDate = () => {
       ></TextField>
       <Typography>Select Message Type</Typography>
         <Select
-          sx={{ width: "300px" }}
+          sx={{ width: "100%" }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={messageType}
@@ -262,8 +260,8 @@ const AnnounceDocumentDate = () => {
           <MenuItem value={"info"}>Information</MenuItem>
           <MenuItem value={"error"}>Deadline</MenuItem>
         </Select>
-      <PrimaryButton sx={{ width: "200px" }} onClick={handleGroupMessage}>
-        Send Message to Group
+      <PrimaryButton sx={{ width: "200px",my:1 }} onClick={handleGroupMessage}>
+        Send Message
       </PrimaryButton>
       </Box>
       break;  
@@ -314,4 +312,4 @@ const AnnounceDocumentDate = () => {
   );
 };
 
-export default AnnounceDocumentDate;
+export default Announcements;

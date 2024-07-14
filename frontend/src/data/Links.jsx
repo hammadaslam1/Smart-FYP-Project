@@ -1,4 +1,4 @@
-import AnnounceDocumentDate from "../screens/coordinator/AnnounceDocumentDate";
+
 import CoordinatorDashboard from "../screens/coordinator/CoordinatorDashboard";
 import ReportEvaluation from "../screens/coordinator/ReportEvaluation";
 import WeeklyProgressEvaluation from "../screens/coordinator/WeeklyProgressEvaluation";
@@ -28,6 +28,7 @@ import ManageGroups from "../screens/coordinator/ManageGroups";
 import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
 import GroupDetails from "../screens/coordinator/GroupDetails";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import Announcements from "../screens/coordinator/AnnounceDocumentDate";
 export const studentLinks = [
   {
     to: "/",
@@ -125,9 +126,9 @@ export const coordinatorLinks = [
     flag: true,
   },
   {
-    to: "/announce-document-date",
-    name: "Announce Document Date",
-    components: <AnnounceDocumentDate />,
+    to: "/announcements",
+    name: "Announcements",
+    components: <Announcements />,
     icon: CampaignIcon,
     flag: true,
   },

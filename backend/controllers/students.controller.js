@@ -43,12 +43,12 @@ export const sendMessage = async (req, res) => {
         continue;
       }
       console.log(student)
-      jugaar = student
-      student['jugaar'] = "some value";
-      student.notification.text = message;
-      student.notification.sender = sender;
-      student.notification.type = type;
-      student.notification.date = new Date();
+      student.notifications.push({
+        text:message,
+        date:new Date(),
+        type:type,
+        sender:sender
+      })
       await student.save();
       
     }
