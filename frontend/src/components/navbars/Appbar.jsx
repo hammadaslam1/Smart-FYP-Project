@@ -11,6 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MessageIcon from '@mui/icons-material/Message';
 import MuiAppBar from "@mui/material/AppBar";
 import React, { useEffect, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
@@ -199,6 +201,12 @@ const Appbar = () => {
             }}
           >
             {/* <Typography>{currentUser && currentUser.username}</Typography> */}
+            <IconButton size="large">
+              <NotificationsIcon  htmlColor="#08422D" />
+            </IconButton>
+            <IconButton size="large" sx={{marginRight:"30px"}}>
+              <MessageIcon htmlColor="#08422D" />
+            </IconButton>
             <PrimaryButton
               sx={{
                 minWidth: "100px",
