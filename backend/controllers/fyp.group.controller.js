@@ -43,6 +43,20 @@ export const getGroups = async (req, res) => {
   }
 };
 
+export const getGroup = async (req,res)=> {
+  const { id } = req.params;
+  const Group = getGroupModel();
+  try {
+    const group = await Group.findById(id);
+    if (!group) {
+      return res.status(404).json({ error: "Item not found!" });
+    }
+    res.status(200).json(group);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export const updateGroup = async (req, res) => {
   const Group = getGroupModel();
   const { id } = req.params;
@@ -246,3 +260,21 @@ export const resetStudents = async () => {
   //     }
 };
 
+export const editGroupTitle = async (req,res) => {
+    const {title} = req.body
+    const {id} = req.params;
+    const Group = getGroupModel();
+    const group = await Group.findOne({_id:id});
+      group.idea.title = title;
+      group.save();
+    res.status(200).json(group);
+}
+export const editGroupDesc = async (req,res) => {
+  const {description} = req.body
+  const {id} = req.params;
+  const Group = getGroupModel();
+  const group = await Group.findOne({_id:id});
+    group.idea.description = description;
+    group.save();
+  res.status(200).json(group);
+}

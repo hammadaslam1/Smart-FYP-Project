@@ -29,6 +29,7 @@ import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
 import GroupDetails from "../screens/coordinator/GroupDetails";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Announcements from "../screens/coordinator/AnnounceDocumentDate";
+import ManageGroupDetails from "../screens/coordinator/ManageGroupDetails";
 export const studentLinks = [
   {
     to: "/",
@@ -115,6 +116,13 @@ export const coordinatorLinks = [
     to: "/group-details",
     name: "Group Details",
     components: <GroupDetails />,
+    icon: DashboardIcon,
+    flag: false,
+  },
+  {
+    to: "/manage-group-details",
+    name: "Manage Group Details",
+    components: <ManageGroupDetails />,
     icon: DashboardIcon,
     flag: false,
   },

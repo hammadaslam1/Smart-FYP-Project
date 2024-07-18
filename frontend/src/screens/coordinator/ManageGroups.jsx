@@ -21,7 +21,7 @@ import {
   import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
   import PrimaryButton from "../../components/buttons/PrimaryButton";
   import { basicInfo } from "../../data/BasicInfo";
-  
+  import { useNavigate } from "react-router-dom";
   const StyledHeadCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#08422D",
@@ -53,6 +53,7 @@ import {
   }));
   
   const ManageGroups = () => {
+    const navigate = useNavigate();
     const [flag, setFlag] = useState(false);
   const [loading, setLoading] = useState(false);
 const [reload,setReload] = useState(0);
@@ -130,7 +131,16 @@ const [reload,setReload] = useState(0);
               </TableHead>
               <TableBody>
                 {groups.length>0 && groups.map((row) => (
-                  <StyledTableRow key={row._id}>
+                  <StyledTableRow  sx={{
+                    "&:hover": {
+          backgroundColor: "lightgrey", 
+          cursor:"pointer"
+        },
+                  }} key={row._id} onClick={() => {
+                    navigate("/manage-group-details", {
+                      state: row,
+                    });
+                  }}>
                     <StyledTableCell component="th" scope="row">
                       {row.teamLead}
                     </StyledTableCell>

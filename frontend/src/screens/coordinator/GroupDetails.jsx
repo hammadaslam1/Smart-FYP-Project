@@ -25,7 +25,7 @@ const GroupDetails = () => {
       }}
       elevation={5}
     >
-      <Typography variant="h4">Group Details</Typography>
+      <Typography variant="h4" sx={{ borderBottom: "1px solid grey",color:"#08422D",fontWeight:"700"}}>Group Details</Typography>
       <Box sx={{ width: "100%" }}>
         <Typography
           sx={{
@@ -33,6 +33,7 @@ const GroupDetails = () => {
             fontSize: "3rem",
             borderBottom: "1px solid grey",
             paddingBottom: "10px",
+            paddingTop:"10px"
           }}
           variant="h4"
           textAlign="center"

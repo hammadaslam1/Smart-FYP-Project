@@ -30,9 +30,9 @@ const CoordinatorDashboard = () => {
         Manage Groups
         </PrimaryButton>
         <PrimaryButton  onClick={() => {
-            navigate("/manage-project-ideas");
+            navigate("/announcements");
           }} sx={{ width: "33%", height: "150px", my: 1 }}>
-          Manage Project Ideas
+          Announcements
         </PrimaryButton>
         <PrimaryButton  onClick={() => {
             navigate("/weekly-progress-evaluation");

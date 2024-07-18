@@ -42,7 +42,6 @@ export const sendMessage = async (req, res) => {
         console.log(`Student with ID ${member.student_id} not found`);
         continue;
       }
-      console.log(student)
       student.notifications.push({
         text:message,
         date:new Date(),
