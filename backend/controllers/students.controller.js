@@ -57,3 +57,10 @@ export const sendMessage = async (req, res) => {
     res.status(500).json("There was an error while sending the message");
   }
 };
+
+export const getStudentMessages = async (req,res) => {
+  const {id} = req.params
+  const Student = getStudentModel();
+  const student = await Student.findOne({student_id:id});
+  res.status(200).json(student.notifications);
+}

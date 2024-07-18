@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
-import MessageIcon from '@mui/icons-material/Message';
 import MuiAppBar from "@mui/material/AppBar";
 import React, { useEffect, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
@@ -27,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import avatarImage from "../assets/avatars/user-avatar-happy.svg";
 import { signoutSuccess } from "../../redux/userReducer/userSlice";
 import BroadcastsModal from "../modals/BroadcastsModal";
+import MessagesModal from "../modals/MessagesModal copy";
 
 const drawerWidth = 300;
 
@@ -204,9 +204,9 @@ const Appbar = () => {
             
             <BroadcastsModal />
             {
-              currentUser.role==="Student"?(<IconButton size="large">
-                <MessageIcon htmlColor="#08422D" />
-              </IconButton>):(<></>)
+              currentUser.role==="Student"?(
+                <MessagesModal/>
+              ):(<></>)
             }
             <div style={{marginRight:"50px"}}></div>
             <PrimaryButton

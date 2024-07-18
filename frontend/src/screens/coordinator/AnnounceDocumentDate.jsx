@@ -17,7 +17,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useSelector } from "react-redux";
 
 const Announcements = () => {
-  const sender = useSelector((state) => state.user.currentUser._id);
+  const sender = useSelector((state) => state.user.currentUser.name);
 
   const [message, setMessage] = useState("");
   const [students, setStudents] = useState("");
