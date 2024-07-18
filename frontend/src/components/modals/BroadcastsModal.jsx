@@ -4,15 +4,31 @@ import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import DialogContent from '@mui/joy/DialogContent';
+import {Box, IconButton, Typography} from "@mui/material";
 
 export default function BroadcastsModal() {
+    const [broadcasts, setBroadcasts] = React.useState([]);
+    React.useEffect(()=>{
+        fetch('http://localhost:3001/api/broadcast/getallbroadcasts',{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+  
+        })
+       .then(response => response.json()).then((data)=>{
+        const reverseData = data.reverse();
+        setBroadcasts(reverseData)
+       })
+    },[])
   const [open, setOpen] = React.useState(false);
   return (
     <React.Fragment>
-      <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
-        Open modal
-      </Button>
+        <IconButton size="large" onClick={() => setOpen(true)}>
+              <NotificationsIcon  htmlColor="#08422D" />
+            </IconButton>
       <Transition in={open} timeout={400}>
         {(state) => (
           <Modal
@@ -44,12 +60,26 @@ export default function BroadcastsModal() {
                   entering: { opacity: 1 },
                   entered: { opacity: 1 },
                 }[state],
+                height:"80vh",
+                width:"80vw"
               }}
+
             >
-              <DialogTitle>Transition modal</DialogTitle>
-              <DialogContent>
-                Using `react-transition-group` to create a fade animation.
-              </DialogContent>
+              <Typography variant='h3' color="#08422D" sx={{
+                borderBottom:"2px solid #08422D"
+              }}>Broadcasts</Typography>
+              <Box sx={{overflow:"auto",padding:"5px"}}>
+                {
+                    broadcasts.map((broadcast)=>(
+                        <Box sx={{
+                            borderBottom:"1px solid grey",padding:"5px",display:"flex",justifyContent:"space-between"
+                        }}>
+                            <Typography variant='h5'>{broadcast.message}</Typography>
+                            <Typography variant='body2'>{broadcast.date.toLocaleString()}</Typography>
+                        </Box>
+                    ))
+                }
+              </Box>
             </ModalDialog>
           </Modal>
         )}

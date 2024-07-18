@@ -3,6 +3,6 @@ import { getAllBroadcasts, insertBroadcast } from "../controllers/broadcast.cont
 
 const router = express.Router();
 router.post("/insertbroadcast", insertBroadcast);
-router.post("/getallbroadcasts", getAllBroadcasts);
+router.get("/getallbroadcasts", getAllBroadcasts);
 
 export default router;

@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MessageIcon from '@mui/icons-material/Message';
 import MuiAppBar from "@mui/material/AppBar";
 import React, { useEffect, useState } from "react";
@@ -27,6 +26,7 @@ import SignupModal from "../modals/SignupModal";
 import { useNavigate } from "react-router-dom";
 import avatarImage from "../assets/avatars/user-avatar-happy.svg";
 import { signoutSuccess } from "../../redux/userReducer/userSlice";
+import BroadcastsModal from "../modals/BroadcastsModal";
 
 const drawerWidth = 300;
 
@@ -201,12 +201,14 @@ const Appbar = () => {
             }}
           >
             {/* <Typography>{currentUser && currentUser.username}</Typography> */}
-            <IconButton size="large">
-              <NotificationsIcon  htmlColor="#08422D" />
-            </IconButton>
-            <IconButton size="large" sx={{marginRight:"30px"}}>
-              <MessageIcon htmlColor="#08422D" />
-            </IconButton>
+            
+            <BroadcastsModal />
+            {
+              currentUser.role==="Student"?(<IconButton size="large">
+                <MessageIcon htmlColor="#08422D" />
+              </IconButton>):(<></>)
+            }
+            <div style={{marginRight:"50px"}}></div>
             <PrimaryButton
               sx={{
                 minWidth: "100px",
