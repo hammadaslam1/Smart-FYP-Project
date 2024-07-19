@@ -198,7 +198,7 @@ const Announcements = () => {
             }}
           >
             <MenuItem value={"warning"}>Warning</MenuItem>
-            <MenuItem value={"successs"}>Acknowledgement</MenuItem>
+            <MenuItem value={"success"}>Acknowledgement</MenuItem>
             <MenuItem value={"info"}>Information</MenuItem>
             <MenuItem value={"error"}>Deadline</MenuItem>
           </Select>
@@ -269,7 +269,7 @@ const Announcements = () => {
             }}
           >
             <MenuItem value={"warning"}>Warning</MenuItem>
-            <MenuItem value={"successs"}>Acknowledgement</MenuItem>
+            <MenuItem value={"success"}>Acknowledgement</MenuItem>
             <MenuItem value={"info"}>Information</MenuItem>
             <MenuItem value={"error"}>Deadline</MenuItem>
           </Select>

@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 import avatarImage from "../assets/avatars/user-avatar-happy.svg";
 import { signoutSuccess } from "../../redux/userReducer/userSlice";
 import BroadcastsModal from "../modals/BroadcastsModal";
-import MessagesModal from "../modals/MessagesModal copy";
+import MessagesModal from "../modals/MessagesModal";
 
 const drawerWidth = 300;
 

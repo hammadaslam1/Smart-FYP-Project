@@ -6,17 +6,37 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import DialogContent from "@mui/joy/DialogContent";
-import { Box, IconButton, Typography,Badge } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { Box, IconButton, Typography, Badge } from "@mui/material";
+import { useSelector } from "react-redux";
+import MessageIcon from "@mui/icons-material/Message";
 
-export default function BroadcastsModal() {
-  const [renderFlag,setRenderFlag] = React.useState(0);
+export default function MessagesModal() {
+  const [renderFlag, setRenderFlag] = React.useState(0);
+  const [messagesRead, setMessagesRead] = React.useState(null);
   const currentUser = useSelector((state) => state.user.currentUser);
   const id = currentUser.id;
-  const [broadcastsRead,setBroadcastsRead] = React.useState(null)
-  const [broadcasts, setBroadcasts] = React.useState([]);
+  const [messages, setMessages] = React.useState([]);
   React.useEffect(() => {
-    fetch("http://localhost:3001/api/broadcast/getallbroadcasts", {
+    fetch(
+      `http://localhost:3001/api/student/getstudentmessages/${currentUser.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then(async (data) => {
+        const reverseData = data.reverse();
+        const filteredData = await reverseData.filter(
+          (item) =>
+            item !== null &&
+            Object.values(item).every((value) => value !== null)
+        );
+        setMessages(filteredData);
+      });
+    fetch(`http://localhost:3001/api/user/checkmessagesstatus/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,29 +44,51 @@ export default function BroadcastsModal() {
     })
       .then((response) => response.json())
       .then((data) => {
-        const reverseData = data.reverse();
-        setBroadcasts(reverseData);
+        setMessagesRead(data);
       });
-      fetch(`http://localhost:3001/api/user/checkbroadcastsstatus/${id}`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response)=>response.json()).then((data) => {
-          setBroadcastsRead(data);
-      })
-      
   }, [renderFlag]);
   const [open, setOpen] = React.useState(false);
+  const messagesStyle = {
+    success: {
+      backgroundColor: "#39f60f9b",
+      color: "black",
+      fontWeight: "bold",
+    },
+    warning: {
+      backgroundColor: "#e1ff00d0",
+      color: "black",
+    },
+    info: {
+      backgroundColor: "#B9D6F2",
+      color: "black",
+    },
+    error: {
+      backgroundColor: "#ff0000be",
+      color: "black",
+    },
+  };
   return (
     <React.Fragment>
-      <IconButton  size="large" onClick={() => {setOpen(true)
-        fetch(`http://localhost:3001/api/user/markbroadcastsasread/${id}`,{method: "POST",}).then(()=>{
-          setRenderFlag(prev=>prev+1)
-        })
-      }}>
-        <Badge variant={broadcastsRead?"":"dot"} color="error" sx={{position:"relative",top:"7px"}}>
-          <NotificationsIcon htmlColor="#08422D" sx={{position:"relative",left:"5px",bottom:"7px"}} />
+      <IconButton
+        size="large"
+        onClick={() => {
+          setOpen(true);
+          fetch(`http://localhost:3001/api/user/markmessagesasread/${id}`, {
+            method: "POST",
+          }).then(() => {
+            setRenderFlag((prev) => prev + 1);
+          });
+        }}
+      >
+        <Badge
+          variant={messagesRead ? "" : "dot"}
+          color="error"
+          sx={{ position: "relative", top: "5px" }}
+        >
+          <MessageIcon
+            htmlColor="#08422D"
+            sx={{ position: "relative", left: "3px", bottom: "5px" }}
+          />
         </Badge>
       </IconButton>
       <Transition in={open} timeout={400}>
@@ -91,22 +133,30 @@ export default function BroadcastsModal() {
                   borderBottom: "2px solid #08422D",
                 }}
               >
-                Broadcasts
+                Messages
               </Typography>
               <Box sx={{ overflow: "auto", padding: "5px" }}>
-                {broadcasts.map((broadcast) => (
+                {messages.map((message) => (
                   <Box
                     sx={{
                       borderBottom: "1px solid grey",
-                      padding: "5px",
+                      padding: "10px",
                       display: "flex",
                       justifyContent: "space-between",
+                      ...messagesStyle[`${message.type}`],
                     }}
                   >
-                    <Typography variant="h5">{broadcast.message}</Typography>
-                    <Typography variant="body2">
-                      {broadcast.date.toLocaleString()}
+                    <Typography variant="h5">
+                      Message: {message.text}
                     </Typography>
+                    <Box>
+                      <Typography variant="body2">
+                        Sent By: {message.sender}
+                      </Typography>
+                      <Typography variant="body2">
+                        Date: {message.date.toLocaleString()}
+                      </Typography>
+                    </Box>
                   </Box>
                 ))}
               </Box>
