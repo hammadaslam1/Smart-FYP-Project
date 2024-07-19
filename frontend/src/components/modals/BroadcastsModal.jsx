@@ -10,7 +10,6 @@ import { Box, IconButton, Typography,Badge } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function BroadcastsModal() {
-  const [renderFlag,setRenderFlag] = React.useState(0);
   const currentUser = useSelector((state) => state.user.currentUser);
   const id = currentUser.id;
   const [broadcastsRead,setBroadcastsRead] = React.useState(null)
@@ -34,19 +33,21 @@ export default function BroadcastsModal() {
         },
       }).then((response)=>response.json()).then((data) => {
           setBroadcastsRead(data);
+          // setIsData(true);
       })
       
-  }, [renderFlag]);
+  }, []);
   const [open, setOpen] = React.useState(false);
   return (
     <React.Fragment>
-      <IconButton  size="large" onClick={() => {setOpen(true)
+      <IconButton sx={{padding:0,marginRight:2}}  size="large" onClick={() => {
         fetch(`http://localhost:3001/api/user/markbroadcastsasread/${id}`,{method: "POST",}).then(()=>{
-          setRenderFlag(prev=>prev+1)
+          setBroadcastsRead(prev=>true);
+          setOpen(true)
         })
       }}>
-        <Badge variant={broadcastsRead?"":"dot"} color="error" sx={{position:"relative",top:"7px"}}>
-          <NotificationsIcon htmlColor="#08422D" sx={{position:"relative",left:"5px",bottom:"7px"}} />
+        <Badge variant={broadcastsRead?"":"dot"} color="error" sx={{padding:0,}}>
+          <NotificationsIcon htmlColor="#08422D" sx={{}} />
         </Badge>
       </IconButton>
       <Transition in={open} timeout={400}>

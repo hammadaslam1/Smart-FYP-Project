@@ -30,6 +30,8 @@ import GroupDetails from "../screens/coordinator/GroupDetails";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Announcements from "../screens/coordinator/AnnounceDocumentDate";
 import ManageGroupDetails from "../screens/coordinator/ManageGroupDetails";
+import SubmitFunctionalRequirements from "../screens/student/SubmitFunctionalRequirements";
+
 export const studentLinks = [
   {
     to: "/",
@@ -42,6 +44,13 @@ export const studentLinks = [
     to: "/add-weekly-progress",
     name: "Add Weekly Progress",
     components: <AddWeeklyProgress />,
+    icon: PublishedWithChangesIcon,
+    flag: true,
+  },
+  {
+    to: "/fr-submission",
+    name: "Submit Functional Requirements",
+    components: <SubmitFunctionalRequirements/>,
     icon: PublishedWithChangesIcon,
     flag: true,
   },

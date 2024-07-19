@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import MessageIcon from "@mui/icons-material/Message";
 
 export default function MessagesModal() {
-  const [renderFlag, setRenderFlag] = React.useState(0);
   const [messagesRead, setMessagesRead] = React.useState(null);
   const currentUser = useSelector((state) => state.user.currentUser);
   const id = currentUser.id;
@@ -46,7 +45,7 @@ export default function MessagesModal() {
       .then((data) => {
         setMessagesRead(data);
       });
-  }, [renderFlag]);
+  }, []);
   const [open, setOpen] = React.useState(false);
   const messagesStyle = {
     success: {
@@ -71,23 +70,25 @@ export default function MessagesModal() {
     <React.Fragment>
       <IconButton
         size="large"
+        sx={{p:0}}
         onClick={() => {
-          setOpen(true);
           fetch(`http://localhost:3001/api/user/markmessagesasread/${id}`, {
             method: "POST",
           }).then(() => {
-            setRenderFlag((prev) => prev + 1);
+            setMessagesRead(true)
+          setOpen(true);
+
           });
         }}
       >
         <Badge
           variant={messagesRead ? "" : "dot"}
           color="error"
-          sx={{ position: "relative", top: "5px" }}
+          sx={{}}
         >
           <MessageIcon
             htmlColor="#08422D"
-            sx={{ position: "relative", left: "3px", bottom: "5px" }}
+            sx={{  }}
           />
         </Badge>
       </IconButton>

@@ -17,7 +17,7 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
   return (
     <Box sx={{ pt: 10 }}>
-      <Typography variant="h4" sx={{ color: "#08422D", p: 3, fontWeight: 600 }}>
+      <Typography variant="h4" sx={{ color: "#08422D", p:3, fontWeight: 600 }}>
         Student Dashboard
       </Typography>
       <Card
@@ -34,6 +34,9 @@ const StudentDashboard = () => {
         </PrimaryButton>
         <PrimaryButton onClick={()=>{navigate("/idea-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Submit Project Idea
+        </PrimaryButton>
+        <PrimaryButton onClick={()=>{navigate("/fr-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
+          Submit Functional Requirements
         </PrimaryButton>
         <PrimaryButton onClick={()=>{navigate("/documentation-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Submit Documentation
