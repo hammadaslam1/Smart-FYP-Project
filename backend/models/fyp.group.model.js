@@ -109,6 +109,10 @@ const groupSchema = new Schema({
   progress:{
     type:Number,
     default:0,
+  },
+  frs:{
+    type:[Object],
+    default:[{}],
   }
 });
 

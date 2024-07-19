@@ -25,7 +25,8 @@ const StudentDashboard = () => {
           px: 3,
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-between",
+          justifyContent: "start",
+          gap:"5px"
         }}
         elevation={0}
       >
