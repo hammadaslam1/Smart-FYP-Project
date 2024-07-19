@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import getGroupModel from "../models/fyp.group.model.js";
 import getStudentModel from "../models/students.model.js";
+import User from "../models/user.model.js";
 import path from "path";
 import fs from "fs";
 export const insertGroup = async (req, res) => {
@@ -43,7 +44,7 @@ export const getGroups = async (req, res) => {
   }
 };
 
-export const getGroup = async (req,res)=> {
+export const getGroup = async (req, res) => {
   const { id } = req.params;
   const Group = getGroupModel();
   try {
@@ -55,7 +56,7 @@ export const getGroup = async (req,res)=> {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const updateGroup = async (req, res) => {
   const Group = getGroupModel();
@@ -220,32 +221,31 @@ export const sendGroupMessage = async (req, res) => {
           const student = await Student.findOne({ student_id: memberID });
 
           if (student) {
-            console.log(message,type,sender)
-            console.log(student)
-            // student.notification.text = message;
-            // student.notification.date = new Date();
-            // student.notification.type = type;
-            // student.notification.sender = sender;
-            // await student.save();
             student.notifications.push({
-              text:message,
-              date:new Date(),
-              type:type,
-              sender:sender
-            })
+              text: message,
+              date: new Date(),
+              type: type,
+              sender: sender,
+            });
+            const user = await User.findOne({ id: memberID });
+            user.read.messagesRead = false;
+            await user.save();
             student.save();
           } else {
             console.log(`Student with ID ${memberID} not found`);
           }
         } catch (error) {
-          console.error(`Error updating student with ID ${member.student_id}:`, error);
+          console.error(
+            `Error updating student with ID ${member.student_id}:`,
+            error
+          );
         }
       }
     }
-    res.status(200).json({ message: 'Messages sent successfully' });
+    res.status(200).json({ message: "Messages sent successfully" });
   } catch (error) {
     console.error("An error occurred while sending messages:", error);
-    res.status(500).json({ error: 'An error occurred while sending messages' });
+    res.status(500).json({ error: "An error occurred while sending messages" });
   }
 };
 
@@ -260,21 +260,21 @@ export const resetStudents = async () => {
   //     }
 };
 
-export const editGroupTitle = async (req,res) => {
-    const {title} = req.body
-    const {id} = req.params;
-    const Group = getGroupModel();
-    const group = await Group.findOne({_id:id});
-      group.idea.title = title;
-      group.save();
-    res.status(200).json(group);
-}
-export const editGroupDesc = async (req,res) => {
-  const {description} = req.body
-  const {id} = req.params;
+export const editGroupTitle = async (req, res) => {
+  const { title } = req.body;
+  const { id } = req.params;
   const Group = getGroupModel();
-  const group = await Group.findOne({_id:id});
-    group.idea.description = description;
-    group.save();
+  const group = await Group.findOne({ _id: id });
+  group.idea.title = title;
+  group.save();
   res.status(200).json(group);
-}
+};
+export const editGroupDesc = async (req, res) => {
+  const { description } = req.body;
+  const { id } = req.params;
+  const Group = getGroupModel();
+  const group = await Group.findOne({ _id: id });
+  group.idea.description = description;
+  group.save();
+  res.status(200).json(group);
+};

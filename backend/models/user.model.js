@@ -33,8 +33,19 @@ const userSchema = new mongoose.Schema(
     },
     id: {
       type: String,
-      required: true,
+      required: false,
+      unique: true,
     },
+    read:{
+      broadcastsRead:{
+        type: Boolean,
+        default: false,
+      },
+      messagesRead:{
+        type:Boolean,
+        default: false,
+      }
+    }
   },
   { timestamps: true }
 );

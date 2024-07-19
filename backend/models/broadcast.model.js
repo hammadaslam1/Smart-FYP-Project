@@ -5,7 +5,7 @@ const broadcastSchema = new Schema({
     date: {
         type: Date,
         default: new Date()
-    }
+    },
   });
 
   const getBroadcastModel = () => {

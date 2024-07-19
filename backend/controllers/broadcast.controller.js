@@ -1,8 +1,19 @@
 import mongoose from "mongoose";
 import getBroadcastModel from "../models/broadcast.model.js";
+import User from "../models/user.model.js";
 export const insertBroadcast = async (req, res) => {
   const { message } = req.body;
   const Broadcast = getBroadcastModel();
+  const users = await User.find();
+  for (const user of users) {
+    try {
+      user.read.broadcastsRead = false;
+      user.save();
+    } catch (error) {
+      console.error(`Error setting the broadcasrRead property`, error);
+    }
+    // console.log(user);
+  }
   try {
     const broadcast = await Broadcast.create({ message: message });
     if (!broadcast) {

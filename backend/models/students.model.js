@@ -34,7 +34,8 @@ const studentSchema = new Schema({
       type: Date,
       default: null,
     }
-  }]
+  }],
+  
   // notifications:[Object]
 });
 

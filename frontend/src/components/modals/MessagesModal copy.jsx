@@ -6,12 +6,16 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import DialogContent from '@mui/joy/DialogContent';
-import {Box, IconButton, Typography} from "@mui/material";
+import {Box, IconButton, Typography,Badge} from "@mui/material";
 import { useSelector } from "react-redux";
 import MessageIcon from '@mui/icons-material/Message';
 
+
 export default function MessagesModal() {
+  const [renderFlag,setRenderFlag] = React.useState(0);
+  const [messagesRead,setMessagesRead] = React.useState(null)
   const currentUser = useSelector((state) => state.user.currentUser);
+  const id = currentUser.id;
     const [messages, setMessages] = React.useState([]);
     React.useEffect(()=>{
         fetch(`http://localhost:3001/api/student/getstudentmessages/${currentUser.id}`,{
@@ -28,12 +32,26 @@ export default function MessagesModal() {
         );
         setMessages(filteredData) 
        })
-    },[])
+       fetch(`http://localhost:3001/api/user/checkmessagesstatus/${id}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response)=>response.json()).then((data) => {
+          setMessagesRead(data);
+      })
+    },[renderFlag])
   const [open, setOpen] = React.useState(false);
   return (
     <React.Fragment>
-        <IconButton size="large" onClick={() => setOpen(true)}>
-              <MessageIcon  htmlColor="#08422D" />
+        <IconButton size="large" onClick={() => {setOpen(true)
+          fetch(`http://localhost:3001/api/user/markmessagesasread/${id}`,{method: "POST",}).then(()=>{
+            setRenderFlag(prev=>prev+1)
+          })
+        }}>
+        <Badge variant={messagesRead?"":"dot"} color="error" sx={{position:"relative",top:"5px"}}>
+          <MessageIcon htmlColor="#08422D" sx={{position:"relative",left:"3px",bottom:"5px"}} />
+        </Badge>
             </IconButton>
       <Transition in={open} timeout={400}>
         {(state) => (

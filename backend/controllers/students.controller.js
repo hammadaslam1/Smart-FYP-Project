@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import getStudentModel from "../models/students.model.js";
-
+import User from "../models/user.model.js";
 export const getStudents = async (req, res, next) => {
   const StudentModel = getStudentModel();
   try {
@@ -39,7 +39,7 @@ export const sendMessage = async (req, res) => {
         student_id: member,
       });
       if (!student) {
-        console.log(`Student with ID ${member.student_id} not found`);
+        console.log(`Student with ID ${member} not found`);
         continue;
       }
       student.notifications.push({
@@ -48,6 +48,9 @@ export const sendMessage = async (req, res) => {
         type:type,
         sender:sender
       })
+      const user = await User.findOne({id:member})
+      user.read.messagesRead = false;
+      await user.save();
       await student.save();
       
     }

@@ -1,8 +1,12 @@
 import express from 'express';
 import {
+    checkBroadcastsStatus,
+    checkMessagesStatus,
     deleteUser,
     getUser,
     getUsers,
+    markBroadcastsAsRead,
+    markMessagesAsRead,
     signout,
     test,
     updateUser,
@@ -17,5 +21,9 @@ router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout', signout);
 router.get('/getusers', verifyToken, getUsers);
 router.get('/:userId', getUser);
+router.get('/checkbroadcastsstatus/:id', checkBroadcastsStatus);
+router.get('/checkmessagesstatus/:id', checkMessagesStatus);
+router.post('/markbroadcastsasread/:id', markBroadcastsAsRead);
+router.post('/markmessagesasread/:id', markMessagesAsRead);
 
 export default router;

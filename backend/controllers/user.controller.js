@@ -138,3 +138,77 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const checkBroadcastsStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.read.broadcastsRead === false) {
+      res.status(200).json(false);
+    } else if (user.read.broadcastsRead === true) {
+      res.status(200).json(true);
+    } else {
+      res.status(200).json(null); 
+    }
+  } catch (error) {
+    next(error); 
+  }
+};
+
+export const checkMessagesStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.read.messagesRead === false) {
+      res.status(200).json(false);
+    } else if (user.read.messagesRead === true) {
+      res.status(200).json(true);
+    } else {
+      res.status(200).json(null); 
+    }
+  } catch (error) {
+    next(error); 
+  }
+};
+
+export const markBroadcastsAsRead = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+      user.read.broadcastsRead = true;
+      await user.save();
+      res.status(200).json("broadcasts marked as read");
+  } catch (error) {
+    next(error); 
+  }
+}
+
+export const markMessagesAsRead = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+      user.read.messagesRead = true;
+      await user.save();
+      res.status(200).json("messages marked as read");
+  } catch (error) {
+    next(error); 
+  }
+}
