@@ -1,16 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, TextField, Card, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Card,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import PrimaryButton from "../buttons/PrimaryButton";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import editIcon from "../assets/icons/editing-icon.png";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FR from "./FR";
 const ManageFRs = () => {
   const student = useSelector((state) => state.student.student);
   const group_id = student.group.group_id;
   const [FRs, setFRs] = useState([{ title: "", description: "" }]);
-  useEffect(()=>{
+  useEffect(() => {
     fetchFRs();
-},[])
+  }, []);
   const fetchFRs = () => {
-    
     fetch("http://localhost:3001/api/groups/fetchfrs/", {
       method: "POST",
       headers: {
@@ -29,18 +38,11 @@ const ManageFRs = () => {
   };
   return (
     <>
-    <Box sx={{width:"700px"}}>
-    {
-        FRs.map((fr,index)=>(
-            <Card id={index} elevation={5} sx={{my:1,p:2}}>
-            
-            <Typography variant="h5">{fr.title}</Typography>
-            <Typography variant="h5">{fr.description}</Typography>
-            </Card>
-        ))
-    }
-    </Box>
-    
+      <Box>
+        {FRs.map((fr, index) => (
+            <FR index={index} fr={fr}/>
+        ))}
+      </Box>
     </>
   );
 };

@@ -82,7 +82,12 @@ const SubmitFRs = () => {
           <span style={{ fontSize: '2rem', padding: 0 }}>+</span>
         </PrimaryButton>
         <PrimaryButton
-          disabled={FRs.length>1?false:true}
+          disabled={(
+            FRs.some((fr) => fr.title === '' || fr.description === '') ||
+            FRs.length === 0
+          )?true:false
+            // ?false:true
+          }
           sx={{ width: '100px', height: '50px', marginLeft: '10px',"&.Mui-disabled": {
                   backgroundColor: "lightgray",
                   color: "#08422D",
