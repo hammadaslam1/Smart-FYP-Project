@@ -8,19 +8,22 @@ import {
   MenuItem,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import SubmitFRs from "../../components/frcomponents/SubmitFRs";
 import ManageFRs from "../../components/frcomponents/ManageFRs";
 const SubmitFunctionalRequirements = () => {
+  const student = useSelector((state) => state.student.student);
+  const group_id = student.group.group_id;
   const [componentType, setComponentType] = useState("");
   const [component, setComponent] = useState(<SubmitFRs/>);
   const [componentHeading, setComponentHeading] = useState(
     "Submit Functional Requirements"
   );
-  const handleSelect = (e) => {
-    setComponentType(e.target.value);
-    switch (e.target.value) {
+  const handleSelect = (value) => {
+    setComponentType(value);
+    switch (value) {
       case "Submit FRs":
         setComponent(prev=><SubmitFRs/>)
         setComponentHeading("Submit Functional Requirements");
@@ -33,6 +36,25 @@ const SubmitFunctionalRequirements = () => {
         component = null;
     }
   };
+  useEffect(()=>{
+    fetch("http://localhost:3001/api/groups/fetchfrs/",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },body:JSON.stringify({group_id:group_id})
+    }).then((response)=>{
+      if(response.ok)
+      {
+        return response.json()
+      }
+    }).then((data)=>{
+      console.log(data)
+      if(data.length>0)
+      {
+        handleSelect("Manage FRs");
+      }
+    })
+  },[])
   return (
     <Box sx={{ pt: 10, width: "100%" }}>
       <Box
@@ -43,7 +65,7 @@ const SubmitFunctionalRequirements = () => {
           margin: 3,
         }}
       >
-        <Typography variant="h3">{componentHeading}</Typography>
+        <Typography variant="h3" sx={{color: "#08422D"}}>{componentHeading}</Typography>
         <Box>
           <FormControl fullWidth>
             <InputLabel
@@ -60,7 +82,7 @@ const SubmitFunctionalRequirements = () => {
               value={componentType}
               label="filtering.."
               color="success"
-              onChange={handleSelect}
+              onChange={(e)=>handleSelect(e.target.value)}
             >
               <MenuItem value={"Submit FRs"}>Submit FRs</MenuItem>
               <MenuItem value={"Manage FRs"}>Manage FRs</MenuItem>

@@ -37,7 +37,7 @@ const StudentDashboard = () => {
           Submit Project Idea
         </PrimaryButton>
         <PrimaryButton onClick={()=>{navigate("/fr-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
-          Submit Functional Requirements
+          Functional Requirements
         </PrimaryButton>
         <PrimaryButton onClick={()=>{navigate("/documentation-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Submit Documentation

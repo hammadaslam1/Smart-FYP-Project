@@ -22,3 +22,21 @@ export const submitFRs = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const fetchFRs = async (req, res) => {
+  try {
+    const { group_id } = req.body;
+
+    const Group = getGroupModel();
+    const group = await Group.findOne({ _id: group_id });
+
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    res.status(200).json(group.frs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
