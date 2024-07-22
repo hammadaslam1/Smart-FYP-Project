@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, TextField, Card } from '@mui/material';
 import PrimaryButton from '../buttons/PrimaryButton';
+import { useNavigate } from 'react-router-dom';
 
-const SubmitFRs = () => {
+const SubmitFRs = ({handleSelect}) => {
+  const navigate  = useNavigate();
   const [FRCount, setFRCount] = useState([1]);
   const [FRs, setFRs] = useState([{ title: '', description: '' }]);
   const student = useSelector((state) => state.student.student);
@@ -32,6 +34,7 @@ const SubmitFRs = () => {
       .then((response) => {
         if (response.ok) {
           alert('Form submitted successfully');
+          handleSelect("Manage FRs");
         } else {
           alert('Failed to submit form');
         }

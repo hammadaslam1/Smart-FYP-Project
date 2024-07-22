@@ -27,7 +27,7 @@ const SubmitFunctionalRequirements = () => {
     setComponentType(value);
     switch (value) {
       case "Submit FRs":
-        setComponent(prev=><SubmitFRs/>)
+        setComponent(prev=><SubmitFRs handleSelect={handleSelect}/>)
         setComponentHeading("Submit Functional Requirements");
         break;
       case "Manage FRs":

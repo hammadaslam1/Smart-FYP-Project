@@ -50,7 +50,7 @@ export const studentLinks = [
   },
   {
     to: "/fr-submission",
-    name: "Submit Functional Requirements",
+    name: "Functional Requirements",
     components: <SubmitFunctionalRequirements/>,
     icon: GradingIcon,
     flag: true,
