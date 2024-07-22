@@ -6,6 +6,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,7 @@ const SubmitFunctionalRequirements = () => {
   const student = useSelector((state) => state.student.student);
   const group_id = student.group.group_id;
   const [componentType, setComponentType] = useState("");
+  const [isLoading,setIsLoading] = useState(true);
   const [component, setComponent] = useState(<SubmitFRs/>);
   const [componentHeading, setComponentHeading] = useState(
     "Submit Functional Requirements"
@@ -45,6 +47,7 @@ const SubmitFunctionalRequirements = () => {
     }).then((response)=>{
       if(response.ok)
       {
+        setIsLoading(false)
         return response.json()
       }
     }).then((data)=>{
@@ -56,42 +59,59 @@ const SubmitFunctionalRequirements = () => {
     })
   },[])
   return (
-    <Box sx={{ pt: 10, width: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          margin: 3,
-        }}
+    <>
+{
+      isLoading?(
+        <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        width="100%"
       >
-        <Typography variant="h3" sx={{color: "#08422D"}}>{componentHeading}</Typography>
-        <Box>
-          <FormControl fullWidth>
-            <InputLabel
-              color="success"
-              id="demo-simple-select-label"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <FilterAltIcon /> Type
-            </InputLabel>
-            <Select
-              sx={{ width: "300px" }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={componentType}
-              label="filtering.."
-              color="success"
-              onChange={(e)=>handleSelect(e.target.value)}
-            >
-              <MenuItem value={"Submit FRs"}>Submit FRs</MenuItem>
-              <MenuItem value={"Manage FRs"}>Manage FRs</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
+        <CircularProgress color="success" />
       </Box>
-      <Box sx={{mx:3}}>{component}</Box>
-    </Box>
+      ):( <Box sx={{ pt: 10, width: "100%" }}>
+      
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            margin: 3,
+          }}
+        >
+          <Typography variant="h3" sx={{color: "#08422D"}}>{componentHeading}</Typography>
+          <Box>
+            <FormControl fullWidth>
+              <InputLabel
+                color="success"
+                id="demo-simple-select-label"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <FilterAltIcon /> Type
+              </InputLabel>
+              <Select
+                sx={{ width: "300px" }}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={componentType}
+                label="filtering.."
+                color="success"
+                onChange={(e)=>handleSelect(e.target.value)}
+              >
+                <MenuItem value={"Submit FRs"}>Submit FRs</MenuItem>
+                <MenuItem value={"Manage FRs"}>Manage FRs</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        <Box sx={{mx:3}}>{component}</Box>
+      </Box>)
+    }
+    </>
+    
+   
   );
 };
 

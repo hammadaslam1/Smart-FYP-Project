@@ -22,6 +22,7 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TaskIcon from "@mui/icons-material/Task";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import GradingIcon from '@mui/icons-material/Grading';
 // import ViewFYPGroups from "../screens/coordinator/ViewFYPGroups";
 // import ManageProjectIdeas from "../screens/coordinator/ManageProjectIdeas";
 import ManageGroups from "../screens/coordinator/ManageGroups";
@@ -51,7 +52,7 @@ export const studentLinks = [
     to: "/fr-submission",
     name: "Submit Functional Requirements",
     components: <SubmitFunctionalRequirements/>,
-    icon: PublishedWithChangesIcon,
+    icon: GradingIcon,
     flag: true,
   },
   {

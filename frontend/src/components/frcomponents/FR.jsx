@@ -10,17 +10,14 @@ import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-const FR = ({ fr, index }) => {
-    
-    const [newValues,setNewValues] = useState({
-        title: fr.title,
-        description: fr.description,
-      });
-  const [isEdit, setIsEdit] = useState(true);
-  const handleNewValues = () => {
 
-  }
-  
+const FR = ({ fr, index, onUpdate, onDelete }) => {
+  const [newValues, setNewValues] = useState({
+    title: fr.title,
+    description: fr.description,
+  });
+  const [isEdit, setIsEdit] = useState(true);
+
   return (
     <Card
       id={index}
@@ -39,7 +36,7 @@ const FR = ({ fr, index }) => {
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "column",
-            flex:1
+            flex: 1,
           }}
         >
           <Box>
@@ -56,48 +53,49 @@ const FR = ({ fr, index }) => {
           </Box>
         </Box>
       ) : (
-        <Box sx={{
+        <Box
+          sx={{
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "column",
-            flex:1
-          }}>
-             <TextField
-              sx={{ width: '100%', my: 1 }}
-              color="success"
-              multiline
-              minRows={1}
+            flex: 1,
+          }}
+        >
+          <TextField
+            sx={{ width: "100%", my: 1 }}
+            color="success"
+            multiline
+            minRows={1}
             //   label={`FR${i + 1}`}
             label={"Title"}
-              name={`title`}
-              value={newValues.title}
-              onChange={(e) => {setNewValues({...newValues, ["title"]: e.target.value })
-            console.log(newValues)
-              
+            name={`title`}
+            value={newValues.title}
+            onChange={(e) => {
+              setNewValues({ ...newValues, ["title"]: e.target.value });
             }}
-              InputLabelProps={{
-                style: { fontWeight: 'bold',color:"#08422D" },
-              }}
-            />
-            <TextField
-              sx={{ width: '100%' }}
-              color="success"
-              multiline
-              minRows={2}
-              value={newValues.description}
-              onChange={(e) => {setNewValues({...newValues, ["description"]: e.target.value })
-            console.log(newValues)}}
-
-              label={`Description`}
-              name={`description`}
-              InputLabelProps={{
-                style: { fontWeight: 'bold',color:"#08422D"  },
-              }}
-            />
+            InputLabelProps={{
+              style: { fontWeight: "bold", color: "#08422D" },
+            }}
+          />
+          <TextField
+            sx={{ width: "100%" }}
+            color="success"
+            multiline
+            minRows={2}
+            value={newValues.description}
+            onChange={(e) => {
+              setNewValues({ ...newValues, ["description"]: e.target.value });
+            }}
+            label={`Description`}
+            name={`description`}
+            InputLabelProps={{
+              style: { fontWeight: "bold", color: "#08422D" },
+            }}
+          />
         </Box>
       )}
 
-      <Box sx={{display:"flex",flexDirection:"column"}} >
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <IconButton
           onClick={() => {
             setIsEdit((prev) => !prev);
@@ -107,12 +105,15 @@ const FR = ({ fr, index }) => {
             <FiEdit color="#08422D" />
           ) : (
             <CheckCircleOutlineIcon
-              sx={{ color: "#08422D", fontWeight: 700 }}
+              onClick={() => {
+                onUpdate(index, newValues);
+              }}
+              sx={{ color: "#08422D" }}
             />
           )}
         </IconButton>
         <IconButton>
-          <RiDeleteBin6Line color="red" />
+          <RiDeleteBin6Line color="red" onClick={()=>{onDelete(index)}}/>
         </IconButton>
       </Box>
     </Card>
