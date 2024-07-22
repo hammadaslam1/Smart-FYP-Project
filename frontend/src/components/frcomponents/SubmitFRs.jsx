@@ -54,7 +54,7 @@ const SubmitFRs = ({handleSelect}) => {
               color="success"
               multiline
               minRows={1}
-              label={`FR${i + 1}`}
+              label={`FR`}
               name={`title`}
               onChange={(e) => handleFRs(e, i, 'title')}
               InputLabelProps={{

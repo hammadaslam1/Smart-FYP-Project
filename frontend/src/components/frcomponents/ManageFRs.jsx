@@ -144,7 +144,11 @@ const ManageFRs = () => {
           <CircularProgress color="success" />
         </Box>
       ) : (
-        <Box>
+        <>
+        {
+          FRs.length>0?
+        (<Box>
+          
           {timer ? (
             <Box
               display="flex"
@@ -165,75 +169,19 @@ const ManageFRs = () => {
                   onDelete={handleDelete}
                 />
               ))}
-              {newFRflag ? (
-                <>
-                  {FRCount.map((data, i) => (
-                    <Card
-                      elevation={5}
-                      key={i}
-                      sx={{ p: 2, my: 1, border: "1px solid #08422D" }}
-                    >
-                      <TextField
-                        sx={{ width: "100%", my: 1 }}
-                        color="success"
-                        multiline
-                        minRows={1}
-                        label={`Title`}
-                        name={`title`}
-                        onChange={(e) => handleFRs(e, i, "title")}
-                        InputLabelProps={{
-                          style: { fontWeight: "bold", color: "#08422D" },
-                        }}
-                      />
-                      <TextField
-                        sx={{ width: "100%" }}
-                        color="success"
-                        multiline
-                        minRows={2}
-                        label={`Description`}
-                        name={`description`}
-                        onChange={(e) => handleFRs(e, i, "description")}
-                        InputLabelProps={{
-                          style: { fontWeight: "bold", color: "#08422D" },
-                        }}
-                      />
-                    </Card>
-                  ))}
-                </>
-              ) : (
-                <></>
-              )}
-              <Box>
-                  <PrimaryButton
-          sx={{ width: '60px', height: '50px' }}
-          onClick={() => {
-            setFRCount([...FRCount, FRCount.length + 1]);
-            setNewFRflag(true);
-            // setFRs([...FRs, { title: '', description: '' }]);
-          }}
-        >
-          <span style={{ fontSize: '2rem', padding: 0 }}>+</span>
-        </PrimaryButton>
-        <PrimaryButton
-          disabled={(
-            newFRs.some((fr) => fr.title === '' || fr.description === '') ||
-            newFRs.length === 0
-          )?true:false
-            // ?false:true
-          }
-          sx={{ width: '100px', height: '50px', marginLeft: '10px',"&.Mui-disabled": {
-                  backgroundColor: "lightgray",
-                  color: "#08422D",
-                }, }}
-          onClick={handleNewFRSave}
-        >
-          Submit
-        </PrimaryButton>
-                </Box>
+              
             </>
           )}
-        </Box>
+        </Box>):(
+          <Box sx={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"60vh"}}>
+          <Typography variant="h2" color="grey" textAlign="center">No Functional Requirements to Preview!</Typography>
+          <Typography variant="h1" color="grey" textAlign="center">Please add the FRs first</Typography>
+          </Box>)
+}
+        </>
+
       )}
+
     </>
   );
 };

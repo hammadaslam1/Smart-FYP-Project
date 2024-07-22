@@ -10,8 +10,10 @@ export const submitFRs = async (req, res) => {
     if (!group) {
       return res.status(404).json({ message: "Group not found" });
     }
-
-    group.frs = FRs;
+    const oldFRs = group.frs;
+    const newFRs = [...oldFRs, ...FRs];
+    group.frs = newFRs;
+    // group.frs = FRs;
     await group.save();
 
     res.status(200).json(group);

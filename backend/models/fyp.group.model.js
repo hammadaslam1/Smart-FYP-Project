@@ -112,7 +112,11 @@ const groupSchema = new Schema({
   },
   frs:{
     type:[Object],
-    default:[{}],
+    default:null,
+    progress:{
+      type:Number,
+      default:0,
+    }
   }
 });
 

@@ -1,19 +1,30 @@
-import { Box, Card, Typography, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Card,
+  Typography,
+  Button,
+  TextField,
+  IconButton,
+  ButtonGroup
+} from "@mui/material";
 import { useLocation } from "react-router-dom";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import editIcon from "../../components/assets/icons/editing-icon.png";
 import { useEffect, useState } from "react";
 import SignupInput from "../../components/inputs/SignupInput";
+import { FiEdit } from "react-icons/fi";
 
 const ManageGroupDetails = () => {
   const { state } = useLocation();
   const [group, setGroup] = useState(state);
+  const [FRs, setFRs] = useState();
   const [editTitleFlag, setEditTitleFlag] = useState(false);
   const [editDescFlag, setEditDescFlag] = useState(false);
   const [rerender, setRerender] = useState(0);
   const [newTitle, setNewTitle] = useState(group.idea.title);
   const [newDesc, setNewDesc] = useState(group.idea.description);
-  
+  const group_id = state._id;
+
   const handleTitleEdit = () => {
     fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
       method: "POST",
@@ -52,6 +63,24 @@ const ManageGroupDetails = () => {
         alert(error);
       });
   };
+  const fetchFRs = () => {
+    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ group_id: group_id }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // setIsLoading(false);
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setFRs(data);
+      });
+  };
   useEffect(() => {
     fetch(`http://localhost:3001/api/groups/getgroup/${group._id}`, {
       method: "GET",
@@ -60,6 +89,7 @@ const ManageGroupDetails = () => {
       .then((data) => {
         setGroup(data);
       });
+    fetchFRs();
   }, [rerender]);
   return (
     <Card
@@ -134,17 +164,13 @@ const ManageGroupDetails = () => {
             )}
           </Box>
 
-          <Button>
-            <img
-              src={editIcon}
-              alt=""
-              height="30px"
-              width="30px"
-              onClick={() => {
-                setEditTitleFlag(true);
-              }}
-            />
-          </Button>
+          <IconButton
+            onClick={() => {
+              setEditTitleFlag(true);
+            }}
+          >
+            <FiEdit color="#08422D" />
+          </IconButton>
         </Box>
         <Box
           sx={{
@@ -158,28 +184,30 @@ const ManageGroupDetails = () => {
         >
           <Box>
             {editDescFlag ? (
-              <Box sx={{
-                display: "flex",
-                flexDirection: "column",  
-              }} >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
                 <TextField
                   multiline
                   minRows={3}
                   width="700px"
                   name="description"
                   sx={{
-                    width:"700px"
+                    width: "700px",
                   }}
                   value={newDesc}
                   fullWidth
                   onChange={(e) => {
                     setNewDesc(e.target.value);
-                    console.log(newDesc)
+                    console.log(newDesc);
                   }}
                 ></TextField>
 
                 <PrimaryButton
-                  sx={{ height: "40px", width: "100px" }}
+                  sx={{ height: "40px", width: "100px", mx: 2 }}
                   text="Save"
                   variant="contained"
                   color="success"
@@ -201,17 +229,45 @@ const ManageGroupDetails = () => {
             )}
           </Box>
 
-          <Button>
-            <img
-              src={editIcon}
-              alt=""
-              height="30px"
-              width="30px"
-              onClick={() => {
-                setEditDescFlag(true);
-              }}
-            />
-          </Button>
+          <IconButton
+            onClick={() => {
+              setEditDescFlag(true);
+            }}
+          >
+            <FiEdit color="#08422D" />
+          </IconButton>
+        </Box>
+        <Box>
+          <Typography variant="h5" color="#08422D" fontWeight={700}>
+            Functional Requirements
+          </Typography>
+          {FRs &&
+            FRs.map((val, i) => (
+              <Box sx={{ borderBottom: "1px solid grey", my: 1 }}>
+                <Box>
+                  <Typography variant="body1">
+                    <strong>Title: </strong>
+                    {val.title}
+                  </Typography>
+                  <Typography variant="body1">
+                    <strong>Description: </strong>
+                    {val.description}
+                  </Typography>
+                </Box>
+                <Box>
+                  <ButtonGroup
+                    disableElevation
+                    variant="plain"
+                    aria-label="Disabled button group"
+                  >
+                    <PrimaryButton sx={{height:"40px",width:"40px"}}>-</PrimaryButton>
+                    <SignupInput  color="success" sx={{height:"40px",width:"40px",padding:"2px 2px 2px 5px"}}/>
+                    <PrimaryButton sx={{height:"40px",width:"40px"}}>+</PrimaryButton>
+
+                  </ButtonGroup>
+                </Box>
+              </Box>
+            ))}
         </Box>
       </Box>
     </Card>

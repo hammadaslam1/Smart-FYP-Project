@@ -30,7 +30,7 @@ export const signup = async (req, res, next) => {
     username: email.split("@")[0],
     name,
     email,
-    password: hashedPassword,
+    password: password,
     role,
     id,
     verified: false
