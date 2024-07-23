@@ -101,6 +101,16 @@ export const fetchFRs = async (req, res) => {
   }
 }
 
+const setCompletion = async  (group_id) => {
+  const Group = getGroupModel();
+  const group = await Group.findOne({ _id: group_id });
+
+  
+    const { frs } = group;
+    group.completion = frs.map((fr)=>fr.progress).reduce((acc,current)=>acc+current)/frs.length
+    await group.save();
+ 
+}
 export const progressGrading = async (req, res) => {
   try {
     const { group_id, FRs } = req.body;
@@ -114,7 +124,7 @@ export const progressGrading = async (req, res) => {
 
     group.frs = FRs;
     await group.save();
-
+    setCompletion(group_id)
     res.status(200).json(group.frs);
   } catch (error) {
     console.error(error);

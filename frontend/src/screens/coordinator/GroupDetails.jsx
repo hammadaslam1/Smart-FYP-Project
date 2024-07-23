@@ -1,9 +1,17 @@
 import { Box, Card, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { useEffect, useState } from "react";
 const GroupDetails = () => {
   const { state } = useLocation();
-  console.log(state);
+  const group_id = state._id;
+  const weeklyreport = state.weeklyreport[state.weeklyreport.length - 1];
+  console.log(weeklyreport);
+  const [FRs, setFRs] = useState()
+  const date = formatDistanceToNow(new Date(weeklyreport.date), {
+    addSuffix: true,
+  })
   const handleFileFetch = (id, filename) => {
     fetch(`http://localhost:3001/api/groups/getdocument/${id}/${filename}`, {
       method: "GET",
@@ -13,6 +21,27 @@ const GroupDetails = () => {
       window.open(url, "_blank");
     });
   };
+  const fetchFRs = () => {
+    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ group_id: group_id }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // setIsLoading(false);
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setFRs(data);
+      });
+  };
+  useEffect(()=>{
+    fetchFRs()
+  },[])
   return (
     <Card
       sx={{
@@ -200,6 +229,43 @@ const GroupDetails = () => {
             </PrimaryButton>
           </Box>
         </Box>
+      </Box>
+      <Box>
+        <Box sx={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid grey",my:1,alignItems:"center"}}>
+        <Typography variant="h4" textAlign="center">
+          Weekly Progress
+        </Typography>
+        <Typography variant="body2" color="grey">Updated {date}</Typography>
+
+        </Box>
+        
+
+        {weeklyreport &&
+          <Box sx={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid grey",p:1}}>
+            <Box sx={{flex:1,p:1}}>
+              <Typography variant="h6" sx={{textAlign:"justify"}}><strong>Previous Task: </strong>{weeklyreport.previousTask}</Typography>
+            </Box>
+            <Box sx={{backgroundColor:"grey",padding:"0.5px"}}></Box>
+            <Box sx={{flex:1,p:1}}>
+              <Typography variant="h6" sx={{textAlign:"justify"}}><strong>Next Task: </strong>{weeklyreport.nextTask}</Typography>
+            </Box>
+            </Box>}
+      </Box>
+      <Box>
+        <Typography variant="h4"  sx={{borderBottom:"1px solid grey",my:1}}>
+          Functional Requirements
+        </Typography>
+        {FRs && FRs.map((FR)=>(
+          <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center",borderBottom:"1px solid grey",p:1}}>
+            <Box>
+              <Typography variant="h6"><strong>Title: </strong>{FR.title}</Typography>
+              <Typography variant="h6"><strong>Description: </strong>{FR.description}</Typography>
+            </Box>
+            <Box>
+            <Typography color="grey">{FR.progress}% Completed</Typography>
+            </Box>
+            </Box>
+        ))}
       </Box>
     </Card>
   );

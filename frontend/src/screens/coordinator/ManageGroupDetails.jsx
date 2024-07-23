@@ -13,7 +13,7 @@ import editIcon from "../../components/assets/icons/editing-icon.png";
 import { useEffect, useState } from "react";
 import SignupInput from "../../components/inputs/SignupInput";
 import { FiEdit } from "react-icons/fi";
-
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const ManageGroupDetails = () => {
   const { state } = useLocation();
   const [group, setGroup] = useState(state);
@@ -24,8 +24,11 @@ const ManageGroupDetails = () => {
   const [newTitle, setNewTitle] = useState(group.idea.title);
   const [newDesc, setNewDesc] = useState(group.idea.description);
   const group_id = state._id;
+  const weeklyreport = state.weeklyreport[state.weeklyreport.length - 1];
   const [newProgress, setNewProgress] = useState(null);
-
+  const date = formatDistanceToNow(new Date(weeklyreport.date), {
+    addSuffix: true,
+  })
   const handleTitleEdit = () => {
     fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
       method: "POST",
@@ -270,6 +273,26 @@ const ManageGroupDetails = () => {
             <FiEdit color="#08422D" />
           </IconButton>
         </Box>
+        <Box>
+        <Box sx={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid grey",my:1,alignItems:"center"}}>
+        <Typography variant="h4" textAlign="center">
+          Weekly Progress
+        </Typography>
+        <Typography variant="body2" color="grey">Updated {date}</Typography>
+        </Box>
+        
+
+        {weeklyreport &&
+          <Box sx={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid grey",p:1}}>
+            <Box sx={{flex:1,p:1}}>
+              <Typography variant="h6" sx={{textAlign:"justify"}}><strong>Previous Task: </strong>{weeklyreport.previousTask}</Typography>
+            </Box>
+            <Box sx={{backgroundColor:"grey",padding:"0.5px"}}></Box>
+            <Box sx={{flex:1,p:1}}>
+              <Typography variant="h6" sx={{textAlign:"justify"}}><strong>Next Task: </strong>{weeklyreport.nextTask}</Typography>
+            </Box>
+            </Box>}
+      </Box>
         <Box>
           <Typography variant="h5" color="#08422D" fontWeight={700}>
             Functional Requirements

@@ -24,7 +24,7 @@ const groupSchema = new Schema({
   },
   weeklyreport:{
     type: [Object],
-    default: [{}],
+    default: null,
   },
   documentation:{
     proposal:{
@@ -106,10 +106,6 @@ const groupSchema = new Schema({
     type: [String],
     default: [""],
   },
-  progress:{
-    type:Number,
-    default:0,
-  },
   frs:[{
     title:{
       type:String,
@@ -125,7 +121,11 @@ const groupSchema = new Schema({
       type: Number,
       default: 0,
     }
-  }]
+  }],
+  completion:{
+    type:Number,
+    default: 0,
+  }
 });
 
 const getGroupModel = () => {

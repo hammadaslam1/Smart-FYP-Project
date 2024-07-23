@@ -25,7 +25,6 @@ const ViewFYPGroups = () => {
   const [loading, setLoading] = useState(false);
   const [groups, setGroups] = useState([]);
   const [originalGroups, setOriginalGroups] = useState([]);
-  const [progress, setProgess] = useState(30);
   const [filter, setFilter] = useState(null);
   const getAllGroups = async () => {
     setLoading(true);
@@ -228,7 +227,7 @@ const ViewFYPGroups = () => {
 
                       <LinearProgressWithLabel
                         color="success"
-                        value={progress}
+                        value={data.completion}
                       />
                     </Card>
                   </Tooltip>
