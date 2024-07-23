@@ -24,6 +24,7 @@ const ManageGroupDetails = () => {
   const [newTitle, setNewTitle] = useState(group.idea.title);
   const [newDesc, setNewDesc] = useState(group.idea.description);
   const group_id = state._id;
+  const [newProgress, setNewProgress] = useState(null);
 
   const handleTitleEdit = () => {
     fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
@@ -81,6 +82,38 @@ const ManageGroupDetails = () => {
         setFRs(data);
       });
   };
+  const handleProgressGrading = (index) => {
+    const updatedFRs = FRs.map((FR,i)=>{
+      if(i===index){
+        return {...FR, progress: parseInt(newProgress)};
+      }
+      return FR;
+    })
+    fetch("http://localhost:3001/api/groups/progressgrading", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        FRs: updatedFRs,
+        group_id: group_id,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetchFRs();
+          setRerender((prev) => prev + 1);
+          setFRs(null)
+          return response.json();
+        } else {
+          alert("Failed to submit form");
+        }
+      }).then((data)=>{setFRs(data)
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   useEffect(() => {
     fetch(`http://localhost:3001/api/groups/getgroup/${group._id}`, {
       method: "GET",
@@ -243,7 +276,7 @@ const ManageGroupDetails = () => {
           </Typography>
           {FRs &&
             FRs.map((val, i) => (
-              <Box sx={{ borderBottom: "1px solid grey", my: 1 }}>
+              <Box sx={{ borderBottom: "1px solid grey", my: 1,display:"flex",justifyContent:"space-between" }}>
                 <Box>
                   <Typography variant="body1">
                     <strong>Title: </strong>
@@ -254,17 +287,19 @@ const ManageGroupDetails = () => {
                     {val.description}
                   </Typography>
                 </Box>
-                <Box>
-                  <ButtonGroup
+                <Box sx={{display:"flex",alignItems:"center"}}>
+                  {/* <ButtonGroup
                     disableElevation
                     variant="plain"
                     aria-label="Disabled button group"
                   >
                     <PrimaryButton sx={{height:"40px",width:"40px"}}>-</PrimaryButton>
-                    <SignupInput  color="success" sx={{height:"40px",width:"40px",padding:"2px 2px 2px 5px"}}/>
+                    <SignupInput value={val.progress}  color="success" sx={{height:"40px",width:"50px",padding:"2px 2px 2px 10px"}}/>
                     <PrimaryButton sx={{height:"40px",width:"40px"}}>+</PrimaryButton>
-
-                  </ButtonGroup>
+                  </ButtonGroup> */}
+                   <SignupInput defaultValue={val.progress}   color="success" sx={{height:"40px",width:"50px",padding:"2px 2px 2px 10px"}} onChange={(e)=>{setNewProgress(e.target.value)
+                   }}/>
+                  <PrimaryButton sx={{mx:1,height:"40px"}} onClick={()=>{handleProgressGrading(i)}}>Save</PrimaryButton>
                 </Box>
               </Box>
             ))}

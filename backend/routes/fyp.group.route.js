@@ -3,7 +3,7 @@ import { deleteGroup, editGroupDesc, editGroupTitle, getDocument, getGroup, getG
 import multer from 'multer'
 import fs from 'fs';
 import path from 'path';
-import { addNewFRs, deleteFR, fetchFRs, submitFRs, updateFRs } from "../controllers/fr.controller.js";
+import { addNewFRs, deleteFR, fetchFRs, progressGrading, submitFRs, updateFRs } from "../controllers/fr.controller.js";
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -58,6 +58,7 @@ router.post("/sendgroupmessage",sendGroupMessage );
 router.post("/submitfrs",submitFRs );
 router.post("/addnewfrs",addNewFRs );
 router.post("/updatefrs",updateFRs );
+router.post("/progressgrading",progressGrading );
 router.post("/deletefr",deleteFR );
 router.post("/fetchfrs",fetchFRs );
 

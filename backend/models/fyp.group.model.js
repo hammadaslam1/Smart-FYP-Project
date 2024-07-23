@@ -110,14 +110,22 @@ const groupSchema = new Schema({
     type:Number,
     default:0,
   },
-  frs:{
-    type:[Object],
-    default:null,
+  frs:[{
+    title:{
+      type:String,
+      default: "",
+      required: true,
+    },
+    description:{
+      type:String,
+      default: "",
+      required: true,
+    },
     progress:{
-      type:Number,
-      default:0,
+      type: Number,
+      default: 0,
     }
-  }
+  }]
 });
 
 const getGroupModel = () => {
