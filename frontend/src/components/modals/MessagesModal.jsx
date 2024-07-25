@@ -9,6 +9,7 @@ import DialogContent from "@mui/joy/DialogContent";
 import { Box, IconButton, Typography, Badge } from "@mui/material";
 import { useSelector } from "react-redux";
 import MessageIcon from "@mui/icons-material/Message";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function MessagesModal() {
   const [messagesRead, setMessagesRead] = React.useState(null);
@@ -70,26 +71,18 @@ export default function MessagesModal() {
     <React.Fragment>
       <IconButton
         size="large"
-        sx={{p:0}}
+        sx={{ p: 0 }}
         onClick={() => {
           fetch(`http://localhost:3001/api/user/markmessagesasread/${id}`, {
             method: "POST",
           }).then(() => {
-            setMessagesRead(true)
-          setOpen(true);
-
+            setMessagesRead(true);
+            setOpen(true);
           });
         }}
       >
-        <Badge
-          variant={messagesRead ? "" : "dot"}
-          color="error"
-          sx={{}}
-        >
-          <MessageIcon
-            htmlColor="#08422D"
-            sx={{  }}
-          />
+        <Badge variant={messagesRead ? "" : "dot"} color="error" sx={{}}>
+          <MessageIcon htmlColor="#08422D" sx={{}} />
         </Badge>
       </IconButton>
       <Transition in={open} timeout={400}>
@@ -154,8 +147,11 @@ export default function MessagesModal() {
                       <Typography variant="body2">
                         Sent By: {message.sender}
                       </Typography>
-                      <Typography variant="body2">
-                        Date: {message.date.toLocaleString()}
+                      <Typography variant="body2" sx={{width:"200px"}}>
+                        Date:{" "}
+                        {formatDistanceToNow(message.date, {
+                          addSuffix: true,
+                        })}
                       </Typography>
                     </Box>
                   </Box>

@@ -8,6 +8,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import DialogContent from "@mui/joy/DialogContent";
 import { Box, IconButton, Typography,Badge } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function BroadcastsModal() {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -105,8 +106,10 @@ export default function BroadcastsModal() {
                     }}
                   >
                     <Typography variant="h5">{broadcast.message}</Typography>
-                    <Typography variant="body2">
-                      {broadcast.date.toLocaleString()}
+                    <Typography variant="body2" sx={{width:"200px"}}>
+                      Received {formatDistanceToNow(broadcast.date, {
+    addSuffix: true,
+  })}
                     </Typography>
                   </Box>
                 ))}

@@ -32,8 +32,6 @@ export const sendMessage = async (req, res) => {
   const Student = getStudentModel();
   const memberIDs = members.map((member) => member.split(" | ")[1]);
   try {
-    let jugaar = null
-    console.log(memberIDs, message, sender, type);
     for (const member of memberIDs) {
       const student = await Student.findOne({
         student_id: member,
@@ -54,7 +52,7 @@ export const sendMessage = async (req, res) => {
       await student.save();
       
     }
-    res.status(200).json(jugaar);
+    res.status(200).json("operation successful",);
   } catch (error) {
     console.error("Error finding student:", error);
     res.status(500).json("There was an error while sending the message");
