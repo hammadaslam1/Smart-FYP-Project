@@ -5,21 +5,19 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../ENV.js";
 
 export const signup = async (req, res, next) => {
-  const { name, email, password, role,id } = req.body;
-
+  const { name, email, password } = req.body;
+  const users = await User.find();
+  const existingEmail = users.map(user=> user.email===email?true:false)
+  if(existingEmail) {res.status(400).json({message:"Email Already Exists"});}
   if (
     !name ||
     !email ||
     !password ||
-    !role ||
-    !id ||
     name === "" ||
     email === "" ||
-    password === "" ||
-    role === ""||
-    id ===""
+    password === "" 
   ) {
-    next(errorHandler(400, "All fields are required"));
+    res.status(400).json({message:"All fields are required"});
   }
 
 
@@ -27,12 +25,11 @@ export const signup = async (req, res, next) => {
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
   const newUser = new User({
-    username: email.split("@")[0],
+    id: email.split("@")[0],
     name,
     email,
     password: password,
-    role,
-    id,
+    role:"student",
     verified: false
   });
 
@@ -41,7 +38,7 @@ export const signup = async (req, res, next) => {
     res.json("signup successful");
     console.log('signup successful');
   } catch (error) {
-    next(error);
+    next("Check all the fields");
   }
 };
 
@@ -75,7 +72,7 @@ export const signin = async (req, res, next) => {
       })
       .json(rest);
   } catch (error) {
-    next(error);
+    next(errorHandler(404, "User not found"));
   }
 };
 
@@ -86,7 +83,7 @@ export const signout = (req, res, next) => {
       .status(200)
       .json("User has been signed out");
   } catch (error) {
-    next(error);
+    next(errorHandler(404, "User not found"));
   }
 };
 

@@ -54,10 +54,10 @@ const RegisterForm = ({toggleProp}) => {
   const [role, setRole] = useState("");
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
-
+  const [error,setError] = useState(null);
   const handleBack = () => {
     // setOpenSignup(false);
     // setOpenLogin(true);
@@ -102,25 +102,24 @@ const RegisterForm = ({toggleProp}) => {
     try {
       dispatch(signinStart());
       const emailRegex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@ue\.edu\.pk$/i
+;
       // setOpen(true);
 
       if (
-        password == "" &&
-        email == "" &&
-        name == "" &&
-        confirmPassword == "" &&
-        role == "" &&
-        id == ""
+        password == "" ||
+        email == "" ||
+        name == "" ||
+        confirmPassword == ""
       ) {
-        return dispatch(signinFailure("Please enter your password"));
+        return setError("Enter all fields");
       } else if (password != confirmPassword) {
-        return dispatch(signinFailure("Passwords do not match"));
+        return setError("Passwords do not match");
       }
       if (!emailRegex.test(email)) {
-        return dispatch(signinFailure("Please enter a valid email address"));
+        return setError("Email must end with @ue.edu.pk");
       }
-      const res = await fetch("http://localhost:3001/api/auth/signup", {
+      fetch("http://localhost:3001/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,22 +128,13 @@ const RegisterForm = ({toggleProp}) => {
           name: name,
           email: email,
           password: password,
-          role: role,
-          id:id,
         }),
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        return dispatch(signinFailure(data.message));
-      }
-      if (res.ok) {
-        console.log(data);
-        // dispatch(signinSuccess(data));
-        toggleProp();
-        // navigate("/");
-      }
+      }).then((response)=>{console.log(response)
+        if(response.ok){
+        toggleProp()
+      }else{return response.json()}}).then((data)=>setError(data.message)).catch((error)=>setError(error.message))
     } catch (error) {
-      return dispatch(signinFailure(error.message));
+      return setError("Sign Up Failed");
     }
   };
 
@@ -163,6 +153,7 @@ const RegisterForm = ({toggleProp}) => {
             sx={{
               fontWeight: "700",
               textAlign: "center",
+              fontSize:"3rem",
               fontFamily: "Helvetica",
               marginBottom: "20px",
               color: "#08422D",
@@ -175,7 +166,7 @@ const RegisterForm = ({toggleProp}) => {
             variant="outlined"
             value={name}
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null);
               setName(e.target.value);
             }}
             label="Full Name"
@@ -184,30 +175,16 @@ const RegisterForm = ({toggleProp}) => {
             startDecorator={<PersonIcon sx={{ color: "#08422D" }} />}
           />
           <SignupInput
-            type="text"
-            variant="outlined"
-            value={id}
-            onChange={(e) => {
-              dispatch(removeError());
-              setId(e.target.value);
-            }}
-            placeholder="Enter University ID"
-            label="University ID"
-            helperText="*students will enter their student id i.e bsf2104040*"
-            required
-            startDecorator={<Mail sx={{ color: "#08422D" }} />}
-          />
-          <SignupInput
             type="email"
             variant="outlined"
             value={email}
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null);
               setEmail(e.target.value);
             }}
             placeholder="Enter Email Address"
             label="Email Address"
-            helperText="Enter your university email address for registration"
+            helperText="Enter your university email address for registration i.e bsf2104040@ue.edu.pk"
             required
             startDecorator={<Mail sx={{ color: "#08422D" }} />}
           />
@@ -217,7 +194,7 @@ const RegisterForm = ({toggleProp}) => {
             value={password}
             name="password"
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null);
               setPassword(e.target.value);
             }}
             endDecorator={
@@ -240,7 +217,7 @@ const RegisterForm = ({toggleProp}) => {
             value={confirmPassword}
             name="confirmPassword"
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null);
               setConfirmPassword(e.target.value);
             }}
             endDecorator={
@@ -257,19 +234,13 @@ const RegisterForm = ({toggleProp}) => {
             required
             startDecorator={<LockIcon sx={{ color: "#08422D" }} />}
           />
-          <SignupSelect
-            value={role}
-            label="Role"
-            placeholder="Select a Role"
-            onChange={(e) => setRole(e.target.value)}
-            startDecorator={<CategoryIcon sx={{ color: "#08422D" }} />}
-          />
           {error && (
             <Alert variant="solid" color="danger" sx={{ textAlign: "center" }}>
               {error}
             </Alert>
           )}
           <PrimaryButton
+          disabled={error}
             sx={{
               marginTop: "10px",
             }}

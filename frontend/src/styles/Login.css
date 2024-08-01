@@ -104,9 +104,9 @@
          }
 
          .ueLogo {
-             width: clamp(230px, 280px, 400px);
-             height: clamp(230px, 280px, 400px);
-             background: url(../components/assets/logos/uelogo.png);
+             width: clamp(400px, 400px, 400px);
+             height: clamp(230px, 280px, 380px);
+             background: url(../components/assets/logos/ue-logo.png);
              background-position: center;
              background-repeat: no-repeat;
              background-size: cover;

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HOME } from "../routes/Routes";
+import ueLogo from "../components/assets/logos/ue-logo.png"
 const Login = () => {
   const { currentUser } = useSelector((state) => state.user);
   // const navigate = useNavigate();
@@ -26,11 +27,13 @@ const Login = () => {
     <Box className="loginBox">
       <Box className="mainBox">
         <Box className="loginLeftBox">
-          <div className="ueLogo"></div>
-          <Typography className="loginLeftHeading" fontSize={"2.4rem"}>
+          <div >
+            <img src={ueLogo} alt="" width={350}/>
+          </div>
+          <Typography className="loginLeftHeading" fontSize={"2.4rem"} textAlign="center">
             Welcome to Smart FYP Portal
           </Typography>
-          <Typography className="loginLeftPara">
+          <Typography className="loginLeftPara" textAlign="center">
             Explore a dynamic platform designed for students to enroll and
             showcase their ambitious projects. Supervisors can effortlessly
             review weekly progress, fostering mentorship, while the principal

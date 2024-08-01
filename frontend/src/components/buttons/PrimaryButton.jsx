@@ -15,6 +15,10 @@ const PrimaryButton = ({ sx = {}, ...props }) => {
         // boxShadow: "1px 2px 5px 1px #00000019",
         color: "#fff",
         textTransform: "capitalize",
+        "&.Mui-disabled": {
+                  backgroundColor: "lightgray",
+                  color: "#08422D",
+                },
         "&:hover": { backgroundColor: "#D8A900" },
         ...sx,
       }}

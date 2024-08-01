@@ -46,15 +46,15 @@ import {
 } from "../../redux/userReducer/userSlice";
 
 const LoginForm = ({toggleProp}) => {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFilled, setIsFilled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPressed, setIsPressed] = useState(false);
+  const [error,setError] = useState(null);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   // const user = useSelector((state) => state.UserReducer.user);
   // const dispatch = useDispatch();
   const handleKeyDown = (event) => {
@@ -66,12 +66,13 @@ const LoginForm = ({toggleProp}) => {
     try {
       dispatch(signinStart());
       const emailRegex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@ue\.edu\.pk$/i
+;
       // setOpen(true);
       if (!emailRegex.test(email)) {
-        return dispatch(signinFailure("Please enter a valid email address"));
+        return setError("Email must end with @ue.edu.pk");
       } else if (password == "") {
-        return dispatch(signinFailure("Please enter your password"));
+        return setError("Please enter your password");
       }
       const res = await fetch("http://localhost:3001/api/auth/signin", {
         method: "POST",
@@ -85,7 +86,7 @@ const LoginForm = ({toggleProp}) => {
       });
       const data = await res.json();
       if (data.success === false) {
-        return dispatch(signinFailure(data.message));
+        return setError("Sign In Failed");
       }
       if (res.ok) {
         console.log(data);
@@ -94,37 +95,9 @@ const LoginForm = ({toggleProp}) => {
         // navigate("/");
       }
     } catch (error) {
-      return dispatch(signinFailure(error.message));
+      return setError("Sign In Failed");
     }
   };
-  const handleForgot = () => {
-    // sendPasswordResetEmail(auth, email)
-    //   .then(() => {
-    //     alert("password reset email sent to your registered email address!");
-    //   })
-    //   .catch((e) => {
-    //     if (e.code == "auth/invalid-email") {
-    //       alert("Please enter a valid email address!");
-    //     }
-    //     // alert("error code: " + e.code + "\nerror message: " + e.message);
-    //   });
-  };
-  const handleGoogle = () => {
-    setIsPressed(true);
-    // const provider = new GoogleAuthProvider();
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     const credential = GoogleAuthProvider.credentialFromResult(result);
-    //     const token = credential.accessToken;
-    //     const user = result.user;
-    //     setIsPressed(false);
-    //   })
-    //   .catch((e) => {
-    //     setIsPressed(false);
-    //     // alert(e.code, e.message);
-    //   });
-  };
-  const handleClose = () => {};
   
   return (
     <Card elevation={10} className="innerCard">
@@ -136,6 +109,7 @@ const LoginForm = ({toggleProp}) => {
             sx={{
               fontWeight: "700",
               textAlign: "center",
+              fontSize:"3rem",
               fontFamily: "Helvetica",
               marginBottom: "20px",
               color: "#08422D",
@@ -148,7 +122,7 @@ const LoginForm = ({toggleProp}) => {
             type="email"
             value={email}
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null)
               setEmail(e.target.value);
               setIsFilled(false);
             }}
@@ -162,7 +136,7 @@ const LoginForm = ({toggleProp}) => {
             type="password"
             value={password}
             onChange={(e) => {
-              dispatch(removeError());
+              setError(null)
               setPassword(e.target.value);
               setIsFilled(false);
             }}
@@ -178,21 +152,7 @@ const LoginForm = ({toggleProp}) => {
               marginBottom: "5px",
             }}
           >
-            <Button
-              // to=""
-              onClick={() => {
-                handleForgot();
-              }}
-              style={{
-                color: "#08422D",
-                fontSize: "13px",
-                fontWeight: "bold",
-                textTransform: "capitalize",
-                alignSelf: "right",
-              }}
-            >
-              Forgot Password
-            </Button>
+
           </div>
           {error && (
             <Alert variant="solid" color="danger" sx={{ textAlign: "center" }}>
@@ -200,6 +160,7 @@ const LoginForm = ({toggleProp}) => {
             </Alert>
           )}
           <PrimaryButton
+          disabled={password.length<6  || error}
             sx={{
               marginTop: "10px",
             }}
