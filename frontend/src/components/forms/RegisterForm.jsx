@@ -153,7 +153,7 @@ const RegisterForm = ({toggleProp}) => {
             sx={{
               fontWeight: "700",
               textAlign: "center",
-              fontSize:"3rem",
+              fontSize:"2.5rem",
               fontFamily: "Helvetica",
               marginBottom: "20px",
               color: "#08422D",
@@ -193,6 +193,7 @@ const RegisterForm = ({toggleProp}) => {
             variant="outlined"
             value={password}
             name="password"
+            helperText="At least contains 6 characters"
             onChange={(e) => {
               setError(null);
               setPassword(e.target.value);
@@ -240,7 +241,7 @@ const RegisterForm = ({toggleProp}) => {
             </Alert>
           )}
           <PrimaryButton
-          disabled={error}
+          disabled={error || password.length<6 || confirmPassword.length<6}
             sx={{
               marginTop: "10px",
             }}
@@ -249,38 +250,9 @@ const RegisterForm = ({toggleProp}) => {
           >
             Sign up
           </PrimaryButton>
-          {/* <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "15px",
-            }}
-          >
-            <div
-              style={{
-                borderBottom: "1px solid #08422Daa",
-                width: "170px",
-                height: "0px",
-              }}
-            ></div>
-            <div style={{ color: "#08422D" }}>or</div>
-            <div
-              style={{
-                borderBottom: "1px solid #08422Daa",
-                width: "170px",
-                height: "0px",
-              }}
-            ></div>
-          </div> */}
+          
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {/* <SocialButton
-              size={"large"}
-              onClick={handleGoogle}
-              startIcon={<GoogleIcon />}
-            >
-              Continue with Google
-            </SocialButton> */}
+           
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <DialogActions sx={{ alignSelf: "center" }}>

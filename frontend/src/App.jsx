@@ -12,6 +12,7 @@ import AnnounceDocumentDate from "./screens/coordinator/AnnounceDocumentDate";
 import IdeaApproval from "./screens/supervisor/IdeaApproval";
 import DocumentEvaluation from "./screens/supervisor/DocumentEvaluation";
 import CoordinatorDashboard from "./screens/coordinator/CoordinatorDashboard";
+import Appbar from "./components/navbars/Appbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { toggleLink } from "./redux/links/LinkReducer";

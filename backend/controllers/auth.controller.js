@@ -7,8 +7,8 @@ import { JWT_SECRET } from "../../ENV.js";
 export const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
   const users = await User.find();
-  const existingEmail = users.map(user=> user.email===email?true:false)
-  if(existingEmail) {res.status(400).json({message:"Email Already Exists"});}
+  const existingUser = await User.findOne({ email });
+  if(existingUser) {res.status(400).json({message:"Email Already Exists"});}
   if (
     !name ||
     !email ||
@@ -29,7 +29,7 @@ export const signup = async (req, res, next) => {
     name,
     email,
     password: password,
-    role:"student",
+    role:"Student",
     verified: false
   });
 
@@ -54,7 +54,8 @@ export const signin = async (req, res, next) => {
     if (!validUser) {
       return next(errorHandler(404, "User not found"));
     }
-    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    // const validPassword = bcryptjs.compareSync(password, validUser.password);
+    const validPassword = password === validUser.password?true:false;
     if (!validPassword) {
       return next(errorHandler(400, "Invalid password"));
     }

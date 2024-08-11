@@ -109,7 +109,7 @@ const LoginForm = ({toggleProp}) => {
             sx={{
               fontWeight: "700",
               textAlign: "center",
-              fontSize:"3rem",
+              fontSize:"2.5rem",
               fontFamily: "Helvetica",
               marginBottom: "20px",
               color: "#08422D",
@@ -160,7 +160,7 @@ const LoginForm = ({toggleProp}) => {
             </Alert>
           )}
           <PrimaryButton
-          disabled={password.length<6  || error}
+          disabled={password.length<6  || error || email==""}
             sx={{
               marginTop: "10px",
             }}
