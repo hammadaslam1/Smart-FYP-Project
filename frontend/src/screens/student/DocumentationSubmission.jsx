@@ -17,6 +17,7 @@ import {useSelector} from 'react-redux'
 
 const DocumentationSubmission = () => {
   const id = useSelector((state)=>state.student.student.group.group_id);
+  const student = useSelector((state)=>state.student.student);
   const uploadButtonRef = useRef(null);
   const [type,setType] = useState("")
   const [fileName,setFileName] = useState("")
@@ -99,7 +100,7 @@ const DocumentationSubmission = () => {
         textTransform: "capitalize"
       }} type="file" accept="application/pdf" />
 <br />
-<PrimaryButton   sx={{my:1, width:"110px",height:"40px"}} onClick={handleFileSubmit}>Upload</PrimaryButton>
+<PrimaryButton disabled={(student.group.group_id!="" && type!="" && file!=null)?false:true}  sx={{my:1, width:"110px",height:"40px"}} onClick={handleFileSubmit}>Upload</PrimaryButton>
       </Card>
     </Box>
   );

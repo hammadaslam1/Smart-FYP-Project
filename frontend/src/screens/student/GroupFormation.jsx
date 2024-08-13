@@ -80,7 +80,6 @@ const GroupFormation = () => {
       };
       return obj;
     });
-    // alert(`Team Lead: ${teamLead} \n Student Class: ${studentClass} \n Supervisor ${supervisor} \n Team Members: ${members}`)
     const response = await fetch(
       "http://localhost:3001/api/groups/insertgroup",
       {
@@ -102,7 +101,7 @@ const GroupFormation = () => {
       console.error("there was an error in submitting the group");
     }
     if (response.ok) {
-      alert("shabash!");
+      alert("Group Created Successfully!");
       fetchStudent();
     }
   };
@@ -199,6 +198,7 @@ const GroupFormation = () => {
 
         <PrimaryButton
           onClick={handleSubmit}
+          disabled={(members.length>1 && supervisor!="" && teamLead!="" && studentClass!="" && shift!="")?false:true}
           sx={{ my: 1, width: "150px", height: "50px" }}
         >
           Submit

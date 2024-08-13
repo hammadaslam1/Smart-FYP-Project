@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import { useState } from "react";
 const IdeaSubmission = () => {
   const id = useSelector((state)=>state.student.student.group.group_id);
+  const student = useSelector((state)=>state.student.student);
   const handleIdeaSubmission = () => {
     fetch(`http://localhost:3001/api/groups/insertidea/${id}`,{
       method: 'POST',
@@ -37,6 +38,7 @@ const IdeaSubmission = () => {
       <TextField  color="success"  onChange={(e)=>{setDescription(e.target.value)}}  multiline minRows={3} sx={{ mx: 0 }} fullWidth></TextField>
        <PrimaryButton
        onClick={handleIdeaSubmission}
+       disabled={(student.group.group_id!="" && title!="" && description!="")?false:true}
        sx={{
         mt:2,
         height:"50px",

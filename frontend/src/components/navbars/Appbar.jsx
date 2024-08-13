@@ -230,7 +230,6 @@ const Appbar = () => {
                     .then((response) => {
                       if (response.ok) {
                         dispatch(signoutSuccess());
-                        console.log("ok ok ok");
                       } else {
                         // handle sign-out error
                       }

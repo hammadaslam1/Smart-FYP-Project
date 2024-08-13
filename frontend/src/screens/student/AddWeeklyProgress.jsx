@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux'
 
 const AddWeeklyProgress = () => {
   const id = useSelector((state)=>state.student.student.group.group_id);
-
+  const student = useSelector((state)=>state.student.student);
   const [taskForm,setTaskForm] = useState({
     previousTask: "",
     nextTask: "",
@@ -56,7 +56,7 @@ const AddWeeklyProgress = () => {
         </Typography>
         <TextField multiline minRows={3} sx={{ mx: 2 }} name="nextTask" fullWidth onChange={handleTaskChange}></TextField>
         {/* <br /> */}
-        <PrimaryButton sx={{ width: "150px", mt: 3 }} onClick={handleTaskSubmit}>Submit</PrimaryButton>
+        <PrimaryButton disabled={(student.group.group_id!="" && taskForm.previousTask!="" && taskForm.nextTask!="")?false:true } sx={{ width: "150px", mt: 3 }} onClick={handleTaskSubmit}>Submit</PrimaryButton>
       </Card>
     </Box>
   );
