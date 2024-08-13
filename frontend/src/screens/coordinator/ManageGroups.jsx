@@ -16,12 +16,14 @@ import {
     styled,
   CircularProgress,
   tableCellClasses,
+  IconButton,
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
   import PrimaryButton from "../../components/buttons/PrimaryButton";
   import { basicInfo } from "../../data/BasicInfo";
   import { useNavigate } from "react-router-dom";
+  import { IoMdOpen } from "react-icons/io";
   const StyledHeadCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#08422D",
@@ -113,7 +115,7 @@ const [reload,setReload] = useState(0);
         </Box>
       ):(
         <Box width="100%">
-        <Typography variant="h4" sx={{ p: 2, color: "#08422D", fontWeight: 600 }}>
+        <Typography variant="h4" sx={{mt:15, p: 2, color: "#08422D", fontWeight: 600 }}>
           FYP Groups
         </Typography>
         <Card sx={{ p: 3 }} elevation={0}>
@@ -121,6 +123,8 @@ const [reload,setReload] = useState(0);
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead sx={{ backgroundColor: "#08422D" }}>
                 <TableRow>
+                <StyledHeadCell align="left">Preview Group</StyledHeadCell>
+
                   <StyledHeadCell>Team Lead</StyledHeadCell>
                   <StyledHeadCell align="left">Class</StyledHeadCell>
                   <StyledHeadCell align="left">Members</StyledHeadCell>
@@ -131,16 +135,19 @@ const [reload,setReload] = useState(0);
               </TableHead>
               <TableBody>
                 {groups.length>0 && groups.map((row) => (
-                  <StyledTableRow  sx={{
+                  <StyledTableRow   key={row._id} >
+                    <StyledTableCell component="th" scope="row">
+                      <IconButton><IoMdOpen   sx={{
                     "&:hover": {
           backgroundColor: "lightgrey", 
           cursor:"pointer"
         },
-                  }} key={row._id} onClick={() => {
+                  }} onClick={() => {
                     navigate("/manage-group-details", {
                       state: row,
                     });
-                  }}>
+                  }}/></IconButton>
+                    </StyledTableCell>
                     <StyledTableCell component="th" scope="row">
                       {row.teamLead}
                     </StyledTableCell>
@@ -177,13 +184,13 @@ const [reload,setReload] = useState(0);
                         disableRipple
                       />
                     </StyledTableCell>
-                    <StyledTableCell align="left" sx={{display:"flex"}}>
+                    <StyledTableCell align="left" sx={{display:"flex"}} >
                       <PrimaryButton
-                      sx={{mx:1}}
+                      sx={{mx:1,zIndex:10}}
                       onClick={()=>{handleGroupStatus(row)}}
                       >{row.status?"Reject":"Approve"}</PrimaryButton>
                       <PrimaryButton
-                      sx={{mx:1,}}
+                      sx={{mx:1,zIndex:10}}
                       onClick={()=>{handleGroupDelete(row._id)}}
                       >Delete</PrimaryButton>
                     </StyledTableCell>

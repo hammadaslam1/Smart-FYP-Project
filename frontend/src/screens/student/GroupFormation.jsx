@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import SignupInput from "../../components/inputs/SignupInput";
+import MembersAutoComplete from "../../components/fields/MembersAutoComplete";
 import "../../styles/studentcomponentsstyles/selectgroup.css";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ const GroupFormation = () => {
   const [shift, setShift] = useState("");
   const [supervisor, setSupervisor] = useState("");
   const [members, setMembers] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState("");
   const handleSupervisors = async () => {
     try {
       await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
@@ -54,7 +56,12 @@ const GroupFormation = () => {
   
       const studentInfo = responseData
         .filter((student) => fypShift === student.shift && !student.group.status)
-        .map((student) => `${student.student_name} | ${student.student_id}`);
+        .map((student) => {
+          if(student.student_id == currentUser.id) {
+            console.log("if chall gai")
+            setSelectedStudent(prev=>`${student.student_name} | ${student.student_id}`);
+          }
+          return `${student.student_name} | ${student.student_id}`});
       setStudents(studentInfo);
     } catch (error) {
       console.error(error);
@@ -175,7 +182,7 @@ const GroupFormation = () => {
           Note! Select Minimum 1 and Maximum 2 members for group
         </Typography>
 
-        <Autocomplete
+        {/* <Autocomplete
           disabled={!students}
           color="success"
           sx={{ my: 1 }}
@@ -194,7 +201,8 @@ const GroupFormation = () => {
               placeholder="Members"
             />
           )}
-        />
+        /> */}
+        <MembersAutoComplete students={students} selectedStudent={selectedStudent}/>
 
         <PrimaryButton
           onClick={handleSubmit}

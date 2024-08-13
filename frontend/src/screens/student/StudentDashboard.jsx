@@ -50,13 +50,14 @@ const StudentDashboard = () => {
         }}
         elevation={0}
       >
-        <PrimaryButton onClick={()=>{navigate("/group-formation")}} sx={{ width: "33%", height: "150px", my: 1 }}>
+        {!student.group.status&&<PrimaryButton onClick={()=>{navigate("/group-formation")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Create Project Group
         </PrimaryButton>
+}
         <PrimaryButton onClick={()=>{navigate("/idea-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Submit Project Idea
         </PrimaryButton>
-        {student.group.group_id!="" && <PrimaryButton onClick={()=>{navigate("/fr-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
+        {student.group.status && <PrimaryButton onClick={()=>{navigate("/fr-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>
           Functional Requirements
         </PrimaryButton>}
         <PrimaryButton onClick={()=>{navigate("/documentation-submission")}} sx={{ width: "33%", height: "150px", my: 1 }}>

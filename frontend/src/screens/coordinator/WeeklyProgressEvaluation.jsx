@@ -12,102 +12,75 @@ import {
   Typography,
   styled,
   tableCellClasses,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useEffect, useState } from "react";
 import { WeeklyEvaluationData } from "../../data/WeeklyEvaluationData";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 
-const StyledHeadCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#08422D",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 const WeeklyProgressEvaluation = () => {
   const [list, setList] = useState([]);
+  const [filter, setFilter ] = useState(null);
+  const [heading, setHeading ] = useState("All Groups");
+  const handleFilterChange = (event) => {
+    switch(event.target.value){
+    case "All Groups":
+      setHeading("All Groups")
+    case "Morning Groups":
+      setHeading("Morning Groups")
+    case "Evening Groups":
+      setHeading("Evening Groups")
+    default:
+      setHeading("All Groups")
+    }
+    setFilter(event.target.value);
+  };
   useEffect(() => {
     setList(WeeklyEvaluationData);
   }, []);
   return (
-    <Box sx={{ pt: 10 }}>
-      <Typography variant="h4" sx={{ p: 3, color: "#08422D", fontWeight: 600 }}>
-        Weekly Progress Evaluation
-      </Typography>
-      <Card sx={{ p: 3 }} elevation={0}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead sx={{ backgroundColor: "#08422D" }}>
-              <TableRow>
-                <StyledHeadCell>Group Name</StyledHeadCell>
-                <StyledHeadCell align="left">Group Members</StyledHeadCell>
-                <StyledHeadCell align="left">Class Name</StyledHeadCell>
-                <StyledHeadCell align="left">Supervisor Name</StyledHeadCell>
-                <StyledHeadCell align="left">Document Type</StyledHeadCell>
-                <StyledHeadCell align="left">Document File</StyledHeadCell>
-                <StyledHeadCell align="left">
-                  Supervisor Evaluation
-                </StyledHeadCell>
-                <StyledHeadCell align="left">
-                  Coordinator Evaluation
-                </StyledHeadCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {WeeklyEvaluationData.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.groupName}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.groupMembers.join(", ")}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.className}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.supervisorName}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.documentType}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    <PrimaryButton>Download</PrimaryButton>
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.supervisorEvaluation}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.coordinationEvaluation}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
+    <Box sx={{width:"100%"}}>
+      <Box sx={{width:"100%"}}>
+      <Box sx={{display:"flex",mt:11,justifyContent:"space-between",alignItems:"center",px:3}}>
+      <Typography variant="h4" sx={{ p: 2, color: "#08422D", fontWeight: 600 }}>
+          Select Group For Evaluation
+        </Typography>
+        <Box>
+        <FormControl fullWidth>
+                <InputLabel
+                  color="success"
+                  id="demo-simple-select-label"
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <FilterAltIcon /> Filter
+                </InputLabel>
+                <Select
+                  sx={{ width: "150px" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={filter}
+                  label="filtering.."
+                  color="success"
+                  onChange={handleFilterChange}
+                >
+                  <MenuItem value={"All Groups"}>All Groups</MenuItem>
+                  <MenuItem value={"Morning Groups"}>Morning Groups</MenuItem>
+                  <MenuItem value={"evening"}>Evening Groups</MenuItem>
+                </Select>
+              </FormControl>
+        </Box>
+              
+            </Box>
+      </Box>
+      <Typography>
+                {heading}
+              </Typography>
+
     </Box>
   );
 };
