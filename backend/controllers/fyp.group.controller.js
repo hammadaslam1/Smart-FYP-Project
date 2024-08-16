@@ -287,3 +287,13 @@ export const editGroupSupervisor = async (req, res) => {
   group.save();
   res.status(200).json(group);
 };
+
+export const editGroupClass = async (req, res) => {
+  const { newClass } = req.body;
+  const { id } = req.params;
+  const Group = getGroupModel();
+  const group = await Group.findOne({ _id: id });
+  group.class = newClass;
+  group.save();
+  res.status(200).json(group);
+};

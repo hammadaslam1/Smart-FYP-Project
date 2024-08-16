@@ -25,10 +25,12 @@ const ManageGroupDetails = () => {
   const [editTitleFlag, setEditTitleFlag] = useState(false);
   const [editDescFlag, setEditDescFlag] = useState(false);
   const [editSupervisorFlag, setEditSupervisorFlag] = useState(false);
+  const [editClassFlag, setEditClassFlag] = useState(false);
   const [rerender, setRerender] = useState(0);
   const [newTitle, setNewTitle] = useState(group.idea.title);
   const [newDesc, setNewDesc] = useState(group.idea.description);
   const [newSupervisor, setNewSupervisor] = useState(group.supervisor);
+  const [newClass, setNewClass] = useState(group.class);
   const handleTitleEdit = () => {
     fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
       method: "POST",
@@ -79,6 +81,25 @@ const ManageGroupDetails = () => {
         if (response.ok) {
           setEditSupervisorFlag(false);
           alert("Supervisor updated successfully");
+          setRerender((prev) => prev + 1);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+  const handleClassEdit = () => {
+    fetch(`http://localhost:3001/api/groups/editgroupclass/${group._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newClass: newClass }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          setEditClassFlag(false);
+          alert("Class updated successfully");
           setRerender((prev) => prev + 1);
         }
       })
@@ -328,7 +349,61 @@ const ManageGroupDetails = () => {
             <FiEdit color="#08422D" />
           </IconButton>
         </Box>
-        
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            borderBottom: "1px solid grey",
+            alignItems: "center",
+            paddingBottom: "10px",
+            paddingTop: "10px",
+          }}
+        >
+          <Box>
+            {editClassFlag ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <SignupInput
+                  sx={{ width: "400px" }}
+                  placeholder={"Edit Title"}
+                  color="success"
+                  value={newClass}
+                  onChange={(e) => {
+                    setNewClass(e.target.value);
+                  }}
+                />
+                <PrimaryButton
+                  sx={{ marginLeft: "10px", height: "40px", width: "100px" }}
+                  text="Save"
+                  variant="contained"
+                  color="success"
+                  onClick={handleClassEdit}
+                >
+                  Save
+                </PrimaryButton>
+              </Box>
+            ) : (
+              <Typography
+                variant="body"
+              >
+                <strong>Class: </strong>{group.class}
+              </Typography>
+            )}
+          </Box>
+
+          <IconButton
+            onClick={() => {
+              setEditClassFlag(true);
+            }}
+          >
+            <FiEdit color="#08422D" />
+          </IconButton>
+        </Box>
       </Box>
     </Card>
   );
