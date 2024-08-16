@@ -24,6 +24,8 @@ import {
   import { basicInfo } from "../../data/BasicInfo";
   import { useNavigate } from "react-router-dom";
   import { IoMdOpen } from "react-icons/io";
+  import { FaRegEdit } from "react-icons/fa";
+
   const StyledHeadCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#08422D",
@@ -115,16 +117,15 @@ const [reload,setReload] = useState(0);
         </Box>
       ):(
         <Box width="100%">
-        <Typography variant="h4" sx={{mt:15, p: 2, color: "#08422D", fontWeight: 600 }}>
-          FYP Groups
+        <Typography variant="h4" sx={{mt:12, px: 3, color: "#08422D", fontWeight: 600 }}>
+         Manage FYP Groups
         </Typography>
-        <Card sx={{ p: 3 }} elevation={0}>
+        <Card sx={{ p: 3,pt:1 }} elevation={0}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead sx={{ backgroundColor: "#08422D" }}>
                 <TableRow>
-                <StyledHeadCell align="left">Preview Group</StyledHeadCell>
-
+                <StyledHeadCell align="left">Edit Details</StyledHeadCell>
                   <StyledHeadCell>Team Lead</StyledHeadCell>
                   <StyledHeadCell align="left">Class</StyledHeadCell>
                   <StyledHeadCell align="left">Members</StyledHeadCell>
@@ -137,7 +138,8 @@ const [reload,setReload] = useState(0);
                 {groups.length>0 && groups.map((row) => (
                   <StyledTableRow   key={row._id} >
                     <StyledTableCell component="th" scope="row">
-                      <IconButton><IoMdOpen   sx={{
+                      <IconButton><FaRegEdit  color="#08422D"
+                      sx={{
                     "&:hover": {
           backgroundColor: "lightgrey", 
           cursor:"pointer"

@@ -32,6 +32,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Announcements from "../screens/coordinator/AnnounceDocumentDate";
 import ManageGroupDetails from "../screens/coordinator/ManageGroupDetails";
 import SubmitFunctionalRequirements from "../screens/student/SubmitFunctionalRequirements";
+import EvaluateGroupProgess from "../screens/coordinator/EvalutaeGroupProgress";
 
 export const studentLinks = [
   {
@@ -133,6 +134,12 @@ export const coordinatorLinks = [
     to: "/manage-group-details",
     name: "Manage Group Details",
     components: <ManageGroupDetails />,
+    icon: DashboardIcon,
+    flag: false,
+  },{
+    to: "/evaluate-group-progress",
+    name: "Evaluate Group Progress",
+    components: <EvaluateGroupProgess/>,
     icon: DashboardIcon,
     flag: false,
   },

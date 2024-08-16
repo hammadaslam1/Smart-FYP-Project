@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteGroup, editGroupDesc, editGroupTitle, getDocument, getGroup, getGroups, insertDocumentation, insertGroup, insertProjectIdea, sendGroupMessage, submitweeklyprogress, updateGroup } from "../controllers/fyp.group.controller.js";
+import { deleteGroup, editGroupDesc, editGroupSupervisor, editGroupTitle, getDocument, getGroup, getGroups, insertDocumentation, insertGroup, insertProjectIdea, sendGroupMessage, submitweeklyprogress, updateGroup } from "../controllers/fyp.group.controller.js";
 import multer from 'multer'
 import fs from 'fs';
 import path from 'path';
@@ -54,6 +54,7 @@ router.post("/deletegroup/:id", deleteGroup);
 router.get("/getgroup/:id",getGroup );
 router.post("/editgrouptitle/:id", editGroupTitle);
 router.post("/editgroupdesc/:id", editGroupDesc);
+router.post("/editgroupsupervisor/:id", editGroupSupervisor);
 router.post("/sendgroupmessage",sendGroupMessage );
 router.post("/submitfrs",submitFRs );
 router.post("/addnewfrs",addNewFRs );
