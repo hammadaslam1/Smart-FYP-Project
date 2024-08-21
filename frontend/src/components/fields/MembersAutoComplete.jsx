@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-export default function MembersAutocomplete({ students,selectedStudent }) {
+export default function MembersAutocomplete({ students,selectedStudent, members, setMembers }) {
   // Initialize the state with a default selected member
-  const [members, setMembers] = useState(students ? selectedStudent : []);
+  
 
   return (
     <Autocomplete

@@ -27,8 +27,8 @@ const GroupFormation = () => {
   const [studentClass, setStudentClass] = useState("");
   const [shift, setShift] = useState("");
   const [supervisor, setSupervisor] = useState("");
-  const [members, setMembers] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState("");
+  const [members, setMembers] = useState(students ? selectedStudent : []);
   const handleSupervisors = async () => {
     try {
       await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
@@ -49,19 +49,24 @@ const GroupFormation = () => {
     const fypShift = e.target.value;
     setMembers([]);
     setShift(e.target.value);
-  
+
     try {
       const response = await fetch(`http://localhost:3001/api/student/`);
       const responseData = await response.json();
-  
+
       const studentInfo = responseData
-        .filter((student) => fypShift === student.shift && !student.group.status)
+        .filter(
+          (student) => fypShift === student.shift && !student.group.status
+        )
         .map((student) => {
-          if(student.student_id == currentUser.id) {
-            console.log("if chall gai")
-            setSelectedStudent(prev=>`${student.student_name} | ${student.student_id}`);
+          if (student.student_id == currentUser.id) {
+            console.log("if chall gai");
+            setSelectedStudent(
+              (prev) => `${student.student_name} | ${student.student_id}`
+            );
           }
-          return `${student.student_name} | ${student.student_id}`});
+          return `${student.student_name} | ${student.student_id}`;
+        });
       setStudents(studentInfo);
     } catch (error) {
       console.error(error);
@@ -95,7 +100,7 @@ const GroupFormation = () => {
           teamLead: teamLead,
           class: studentClass,
           supervisor: supervisor,
-          shift:shift,
+          shift: shift,
           members: splitarray,
         }),
         headers: {
@@ -131,16 +136,18 @@ const GroupFormation = () => {
           label="Team Lead"
           placeholder="Enter team lead"
           color="success"
-          onChange={(e) => {setTeamLead(e.target.value)}}
+          onChange={(e) => {
+            setTeamLead(e.target.value);
+          }}
         />
-         <SignupInput
+        <SignupInput
           label="Class"
           placeholder="Enter Class Name"
           color="success"
           onChange={(e) => setStudentClass(e.target.value)}
         />
         <FormControl sx={{ my: 2 }} fullWidth>
-        <InputLabel id="demo-simple-select-label" color="success">
+          <InputLabel id="demo-simple-select-label" color="success">
             Shift
           </InputLabel>
           <Select
@@ -202,11 +209,24 @@ const GroupFormation = () => {
             />
           )}
         /> */}
-        <MembersAutoComplete students={students} selectedStudent={selectedStudent}/>
+        <MembersAutoComplete
+          students={students}
+          selectedStudent={selectedStudent}
+          members={members}
+          setMembers={setMembers}
+        />
 
         <PrimaryButton
           onClick={handleSubmit}
-          disabled={(members.length>1 && supervisor!="" && teamLead!="" && studentClass!="" && shift!="")?false:true}
+          disabled={
+            members.length < 2 ||
+            supervisor == "" ||
+            teamLead == "" ||
+            studentClass == "" ||
+            shift == ""
+              ? true
+              : false
+          }
           sx={{ my: 1, width: "150px", height: "50px" }}
         >
           Submit

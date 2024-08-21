@@ -7,7 +7,7 @@ import { JWT_SECRET } from "../../ENV.js";
 export const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
   const users = await User.find({ email: email });
-  const existingEmail = users!="" ? true : false;
+  const existingEmail = users != "" ? true : false;
   if (existingEmail) {
     res.status(400).json({ message: "Email Already Exists" });
     return;
@@ -36,8 +36,8 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
-    res.status(200).json({ message: "signup successful" });
     console.log("signup successful");
+    res.status(200).json({ message: "signup successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
