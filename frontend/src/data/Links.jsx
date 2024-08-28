@@ -2,7 +2,7 @@
 import CoordinatorDashboard from "../screens/coordinator/CoordinatorDashboard";
 import ReportEvaluation from "../screens/coordinator/ReportEvaluation";
 import WeeklyProgressEvaluation from "../screens/coordinator/WeeklyProgressEvaluation";
-import HODdashboard from "../screens/hod/HODDashboard";
+import HODdashboard from "../screens/hod/HODdashboard";
 
 import AddWeeklyProgress from "../screens/student/AddWeeklyProgress";
 import DocumentationSubmission from "../screens/student/DocumentationSubmission";
@@ -33,7 +33,8 @@ import Announcements from "../screens/coordinator/AnnounceDocumentDate";
 import ManageGroupDetails from "../screens/coordinator/ManageGroupDetails";
 import SubmitFunctionalRequirements from "../screens/student/SubmitFunctionalRequirements";
 import EvaluateGroupProgess from "../screens/coordinator/EvalutaeGroupProgress";
-
+import ManageUsers from "../screens/coordinator/ManageUsers";
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 export const studentLinks = [
   {
     to: "/",
@@ -169,6 +170,13 @@ export const coordinatorLinks = [
     name: "Weekly Progress Evaluation",
     components: <WeeklyProgressEvaluation />,
     icon: TaskIcon,
+    flag: true,
+  },
+  {
+    to: "/manage-users",
+    name: "Manange Users",
+    components: <ManageUsers />,
+    icon: PersonSearchIcon,
     flag: true,
   },
 ];

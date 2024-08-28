@@ -65,15 +65,14 @@ const LoginForm = ({toggleProp}) => {
   const handleSignin = async () => {
     try {
       dispatch(signinStart());
-      const emailRegex =
-       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@ue\.edu\.pk$/i
-;
-      // setOpen(true);
+      const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@ue\.edu\.pk$/i;
+      
       if (!emailRegex.test(email)) {
         return setError("Email must end with @ue.edu.pk");
-      } else if (password == "") {
+      } else if (password.trim() === "") {
         return setError("Please enter your password");
       }
+  
       const res = await fetch("http://localhost:3001/api/auth/signin", {
         method: "POST",
         headers: {
@@ -84,20 +83,30 @@ const LoginForm = ({toggleProp}) => {
           password: password,
         }),
       });
+  
       const data = await res.json();
-      if (data.success === false) {
-        return setError("Sign In Failed");
+  
+      if (!res.ok) {
+        // Handle server-side errors based on the response
+        if (data.message) {
+          return setError(data.message);
+        } else {
+          return setError("Sign In Failed");
+        }
       }
-      if (res.ok) {
-        console.log(data);
-        dispatch(signinSuccess(data));
-        // setOpenLogin(false);
-        // navigate("/");
-      }
+  
+      // If signin is successful
+      console.log(data);
+      dispatch(signinSuccess(data));
+      // setOpenLogin(false);
+      // navigate("/");
+  
     } catch (error) {
+      console.error("Sign in error:", error);
       return setError("Sign In Failed");
     }
   };
+  
   
   return (
     <Card elevation={10} className="innerCard">

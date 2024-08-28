@@ -43,41 +43,79 @@ export const signup = async (req, res, next) => {
   }
 };
 
+// export const oldSignIn = async (req, res, next) => {
+//   const { email, password } = req.body;
+
+//   if (!email || !password || email === "" || password === "") {
+//     res.status(500).json({ message: "All fields are required" });
+//   }
+
+//   try {
+//     const validUser = await User.findOne({ email });
+//     if (!validUser) {
+//       res.status(500).json({ message: "User is not valid" });
+//     }
+//     // const validPassword = bcryptjs.compareSync(password, validUser.password);
+//     // if (!validPassword) {
+//     //   return next(errorHandler(400, "Invalid password"));
+//     // }
+//     // const token = jwt.sign(
+//     //   { id: validUser._id, isAdmin: validUser.isAdmin },
+//     //   JWT_SECRET
+//     // );
+
+//     // const { password: pass, ...rest } = validUser._doc;
+//     const { password: password, ...rest } = validUser._doc;
+
+//     res
+//       .status(200)
+//       .cookie("access_token", {
+//         httpOnly: true,
+//       })
+//       .json(rest);
+//   } catch (error) {
+//     // next(errorHandler(404, "User not found"));\
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email || !password || email === "" || password === "") {
-    res.status(500).json({ message: "All fields are required" });
+  if (!email || !password || email.trim() === "" || password.trim() === "") {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     const validUser = await User.findOne({ email });
     if (!validUser) {
-      res.status(500).json({ message: "User is not valid" });
+      return res.status(404).json({ message: "User not found" });
     }
-    // const validPassword = bcryptjs.compareSync(password, validUser.password);
-    // if (!validPassword) {
-    //   return next(errorHandler(400, "Invalid password"));
-    // }
-    // const token = jwt.sign(
-    //   { id: validUser._id, isAdmin: validUser.isAdmin },
-    //   JWT_SECRET
-    // );
 
-    // const { password: pass, ...rest } = validUser._doc;
-    const { password: password, ...rest } = validUser._doc;
-
-    res
-      .status(200)
-      .cookie("access_token", {
-        httpOnly: true,
-      })
-      .json(rest);
+    const databasePassword = validUser.password;
+    if (password === databasePassword) {
+      console.log("Correct password");
+      const { password: _, ...userWithoutPassword } = validUser._doc;
+      if (userWithoutPassword.verified) {
+        return res
+          .status(200)
+          .cookie("access_token", { 
+            httpOnly: true,
+          })
+          .json(userWithoutPassword);
+      } else {
+        console.log("User not verified");
+        return res.status(403).json({ message: "User not verified" });
+      }
+    } else {
+      console.log("Incorrect password");
+      return res.status(401).json({ message: "Incorrect password" });
+    }
   } catch (error) {
-    // next(errorHandler(404, "User not found"));\
-    res.status(500).json({ message: error.message });
+    console.error("Server error:", error.message);
+    return res.status(500).json({ message: "Server error, please try again later" });
   }
 };
+
 export const signout = (req, res, next) => {
   try {
     res

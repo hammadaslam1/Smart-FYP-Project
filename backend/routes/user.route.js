@@ -3,12 +3,14 @@ import {
     checkBroadcastsStatus,
     checkMessagesStatus,
     deleteUser,
+    fetchUsers,
     getUser,
     getUsers,
     markBroadcastsAsRead,
     markMessagesAsRead,
     signout,
     test,
+    toggleUserStatus,
     updateUser,
 } from '../controllers/user.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
@@ -25,5 +27,8 @@ router.get('/checkbroadcastsstatus/:id', checkBroadcastsStatus);
 router.get('/checkmessagesstatus/:id', checkMessagesStatus);
 router.post('/markbroadcastsasread/:id', markBroadcastsAsRead);
 router.post('/markmessagesasread/:id', markMessagesAsRead);
+router.post('/fetchusers',fetchUsers);
+router.post("/toggleuserstatus/:id", toggleUserStatus);
+
 
 export default router;
