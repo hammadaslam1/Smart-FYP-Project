@@ -49,6 +49,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFilled, setIsFilled] = useState(false);
@@ -75,7 +76,7 @@ const LoginModal = ({ openLogin, setOpenLogin, openSignup, setOpenSignup }) => {
       } else if (password == "") {
         return dispatch(signinFailure("Please enter your password"));
       }
-      const res = await fetch("http://localhost:3001/api/auth/signin", {
+      const res = await fetch(`${url}/api/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

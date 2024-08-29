@@ -4,6 +4,7 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useEffect, useState } from "react";
 const GroupDetails = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const { state } = useLocation();
   const group_id = state._id;
   const weeklyreport = state.weeklyreport[state.weeklyreport.length - 1];
@@ -13,7 +14,7 @@ const GroupDetails = () => {
     addSuffix: true,
   })
   const handleFileFetch = (id, filename) => {
-    fetch(`http://localhost:3001/api/groups/getdocument/${id}/${filename}`, {
+    fetch(`${url}/api/groups/getdocument/${id}/${filename}`, {
       method: "GET",
     }).then(async (response) => {
       const blob = await response.blob();
@@ -22,7 +23,7 @@ const GroupDetails = () => {
     });
   };
   const fetchFRs = () => {
-    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+    fetch(`${url}/api/groups/fetchfrs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

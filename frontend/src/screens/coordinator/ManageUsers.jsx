@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 
 const ManageUsers = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const [users, setUsers] = useState(null);
   const fetchUsers = () => {
-    fetch("http://localhost:3001/api/user/fetchusers", {
+    fetch(`${url}/api/user/fetchusers`, {
       method: "POST",
     })
       .then((response) => {
@@ -28,7 +29,7 @@ const ManageUsers = () => {
       .catch((err) => console.log(err));
   };
   const toggleUserStatus = (user) => {
-    fetch(`http://localhost:3001/api/user/toggleuserstatus/${user._id}`, {
+    fetch(`${url}/api/user/toggleuserstatus/${user._id}`, {
       method: "POST",
       body: JSON.stringify(user),
       headers: {

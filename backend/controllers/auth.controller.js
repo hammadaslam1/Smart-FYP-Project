@@ -93,7 +93,6 @@ export const signin = async (req, res, next) => {
 
     const databasePassword = validUser.password;
     if (password === databasePassword) {
-      console.log("Correct password");
       const { password: _, ...userWithoutPassword } = validUser._doc;
       if (userWithoutPassword.verified) {
         return res
@@ -103,15 +102,12 @@ export const signin = async (req, res, next) => {
           })
           .json(userWithoutPassword);
       } else {
-        console.log("User not verified");
         return res.status(403).json({ message: "User not verified" });
       }
     } else {
-      console.log("Incorrect password");
       return res.status(401).json({ message: "Incorrect password" });
     }
   } catch (error) {
-    console.error("Server error:", error.message);
     return res.status(500).json({ message: "Server error, please try again later" });
   }
 };

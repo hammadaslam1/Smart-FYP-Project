@@ -11,12 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function BroadcastsModal() {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const currentUser = useSelector((state) => state.user.currentUser);
   const id = currentUser.id;
   const [broadcastsRead,setBroadcastsRead] = React.useState(null)
   const [broadcasts, setBroadcasts] = React.useState([]);
   React.useEffect(() => {
-    fetch("http://localhost:3001/api/broadcast/getallbroadcasts", {
+    fetch(`${url}/api/broadcast/getallbroadcasts`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +28,7 @@ export default function BroadcastsModal() {
         const reverseData = data.reverse();
         setBroadcasts(reverseData);
       });
-      fetch(`http://localhost:3001/api/user/checkbroadcastsstatus/${id}`,{
+      fetch(`${url}/api/user/checkbroadcastsstatus/${id}`,{
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +43,7 @@ export default function BroadcastsModal() {
   return (
     <React.Fragment>
       <IconButton sx={{padding:0,marginRight:2}}  size="large" onClick={() => {
-        fetch(`http://localhost:3001/api/user/markbroadcastsasread/${id}`,{method: "POST",}).then(()=>{
+        fetch(`${url}/api/user/markbroadcastsasread/${id}`,{method: "POST",}).then(()=>{
           setBroadcastsRead(prev=>true);
           setOpen(true)
         })

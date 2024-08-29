@@ -14,6 +14,7 @@ import path from "path";
 import bodyParser from 'body-parser';
 import multer from "multer";
 import { resetStudents } from "./controllers/fyp.group.controller.js";
+import { port } from '../ENV.js';
 dotenv.config();
 
 mongoose
@@ -26,36 +27,32 @@ mongoose
   .finally(() => console.log("start"));
 
 const __dirname = path.resolve();
-
+const hostingPort = process.env.PORT || port;
 const app = express();
 
-// Enable CORS for all routes
-app.use(cors());
+
+const allowedOrigins = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(cookieParser());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-app.listen(3001, () => {
-  console.log("Server is running on port 3001!");
+
+app.listen(hostingPort, () => {
+  console.log(`Server is running on port ${hostingPort}!`);
 });
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/student", studentRoutes);
-app.use('/api/supervisor',supervisorRoutes);
-app.use('/api/groups',groupsRoutes);
-app.use('/api/broadcast',broadcastRoutes);
+app.use('/api/supervisor', supervisorRoutes);
+app.use('/api/groups', groupsRoutes);
+app.use('/api/broadcast', broadcastRoutes);
+
 app.use(express.static(path.join(__dirname, "/client/dist")));
-
-
-
-
-//caution!
-// resetStudents(); handle with care
 
 

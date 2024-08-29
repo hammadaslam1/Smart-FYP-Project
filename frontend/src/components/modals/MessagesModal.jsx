@@ -12,13 +12,14 @@ import MessageIcon from "@mui/icons-material/Message";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default function MessagesModal() {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const [messagesRead, setMessagesRead] = React.useState(null);
   const currentUser = useSelector((state) => state.user.currentUser);
   const id = currentUser.id;
   const [messages, setMessages] = React.useState([]);
   React.useEffect(() => {
     fetch(
-      `http://localhost:3001/api/student/getstudentmessages/${currentUser.id}`,
+      `${url}/api/student/getstudentmessages/${currentUser.id}`,
       {
         method: "GET",
         headers: {
@@ -36,7 +37,7 @@ export default function MessagesModal() {
         );
         setMessages(filteredData);
       });
-    fetch(`http://localhost:3001/api/user/checkmessagesstatus/${id}`, {
+    fetch(`${url}/api/user/checkmessagesstatus/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function MessagesModal() {
         size="large"
         sx={{ p: 0 }}
         onClick={() => {
-          fetch(`http://localhost:3001/api/user/markmessagesasread/${id}`, {
+          fetch(`${url}/api/user/markmessagesasread/${id}`, {
             method: "POST",
           }).then(() => {
             setMessagesRead(true);

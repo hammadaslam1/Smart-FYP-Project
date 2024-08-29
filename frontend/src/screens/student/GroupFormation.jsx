@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setStudent } from "../../redux/studentReducer/studentSlice";
 
 const GroupFormation = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const [students, setStudents] = useState(null);
@@ -31,7 +32,7 @@ const GroupFormation = () => {
   const [members, setMembers] = useState(students ? selectedStudent : []);
   const handleSupervisors = async () => {
     try {
-      await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
+      await fetch(`${url}/api/supervisor/getAllSupervisors`)
         .then((response) => response.json())
         .then((responseData) => {
           const supervisorNames = responseData.map(
@@ -51,7 +52,7 @@ const GroupFormation = () => {
     setShift(e.target.value);
 
     try {
-      const response = await fetch(`http://localhost:3001/api/student/`);
+      const response = await fetch(`${url}/api/student/`);
       const responseData = await response.json();
 
       const studentInfo = responseData
@@ -73,7 +74,7 @@ const GroupFormation = () => {
     }
   };
   const fetchStudent = () => {
-    fetch(`http://127.0.0.1:3001/api/student/getstudent/${currentUser.id}`)
+    fetch(`${url}/api/student/getstudent/${currentUser.id}`)
       .then((response) => {
         return response.json();
       })
@@ -93,7 +94,7 @@ const GroupFormation = () => {
       return obj;
     });
     const response = await fetch(
-      "http://localhost:3001/api/groups/insertgroup",
+      `${url}/api/groups/insertgroup`,
       {
         method: "POST",
         body: JSON.stringify({

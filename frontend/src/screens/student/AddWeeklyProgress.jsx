@@ -5,6 +5,7 @@ import { useState } from "react";
 import {useSelector} from 'react-redux'
 
 const AddWeeklyProgress = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const id = useSelector((state)=>state.student.student.group.group_id);
   const student = useSelector((state)=>state.student.student);
   const [taskForm,setTaskForm] = useState({
@@ -15,7 +16,7 @@ const AddWeeklyProgress = () => {
     setTaskForm({...taskForm,[e.target.name]: e.target.value})
   }
   const handleTaskSubmit = () => {
-    fetch(`http://localhost:3001/api/groups/submitweeklyprogress/${id}`,{
+    fetch(`${url}/api/groups/submitweeklyprogress/${id}`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

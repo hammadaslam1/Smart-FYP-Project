@@ -18,12 +18,13 @@ import { useEffect } from "react";
 import { setStudent } from "../../redux/studentReducer/studentSlice";
 
 const StudentDashboard = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const currentUser = useSelector((state) => state.user.currentUser);
   const student = useSelector((state)=>state.student.student);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fetchStudent = () => {
-    fetch(`http://127.0.0.1:3001/api/student/getstudent/${currentUser.id}`)
+    fetch(`${url}/api/student/getstudent/${currentUser.id}`)
       .then((response) => {
         return response.json();
       })

@@ -17,6 +17,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useSelector } from "react-redux";
 
 const Announcements = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const sender = useSelector((state) => state.user.currentUser.name);
 
   const [message, setMessage] = useState("");
@@ -48,7 +49,7 @@ const Announcements = () => {
     }
   };
   const handleSendBroadcast = () => {
-    fetch("http://localhost:3001/api/broadcast/insertbroadcast", {
+    fetch(`${url}/api/broadcast/insertbroadcast`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +69,7 @@ const Announcements = () => {
       });
   };
   useEffect(() => {
-    fetch(`http://localhost:3001/api/student/`)
+    fetch(`${url}/api/student/`)
       .then((response) => response.json())
       .then((data) => {
         const studentInfo = data
@@ -76,7 +77,7 @@ const Announcements = () => {
           .map((student) => `${student.student_name} | ${student.student_id}`);
         setStudents(studentInfo);
       });
-    fetch(`http://localhost:3001/api/groups/getgroups`)
+    fetch(`${url}/api/groups/getgroups`)
       .then((response) => response.json())
       .then((data) => {
         const groupInfo = data.map((group) =>
@@ -88,7 +89,7 @@ const Announcements = () => {
   }, []);
   const handleSendMessage = () => {
     console.log(messageReceivers);
-    fetch("http://localhost:3001/api/student/sendmessage/", {
+    fetch(`${url}/api/student/sendmessage/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +110,7 @@ const Announcements = () => {
     });
   };
   const handleGroupMessage = () => {
-    fetch("http://localhost:3001/api/groups/sendgroupmessage", {
+    fetch(`${url}/api/groups/sendgroupmessage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

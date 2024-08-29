@@ -14,6 +14,7 @@ import editIcon from "../assets/icons/editing-icon.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FR from "./FR";
 const ManageFRs = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const student = useSelector((state) => state.student.student);
   const group_id = student.group.group_id;
   const [FRs, setFRs] = useState([{ title: "", description: "" }]);
@@ -26,7 +27,7 @@ const ManageFRs = () => {
     fetchFRs();
   }, []);
   const fetchFRs = () => {
-    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+    fetch(`${url}/api/groups/fetchfrs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +50,7 @@ const ManageFRs = () => {
   const handleUpdate = (index, fr) => {
     setIsLoading(true);
     const tempUpdatedFRs = FRs.map((val, i) => (i === index ? fr : val));
-    fetch("http://localhost:3001/api/groups/updatefrs", {
+    fetch(`${url}/api/groups/updatefrs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +79,7 @@ const ManageFRs = () => {
       }
     });
     setIsLoading(true);
-    fetch("http://localhost:3001/api/groups/deletefr", {
+    fetch(`${url}/api/groups/deletefr`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +110,7 @@ const ManageFRs = () => {
     setNewFRs(updatedFRs);
   };
   const handleNewFRSave = () => {
-    fetch('http://localhost:3001/api/groups/addnewfrs', {
+    fetch(`${url}/api/groups/addnewfrs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

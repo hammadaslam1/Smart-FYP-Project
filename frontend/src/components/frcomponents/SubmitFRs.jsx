@@ -5,6 +5,7 @@ import PrimaryButton from '../buttons/PrimaryButton';
 import { useNavigate } from 'react-router-dom';
 
 const SubmitFRs = ({handleSelect}) => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const navigate  = useNavigate();
   const [FRCount, setFRCount] = useState([1]);
   const [FRs, setFRs] = useState([{ title: '', description: '' }]);
@@ -21,7 +22,7 @@ const SubmitFRs = ({handleSelect}) => {
   };
   
   const handleFRSave = () => {
-    fetch('http://localhost:3001/api/groups/submitfrs', {
+    fetch(`${url}/api/groups/submitfrs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

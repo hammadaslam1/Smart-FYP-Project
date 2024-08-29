@@ -15,6 +15,7 @@ import SignupInput from "../../components/inputs/SignupInput";
 import { FiEdit } from "react-icons/fi";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const EvaluateGroupProgess = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const { state } = useLocation();
   const [group, setGroup] = useState(state);
   const [FRs, setFRs] = useState();
@@ -30,7 +31,7 @@ const EvaluateGroupProgess = () => {
     addSuffix: true,
   })
   const handleTitleEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
+    fetch(`${url}/api/groups/editgrouptitle/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +50,7 @@ const EvaluateGroupProgess = () => {
       });
   };
   const handleDescEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgroupdesc/${group._id}`, {
+    fetch(`${url}/api/groups/editgroupdesc/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +69,7 @@ const EvaluateGroupProgess = () => {
       });
   };
   const fetchFRs = () => {
-    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+    fetch(`${url}/api/groups/fetchfrs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +93,7 @@ const EvaluateGroupProgess = () => {
       }
       return FR;
     })
-    fetch("http://localhost:3001/api/groups/progressgrading", {
+    fetch(`${url}/api/groups/progressgrading`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +119,7 @@ const EvaluateGroupProgess = () => {
       });
   }
   useEffect(() => {
-    fetch(`http://localhost:3001/api/groups/getgroup/${group._id}`, {
+    fetch(`${url}/api/groups/getgroup/${group._id}`, {
       method: "GET",
     })
       .then((response) => response.json())

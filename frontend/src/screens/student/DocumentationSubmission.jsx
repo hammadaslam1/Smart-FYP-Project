@@ -16,6 +16,7 @@ import { useRef, useState } from "react";
 import {useSelector} from 'react-redux'
 
 const DocumentationSubmission = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const id = useSelector((state)=>state.student.student.group.group_id);
   const student = useSelector((state)=>state.student.student);
   const uploadButtonRef = useRef(null);
@@ -34,7 +35,7 @@ const DocumentationSubmission = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch(`http://localhost:3001/api/groups/documentationupload/${id}/${type}`,{
+    fetch(`${url}/api/groups/documentationupload/${id}/${type}`,{
       method: 'POST',
       body: formData,
     }).then((response) => {

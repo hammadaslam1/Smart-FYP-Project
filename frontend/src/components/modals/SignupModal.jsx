@@ -127,7 +127,8 @@ const SignupModal = ({
       if (!emailRegex.test(email)) {
         return dispatch(signinFailure("Please enter a valid email address"));
       }
-      const res = await fetch("http://localhost:3001/api/auth/signup", {
+      const url = process.env.REACT_APP_BACKEND_URL;
+      const res = await fetch(`${url}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

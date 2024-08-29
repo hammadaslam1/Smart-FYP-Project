@@ -5,10 +5,11 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import {useSelector} from 'react-redux'
 import { useState } from "react";
 const IdeaSubmission = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const id = useSelector((state)=>state.student.student.group.group_id);
   const student = useSelector((state)=>state.student.student);
   const handleIdeaSubmission = () => {
-    fetch(`http://localhost:3001/api/groups/insertidea/${id}`,{
+    fetch(`${url}/api/groups/insertidea/${id}`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

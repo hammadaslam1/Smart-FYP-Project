@@ -20,6 +20,8 @@ import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import LinearProgressWithLabel from "../../components/progress/LinearProgressWithLabel";
 import { useNavigate } from "react-router-dom";
 const ViewFYPGroups = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
+  console.log(url)
   const navigate = useNavigate();
   const [groupsHeading, setGroupsHeading] = useState("All FYP Groups");
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ const ViewFYPGroups = () => {
   const [filter, setFilter] = useState(null);
   const getAllGroups = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:3001/api/groups/getgroups");
+    const response = await fetch(`${url}/api/groups/getgroups`);
     const data = await response.json().then(setLoading(false));
     setOriginalGroups(data);
     setGroups(data);

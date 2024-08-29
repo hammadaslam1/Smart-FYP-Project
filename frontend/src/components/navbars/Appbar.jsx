@@ -118,6 +118,7 @@ const Drawer = styled(MuiDrawer, {
 
 
 const Appbar = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const dispatch = useDispatch();
   const [user, setUser] = useState();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -223,7 +224,7 @@ const Appbar = () => {
               onClick={() => {
                 if (currentUser) {
                   // signOut(auth);
-                  fetch("http://localhost:3001/api/auth/signout", {
+                  fetch(`${url}/api/auth/signout`, {
                     method: "POST", // or "GET", "PUT", etc. depending on your server's requirements
                     credentials: "include", // if you need to send cookies or authentication headers
                   })

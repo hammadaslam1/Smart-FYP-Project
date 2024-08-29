@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import SubmitFRs from "../../components/frcomponents/SubmitFRs";
 import ManageFRs from "../../components/frcomponents/ManageFRs";
 const SubmitFunctionalRequirements = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const student = useSelector((state) => state.student.student);
   const group_id = student.group.group_id;
   const [componentType, setComponentType] = useState("");
@@ -38,7 +39,7 @@ const SubmitFunctionalRequirements = () => {
     }
   };
   useEffect(() => {
-    fetch("http://localhost:3001/api/groups/fetchfrs/", {
+    fetch(`${url}/api/groups/fetchfrs/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

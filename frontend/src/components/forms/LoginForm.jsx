@@ -53,10 +53,7 @@ const LoginForm = ({toggleProp}) => {
   const [isPressed, setIsPressed] = useState(false);
   const [error,setError] = useState(null);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const { loading } = useSelector((state) => state.user);
-  // const user = useSelector((state) => state.UserReducer.user);
-  // const dispatch = useDispatch();
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleSignin();
@@ -87,20 +84,14 @@ const LoginForm = ({toggleProp}) => {
       const data = await res.json();
   
       if (!res.ok) {
-        // Handle server-side errors based on the response
         if (data.message) {
           return setError(data.message);
         } else {
           return setError("Sign In Failed");
         }
       }
-  
-      // If signin is successful
       console.log(data);
       dispatch(signinSuccess(data));
-      // setOpenLogin(false);
-      // navigate("/");
-  
     } catch (error) {
       console.error("Sign in error:", error);
       return setError("Sign In Failed");

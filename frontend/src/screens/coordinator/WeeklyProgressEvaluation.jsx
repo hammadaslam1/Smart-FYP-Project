@@ -25,6 +25,7 @@ import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import { useNavigate } from "react-router-dom";
 
 const WeeklyProgressEvaluation = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -57,7 +58,7 @@ const WeeklyProgressEvaluation = () => {
   
   const getAllGroups = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:3001/api/groups/getgroups");
+    const response = await fetch(`${url}/api/groups/getgroups`);
     const data = await response.json().then(setLoading(false));
     setOriginalGroups(data);
     setGroups(data);

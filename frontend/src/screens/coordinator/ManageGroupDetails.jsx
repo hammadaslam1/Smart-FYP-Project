@@ -19,6 +19,7 @@ import SignupInput from "../../components/inputs/SignupInput";
 import { FiEdit } from "react-icons/fi";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const ManageGroupDetails = () => {
+  const url = process.env.REACT_APP_BACKEND_URL;
   const { state } = useLocation();
   const [supervisors,setSupervisors] = useState();
   const [group, setGroup] = useState(state);
@@ -32,7 +33,7 @@ const ManageGroupDetails = () => {
   const [newSupervisor, setNewSupervisor] = useState(group.supervisor);
   const [newClass, setNewClass] = useState(group.class);
   const handleTitleEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgrouptitle/${group._id}`, {
+    fetch(`${url}/api/groups/editgrouptitle/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +52,7 @@ const ManageGroupDetails = () => {
       });
   };
   const handleDescEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgroupdesc/${group._id}`, {
+    fetch(`${url}/api/groups/editgroupdesc/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +71,7 @@ const ManageGroupDetails = () => {
       });
   };
   const handleSupervisorEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgroupsupervisor/${group._id}`, {
+    fetch(`${url}/api/groups/editgroupsupervisor/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +90,7 @@ const ManageGroupDetails = () => {
       });
   };
   const handleClassEdit = () => {
-    fetch(`http://localhost:3001/api/groups/editgroupclass/${group._id}`, {
+    fetch(`${url}/api/groups/editgroupclass/${group._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +110,7 @@ const ManageGroupDetails = () => {
   };
   const fetchSupervisors = async () => {
     try {
-      await fetch("http://localhost:3001/api/supervisor/getAllSupervisors")
+      await fetch(`${url}/api/supervisor/getAllSupervisors`)
         .then((response) => response.json())
         .then((responseData) => {
           const supervisorNames = responseData.map(
@@ -125,7 +126,7 @@ const ManageGroupDetails = () => {
   };
   useEffect(() => {
     fetchSupervisors();
-    fetch(`http://localhost:3001/api/groups/getgroup/${group._id}`, {
+    fetch(`${url}/api/groups/getgroup/${group._id}`, {
       method: "GET",
     })
       .then((response) => response.json())
